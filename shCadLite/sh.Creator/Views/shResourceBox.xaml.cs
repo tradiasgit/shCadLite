@@ -20,7 +20,7 @@ namespace sh.Creator.Views
     /// </summary>
     public partial class shResourceBox : UserControl
     {
-        private shResourceBox()
+        public shResourceBox()
         {
             InitializeComponent();
             ViewModel = ViewModels.VM_shResourceBox.Instance;
@@ -34,14 +34,6 @@ namespace sh.Creator.Views
             return new Cad.PaletteConfig { Title = "资源盒子", View = this };
         }
 
-        private static shResourceBox _Instance;
-        public static shResourceBox Instance
-        {
-            get
-            {
-                if (_Instance == null) _Instance = new shResourceBox();
-                return _Instance;
-            }
-        }
+       
     }
 }

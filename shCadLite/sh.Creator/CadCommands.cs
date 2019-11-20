@@ -28,8 +28,8 @@ namespace sh.Creator
                 psConfig.Height = 640;
                 psConfig.PaletteConfigs = new List<Cad.PaletteConfig>
                 {
-                    Views.shQueryEditor.Instance.GetPaletteConfig(),
-                    Views.shResourceBox.Instance.GetPaletteConfig()
+                    new Views.shQueryEditor().GetPaletteConfig(),
+                    new Views.shResourceBox().GetPaletteConfig()
                 };
                 var ps = new sh.Cad.PaletteSetManager();
                 ps.ShowPaletteSet(psConfig);
