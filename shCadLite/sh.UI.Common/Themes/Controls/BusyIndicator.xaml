@@ -1,0 +1,97 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sh="clr-namespace:sh.UI.Common">
+
+
+
+    <ControlTemplate x:Key="DEFAULTTEMPLATE">
+        <Grid>
+            <Border BorderBrush="Black" BorderThickness="1" CornerRadius="10" Margin="-1">
+                <Border.Effect>
+                    <BlurEffect />
+                </Border.Effect>
+            </Border>
+            <Border Background="#FF10a8ab" CornerRadius="15" Padding="10, 5" Width="auto" Height="auto">
+                <!--<Path  Width="40" Height="40" 
+                           Data="M30.330999,48.228C31.299783,48.422099 32.299767,48.531501 33.330949,48.531501 34.360932,48.531501 35.363415,48.422099 36.335999,48.228L36.335999,66.659003 30.330999,66.659003z M43.268281,44.750998L52.394999,60.832034 47.175917,63.796996 38.038999,47.713359C39.994767,47.070048,41.753928,46.067427,43.268281,44.750998z M23.209264,44.598998C24.700174,45.940215,26.447487,46.971526,28.389,47.638133L19.002135,63.568 13.824999,60.518466z M47.700966,38.078002L63.757998,47.260428 60.782928,52.473998 44.726998,43.300773C46.044784,41.78905,47.055174,40.028529,47.700966,38.078002z M18.923298,37.936999C19.546999,39.89281,20.5418,41.665007,21.844,43.188594L5.7032509,52.206 2.7709999,46.960906z M18.4298,30.342997C18.240998,31.305102 18.131697,32.306304 18.131697,33.328299 18.131697,34.360797 18.237098,35.373698 18.435,36.3502L0.0077514648,36.370997 0,30.365096z M66.659098,30.285998L66.666998,36.294497 48.231798,36.313998C48.4272,35.347804 48.531301,34.352805 48.531301,33.328002 48.531301,32.294097 48.4272,31.284898 48.227999,30.308202z M60.963728,14.451999L63.895998,19.696799 47.743868,28.718999C47.120075,26.764499,46.123985,24.996299,44.817999,23.474099z M5.8831024,14.181999L21.936999,23.357735C20.616765,24.868125,19.607615,26.627213,18.960647,28.578999L2.9039993,19.403264z M47.663984,3.0889991L52.839998,6.1383522 43.456712,22.064999C41.96595,20.723838,40.213178,19.687466,38.276999,19.020785z M19.487081,2.8649989L28.617,18.94893C26.66778,19.585601,24.902254,20.590758,23.394619,21.910998L14.261999,5.8297189z M30.330999,0L36.335999,0 36.335999,18.430999C35.363416,18.2357 34.36093,18.127599 33.330949,18.127599 32.299765,18.127599 31.299782,18.2357 30.330999,18.430999z"
+                         Stretch="Uniform"  Fill="Gray" RenderTransformOrigin="0.5,0.5"/>-->
+                <TextBlock Text="{Binding Text}" FontSize="16" FontWeight="Bold" Foreground="White" Width="auto" HorizontalAlignment="Center" Height="auto" />
+            </Border>
+        </Grid>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type sh:BusyIndicator}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type sh:BusyIndicator}">
+                    <Grid>
+                        <Border x:Name="MASK" Background="#66000000">
+                            <!--<Border.Triggers>
+                                 <EventTrigger RoutedEvent="Border.IsVisibleChanged">
+                                     <BeginStoryboard>
+                                         <Storyboard>
+                                             <DoubleAnimation To="0" Duration="0:0:1"
+                                                              Storyboard.TargetProperty="Opacity" />
+                                         </Storyboard>
+                                     </BeginStoryboard>
+                                 </EventTrigger>
+                             </Border.Triggers>-->
+                        </Border>
+                        <Control x:Name="CNT" Template="{StaticResource DEFAULTTEMPLATE}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+
+
+    <!--<Style TargetType="{x:Type sh:BusyIndicator}">
+        <Style.Resources>
+            <sh:BoolVisibilityConvertor x:Key="BoolVisibilityConvertor"/>
+        </Style.Resources>
+        <Setter Property="BusyTemplate" >
+            <Setter.Value>
+                <DataTemplate>
+                    <Path  Width="40" Height="40" 
+                           Data="M30.330999,48.228C31.299783,48.422099 32.299767,48.531501 33.330949,48.531501 34.360932,48.531501 35.363415,48.422099 36.335999,48.228L36.335999,66.659003 30.330999,66.659003z M43.268281,44.750998L52.394999,60.832034 47.175917,63.796996 38.038999,47.713359C39.994767,47.070048,41.753928,46.067427,43.268281,44.750998z M23.209264,44.598998C24.700174,45.940215,26.447487,46.971526,28.389,47.638133L19.002135,63.568 13.824999,60.518466z M47.700966,38.078002L63.757998,47.260428 60.782928,52.473998 44.726998,43.300773C46.044784,41.78905,47.055174,40.028529,47.700966,38.078002z M18.923298,37.936999C19.546999,39.89281,20.5418,41.665007,21.844,43.188594L5.7032509,52.206 2.7709999,46.960906z M18.4298,30.342997C18.240998,31.305102 18.131697,32.306304 18.131697,33.328299 18.131697,34.360797 18.237098,35.373698 18.435,36.3502L0.0077514648,36.370997 0,30.365096z M66.659098,30.285998L66.666998,36.294497 48.231798,36.313998C48.4272,35.347804 48.531301,34.352805 48.531301,33.328002 48.531301,32.294097 48.4272,31.284898 48.227999,30.308202z M60.963728,14.451999L63.895998,19.696799 47.743868,28.718999C47.120075,26.764499,46.123985,24.996299,44.817999,23.474099z M5.8831024,14.181999L21.936999,23.357735C20.616765,24.868125,19.607615,26.627213,18.960647,28.578999L2.9039993,19.403264z M47.663984,3.0889991L52.839998,6.1383522 43.456712,22.064999C41.96595,20.723838,40.213178,19.687466,38.276999,19.020785z M19.487081,2.8649989L28.617,18.94893C26.66778,19.585601,24.902254,20.590758,23.394619,21.910998L14.261999,5.8297189z M30.330999,0L36.335999,0 36.335999,18.430999C35.363416,18.2357 34.36093,18.127599 33.330949,18.127599 32.299765,18.127599 31.299782,18.2357 30.330999,18.430999z"
+                         Stretch="Uniform"  Fill="Gray" RenderTransformOrigin="0.5,0.5"/>
+                    -->
+    <!--<Image Width="40" Height="40" Source="pack://application:,,,/sh.UI.Common;Component/Assets/Images/loading.png"></Image>-->
+    <!--
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type sh:BusyIndicator}">
+                    <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                        <ContentPresenter></ContentPresenter>
+                        <Grid Background="#BBBBBBBB" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Visibility="{TemplateBinding IsBusy,Converter={StaticResource BoolVisibilityConvertor}}">
+                            <ContentControl ContentTemplate="{TemplateBinding BusyTemplate}" x:Name="loader" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                         RenderTransformOrigin="0.5,0.5" >
+                                <ContentControl.RenderTransform>
+                                    <RotateTransform x:Name="SpinnerRotate" Angle="0" />
+                                </ContentControl.RenderTransform>
+                            </ContentControl>
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsBusy" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever" x:Name="leftRightSB">
+                                        <DoubleAnimation Storyboard.TargetName="SpinnerRotate" Storyboard.TargetProperty="(RotateTransform.Angle)" From="0" To="359" Duration="0:0:02" RepeatBehavior="Forever" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
+</ResourceDictionary>

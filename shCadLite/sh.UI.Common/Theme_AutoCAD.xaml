@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:sh.UI.Common">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/sh.UI.Common;component/Themes/AutoCAD/Style_Expander.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/sh.UI.Common;component/Themes/AutoCAD/Style_TreeView.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/sh.UI.Common;component/Themes/AutoCAD/Style_Button.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/sh.UI.Common;component/Themes/AutoCAD/Style_ScrollBar.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/sh.UI.Common;component/Themes/AutoCAD/Style_HeaderedContentControl.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/sh.UI.Common;component/Convertors.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    <Style TargetType="TreeView" BasedOn="{StaticResource CAD风格TreeView}"/>
+    <Style TargetType="Expander" BasedOn="{StaticResource CAD特性面板风格}"/>
+    <Style TargetType="ScrollBar" BasedOn="{StaticResource DefaultScrollBar}"/>
+    <local:ImagePathBitmapConvert x:Key="ImagePathBitmapConvert"></local:ImagePathBitmapConvert>
+</ResourceDictionary>

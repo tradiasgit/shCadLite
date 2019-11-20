@@ -1,0 +1,81 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sh="clr-namespace:sh.UI.Common"
+                    >
+
+    <Style TargetType="{x:Type sh:IconButton}">
+        <Setter Property="Height" Value="24"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="#acacac"/>
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush  StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#f0f0f0" Offset="0"/>
+                    <GradientStop Color="#e5e5e5" Offset="1"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="sh:IconButton">
+                    <Border Name="PressedBorder"  ToolTip="{TemplateBinding ToolTip}"
+                                            Background="{TemplateBinding Background}" 
+                                            BorderBrush="{TemplateBinding BorderBrush}" 
+                                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Border x:Name="borderContent" BorderThickness="1" BorderBrush="Transparent">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="24"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter  x:Name="content" Margin="0"
+                                                   Grid.Column="0"
+                                                   HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="Center"/>
+                                <sh:FontIcon  Height="18" Width="18" Grid.Column="1" x:Name="icon" Icon="{TemplateBinding Icon}"  FontSize="18" />
+                            </Grid>
+                        </Border>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Button.IsPressed" Value="True" >
+                            <Setter TargetName="content" Property="Margin" Value="1,1,0,0"/>
+                        </Trigger>
+                        <Trigger Property="Button.IsFocused" Value="True" >
+                            <Setter   Property="BorderBrush" Value="#3399ff"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <!--<Style TargetType="{x:Type sh:IconButton}">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush  StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#f0f0f0" Offset="0"/>
+                    <GradientStop Color="#e5e5e5" Offset="1"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Width" Value="24"/>
+        <Setter Property="Height" Value="24"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="sh:IconButton">
+                    <Button Style="{StaticResource  icon_Button}" 
+                            Command="{TemplateBinding Command}" CommandParameter="{TemplateBinding CommandParameter}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"
+                            Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+
+                        <sh:FontIcon  Height="18" Width="18" Grid.Column="1" x:Name="content" Icon="{TemplateBinding Icon}"  FontSize="18" />
+                    </Button>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
+
+
+</ResourceDictionary>
