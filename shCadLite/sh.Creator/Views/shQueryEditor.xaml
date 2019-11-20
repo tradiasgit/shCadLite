@@ -230,7 +230,7 @@
                                 <sh:FontIcon  Height="16" Width="16" Icon="Search"></sh:FontIcon>
                             </Button>
                         </Grid>-->
-                        <sh:WaterMarkTextBox WaterMark="输入新增的标签（空格分隔标签名）"  BorderThickness="0">
+                        <sh:WaterMarkTextBox WaterMark="输入新增的标签（:分隔标签名）"  BorderThickness="0">
                             <sh:WaterMarkTextBox.Attach>
                                 <sh:FontIcon Icon="Plus"></sh:FontIcon>
                             </sh:WaterMarkTextBox.Attach>

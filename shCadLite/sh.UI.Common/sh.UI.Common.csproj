@@ -109,22 +109,7 @@
     <Resource Include="Resources\Font Awesome 5 Free-Solid-900.otf" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Asserts\图片加载失败.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Asserts\Icons\文件夹.png" />
     <Resource Include="Resources\fontawesome-webfont.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Asserts\Icons\信息.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Asserts\Icons\三角向下.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Asserts\Icons\三角向上.png" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Convertors.xaml">
@@ -191,17 +176,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Asserts\Icons\三角向右.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\loading.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\noimage.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.DependencyValidation.Analyzers.0.9.0\analyzers\dotnet\cs\Microsoft.DependencyValidation.Analyzers.resources.dll" />

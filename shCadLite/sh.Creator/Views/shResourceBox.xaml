@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:sh.Creator.Views"
-             xmlns:c="clr-namespace:sh.Creator.Controls"
              xmlns:sh="clr-namespace:sh.UI.Common;assembly=sh.UI.Common"
              mc:Ignorable="d"  Background="#fff0f0f0" Padding="10"
              d:DesignHeight="640" d:DesignWidth="320">
