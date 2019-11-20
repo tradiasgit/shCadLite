@@ -23,6 +23,11 @@ namespace WpfTest
         public MainWindow()
         {
             InitializeComponent();
+
+            DataContext = this;
+            ss = new List<string> { "aaa","aaaaaaa","aabbb"};
         }
+
+        public List<string> ss { get; set; }
     }
 }

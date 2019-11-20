@@ -102,9 +102,9 @@
                                Width="{TemplateBinding ActualWidth}" 
                                VerticalOffset="-2"  StaysOpen="True"
                                IsOpen="{TemplateBinding ShowPopup}">
-                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2,0,2,2"  Padding="20,0,20,10"
+                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,0,1,1"  Padding="20,0,20,10"
                                     Background="{TemplateBinding Background}">
-                                <Border BorderBrush="{TemplateBinding BorderBrush}"  BorderThickness="0,1,0,0">
+                                <Border BorderBrush="{TemplateBinding BorderBrush}"  BorderThickness="0,0,0,0">
                                     <ContentPresenter Content="{TemplateBinding Popup}" ContentTemplate="{TemplateBinding PopupTemplate}"></ContentPresenter>
                                 </Border>
                             </Border>
