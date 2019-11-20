@@ -17,7 +17,7 @@ namespace sh.Creator
 {
     public static class CadCommands
     {
-        [CommandMethod("query", CommandFlags.UsePickSet)]
+        [CommandMethod("shanhe", CommandFlags.UsePickSet)]
         public static void Query()
         {
             try
