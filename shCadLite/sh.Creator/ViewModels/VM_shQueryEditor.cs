@@ -604,9 +604,11 @@ namespace sh.Creator.ViewModels
                         ShowMessage("请保存图纸。");
                         return;
                     }
-
-                    if (SelectedLayer == null) System.Windows.MessageBox.Show("请选择笔刷图层");
-
+                    if (SelectedLayer == null)
+                    {
+                        ShowMessage("请选择笔刷图层");
+                        return;
+                    }
                     var ed = Application.DocumentManager.MdiActiveDocument.Editor;
                     var db_source = HostApplicationServices.WorkingDatabase;
                     var dir = new FileInfo(db_source.Filename).Directory;
@@ -615,14 +617,12 @@ namespace sh.Creator.ViewModels
                     var op_file = new PromptSaveFileOptions("选择目标文件" + Environment.NewLine);
                     op_file.InitialDirectory = $@"{dir.FullName}" ;
                     op_file.Filter = "笔刷配置文件 (*.xml)|*.xml";
-
                     var result_file = ed.GetFileNameForSave(op_file);
                     if (result_file.Status == PromptStatus.OK)
                     {
                         var doc = GetBrushXmlDocument();
                         doc.Save(result_file.StringResult);
                     }
-
                 });
             }
         }
