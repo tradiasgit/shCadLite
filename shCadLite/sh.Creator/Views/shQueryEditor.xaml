@@ -201,7 +201,7 @@
             <Border  BorderThickness="1,0" BorderBrush="#ff888888" Height="100"  Background="#fff0f0f0" Padding="0">
                 <DockPanel>
                     <Border  DockPanel.Dock="Top" Height="20" BorderThickness="0,0,0,1" BorderBrush="#ff888888">
-                        <!--<Grid>
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100"/>
                                 <ColumnDefinition Width="1"/>
@@ -229,12 +229,12 @@
                                      Grid.Column="4">
                                 <sh:FontIcon  Height="16" Width="16" Icon="Search"></sh:FontIcon>
                             </Button>
-                        </Grid>-->
-                        <sh:WaterMarkTextBox WaterMark="输入新增的标签（:分隔标签名）"  BorderThickness="0">
+                        </Grid>
+                        <!--<sh:WaterMarkTextBox WaterMark="输入新增的标签（:分隔标签名）"  BorderThickness="0">
                             <sh:WaterMarkTextBox.Attach>
                                 <sh:FontIcon Icon="Plus"></sh:FontIcon>
                             </sh:WaterMarkTextBox.Attach>
-                        </sh:WaterMarkTextBox>
+                        </sh:WaterMarkTextBox>-->
                     </Border>
                     <ListBox BorderThickness="0,0,0,1" BorderBrush="#ff888888" ItemsSource="{Binding Data}" Margin="0"  Padding="0" ItemContainerStyle="{StaticResource listitem1}" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                         <ItemsControl.ItemTemplate>

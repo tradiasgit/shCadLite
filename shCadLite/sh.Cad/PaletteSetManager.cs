@@ -51,7 +51,7 @@ namespace sh.Cad
             var ps = new PaletteSet(config.Name);
             ps.Text = config.Name;
             ps.Style = PaletteSetStyles.Snappable | PaletteSetStyles. Notify | PaletteSetStyles.SingleColDock | PaletteSetStyles.ShowCloseButton | PaletteSetStyles.ShowPropertiesMenu | PaletteSetStyles.ShowAutoHideButton;
-
+           
             var width = config.Width;
             var height = config.Height;
 
