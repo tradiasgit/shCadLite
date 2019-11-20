@@ -20,7 +20,7 @@ namespace sh.Creator.Views
     /// </summary>
     public partial class shQueryEditor : UserControl
     {
-        private shQueryEditor()
+        public shQueryEditor()
         {
             InitializeComponent();
             ViewModel = ViewModels.VM_shQueryEditor.Instance;
@@ -33,17 +33,5 @@ namespace sh.Creator.Views
         {
             return new Cad.PaletteConfig { Title = "shQuery编辑器", View = this };
         }
-
-        private static shQueryEditor _Instance;
-        public static shQueryEditor Instance
-        {
-            get
-            {
-                if (_Instance == null) _Instance = new shQueryEditor();
-                return _Instance;
-            }
-        }
-
-
     }
 }
