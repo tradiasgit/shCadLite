@@ -4,9 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfTest"
+        xmlns:sh="clr-namespace:sh.UI.Common;assembly=sh.UI.Common"
+        xmlns:input="clr-namespace:System.Windows.Controls;assembly=DotNetProjects.Input.Toolkit"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <!--<sh:WaterMarkTextBox Width="300" Height="20">
+            <sh:WaterMarkTextBox.Popup>
+                <ListBox>
+                    <ListBoxItem>asd</ListBoxItem>
+                    <ListBoxItem>asd</ListBoxItem>
+                    <ListBoxItem>asd</ListBoxItem>
+                </ListBox>
+            </sh:WaterMarkTextBox.Popup>
+        </sh:WaterMarkTextBox>-->
+        <input:AutoCompleteBox  Width="300" Height="20" ItemsSource="{Binding ss}"></input:AutoCompleteBox>
     </Grid>
 </Window>
