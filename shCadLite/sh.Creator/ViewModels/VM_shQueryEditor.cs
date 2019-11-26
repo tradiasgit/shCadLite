@@ -491,7 +491,7 @@ namespace sh.Creator.ViewModels
                     var ed = Application.DocumentManager.MdiActiveDocument.Editor;
                     var db_source = HostApplicationServices.WorkingDatabase;
                     var dir = new FileInfo(db_source.Filename).Directory;
-                    dir = new DirectoryInfo($@"{dir.FullName}\support");
+                    dir = new DirectoryInfo($@"{dir.FullName}\support\field");
                     dir.Create();
                     var op_file = new PromptSaveFileOptions("选择目标文件" + Environment.NewLine);
                     op_file.InitialDirectory = $@"{dir.FullName}\field"; ;
