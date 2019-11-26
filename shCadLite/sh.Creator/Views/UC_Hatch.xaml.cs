@@ -16,19 +16,13 @@ using System.Windows.Shapes;
 namespace sh.Creator.Views
 {
     /// <summary>
-    /// shQueryEditor.xaml 的交互逻辑
+    /// UC_Hatch.xaml 的交互逻辑
     /// </summary>
-    public partial class shQueryEditor : UserControl
+    public partial class UC_Hatch : UserControl
     {
-        public shQueryEditor()
+        public UC_Hatch()
         {
             InitializeComponent();
-            ViewModel = ViewModels.VM_shQueryEditor.Instance;
         }
-
-        public ViewModels.VM_shQueryEditor ViewModel { get { return DataContext as ViewModels.VM_shQueryEditor; } set { DataContext = value; } }
-
-
-    
     }
 }

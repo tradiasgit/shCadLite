@@ -59,6 +59,7 @@
 
         </ResourceDictionary>
     </UserControl.Resources>
+    <ScrollViewer>
     <StackPanel x:Name="root">
 
         <Grid Margin="5,0,5,5">
@@ -267,6 +268,9 @@
                     </ListBox>
                 </DockPanel>
             </Border>
-        </Expander>      
-    </StackPanel>
+        </Expander>
+
+        <local:UC_Hatch DataContext="{Binding HatchContext}" Visibility="{Binding Converter={StaticResource NullVisibilityContertor}, ConverterParameter=Collapsed}"/>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

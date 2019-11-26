@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.Geometry;
+using System.Windows;
 
 namespace sh.Creator
 {
@@ -26,27 +27,22 @@ namespace sh.Creator
                 psConfig.Name = "sh编辑器";
                 psConfig.Width = 320;
                 psConfig.Height = 640;
-                psConfig.PaletteConfigs = new List<Cad.PaletteConfig>
+                psConfig.IsDock = true;
+                psConfig.PaletteConfigs = new Dictionary<string, FrameworkElement>
                 {
-                    new Views.shQueryEditor().GetPaletteConfig(),
-                    new Views.shResourceBox().GetPaletteConfig()
+                    {"选择集",  new Views.shQueryEditor() },
+                     {"资源盒子",  new Views.shResourceBox() },
                 };
                 var ps = new sh.Cad.PaletteSetManager();
+                
                 ps.ShowPaletteSet(psConfig);
 
             }
             catch (System.Exception ex)
             {
-                Autodesk.AutoCAD.ApplicationServices.Application.ShowAlertDialog(ex.Message);
-
+                Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog(ex.Message);
             }
         }
-
-
-
-
-
-
     }
 
 }

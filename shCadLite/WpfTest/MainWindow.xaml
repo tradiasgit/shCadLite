@@ -9,15 +9,58 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <!--<sh:WaterMarkTextBox Width="300" Height="20">
-            <sh:WaterMarkTextBox.Popup>
-                <ListBox>
-                    <ListBoxItem>asd</ListBoxItem>
-                    <ListBoxItem>asd</ListBoxItem>
-                    <ListBoxItem>asd</ListBoxItem>
-                </ListBox>
-            </sh:WaterMarkTextBox.Popup>
-        </sh:WaterMarkTextBox>-->
-        <input:AutoCompleteBox  Width="300" Height="20" ItemsSource="{Binding ss}"></input:AutoCompleteBox>
+        <!--<input:AutoCompleteBox  Width="300" Height="20" ItemsSource="{Binding ss}"></input:AutoCompleteBox>-->
+        <FlowDocumentScrollViewer>
+            <FlowDocument>
+                <Table>
+                    <Table.Columns>
+                        <TableColumn Width="200"></TableColumn>
+                    </Table.Columns>
+                    <TableRowGroup  Background="LightGray" FontWeight="Bold">
+                        <TableRow>
+                            <TableCell>
+                                <Paragraph>项目</Paragraph>
+                            </TableCell>
+                            <TableCell>
+                                <Paragraph>工程量</Paragraph>
+                            </TableCell>
+                            <TableCell>
+                                <Paragraph>配置</Paragraph>
+                            </TableCell>
+                            <TableCell>
+                                <Paragraph>金额</Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                    <TableRowGroup>
+                        <TableRow>
+                            <TableCell>
+                                <Paragraph>踢脚线</Paragraph>
+                            </TableCell>
+                            <TableCell>
+                                <Paragraph>40米</Paragraph>
+                            </TableCell>
+                            <TableCell>
+                                <Paragraph></Paragraph>
+                            </TableCell>
+                            <TableCell>
+                                <Paragraph>￥500.00</Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>
+                                <Paragraph>1</Paragraph>
+                            </TableCell>
+                            <TableCell>
+                                <Paragraph>2</Paragraph>
+                            </TableCell>
+                            <TableCell>
+                                <Paragraph>3</Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
     </Grid>
 </Window>
