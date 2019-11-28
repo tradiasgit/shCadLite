@@ -81,7 +81,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\VM_BudgetSheet.cs" />
+    <Compile Include="ViewModels\BudgetSheet\VM_BudgetSheet.cs" />
     <Compile Include="ViewModels\VM_CadPart.cs" />
     <Compile Include="ViewModels\VM_Data.cs" />
     <Compile Include="ViewModels\VM_DataBox_Multi.cs" />
