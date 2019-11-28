@@ -116,11 +116,9 @@
     </Compile>
     <Compile Include="Views\UC_MultiSelectBox.xaml.cs">
       <DependentUpon>UC_MultiSelectBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UC_BudgetSheet.xaml.cs">
       <DependentUpon>UC_BudgetSheet.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UC_Data.xaml.cs">
-      <DependentUpon>UC_Data.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UC_SingleSelectBox.xaml.cs">
       <DependentUpon>UC_SingleSelectBox.xaml</DependentUpon>
@@ -152,7 +150,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UC_Data.xaml">
     <Page Include="Views\UC_DataBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
