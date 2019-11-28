@@ -1,0 +1,113 @@
+﻿<UserControl x:Class="sh.Creator.Views.UC_DataBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:sh.Creator.Views"
+             xmlns:vm="clr-namespace:sh.Creator.ViewModels"
+             xmlns:sh="clr-namespace:sh.UI.Common;assembly=sh.UI.Common"
+             mc:Ignorable="d" Background="#fff0f0f0"
+             d:DesignHeight="400" d:DesignWidth="320">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/sh.UI.Common;component/Theme_AutoCAD.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/sh.UI.Common;component/Themes/Styles/ToggleButton_Switch.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="ListBoxItem" x:Key="listitem1">
+                <Setter Property="Height" Value="20" />
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="true">
+                        <Setter Property="Background" Value="#ff3399ff"/>
+                        <Setter Property="Foreground" Value="White"/>
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="true">
+                        <Setter Property="Background" Value="#ffe5f1fb"/>
+                        <Setter Property="Foreground" Value="Black"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+        
+    </UserControl.Resources>
+    
+    <Expander Header="数据" IsExpanded="True" Padding="0">
+        <Border  BorderThickness="1,0" BorderBrush="#ff888888" Height="100"  Background="#fff0f0f0" Padding="0">
+            <DockPanel>
+                <Border  DockPanel.Dock="Top" Height="20" BorderThickness="0,0,0,1" BorderBrush="#ff888888">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="1"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox  Grid.Column="0" Text="{Binding NewData.Key}"/>
+                        <Border  Grid.Column="1" BorderThickness="1" BorderBrush="#ff888888"/>
+                        <TextBox  Grid.Column="2" Text="{Binding NewData.Value}"/>
+                        <Button  HorizontalAlignment="Right" Style="{StaticResource icon_Button_noBorder}"
+                                     Height="18" Width="18" 
+                                     Command="{Binding Cmd_AddData}"
+                                     Grid.Column="3">
+                            <sh:FontIcon  Height="16" Width="16" Icon="Plus"></sh:FontIcon>
+                        </Button>
+                    </Grid>
+                    <!--<sh:WaterMarkTextBox WaterMark="输入新增的标签（:分隔标签名）"  BorderThickness="0">
+                            <sh:WaterMarkTextBox.Attach>
+                                <sh:FontIcon Icon="Plus"></sh:FontIcon>
+                            </sh:WaterMarkTextBox.Attach>
+                        </sh:WaterMarkTextBox>-->
+                </Border>
+                <ListBox x:Name="root"
+                         BorderThickness="0,0,0,1" BorderBrush="#ff888888"                          
+                         Margin="0"  Padding="0"                          
+                         ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                         ScrollViewer.HorizontalScrollBarVisibility="Hidden" 
+                         ItemContainerStyle="{StaticResource listitem1}"
+                         ItemsSource="{Binding Data}"  >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border x:Name="container" BorderThickness="1" BorderBrush="Transparent">
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"></ColumnDefinition>
+                                        <ColumnDefinition Width="80"></ColumnDefinition>
+                                        <ColumnDefinition Width="20" ></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock HorizontalAlignment="Left" Margin="10,0" Text ="{Binding Key}"></TextBlock>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,0" Text ="{Binding Value}" TextTrimming="CharacterEllipsis"></TextBlock>
+                                    <Button Grid.Column="2"  Style="{StaticResource icon_Button_noBorder}"
+                                            Height="18" Width="18"  Command="{Binding ElementName=root, Path=DataContext.Cmd_RemoveData}"
+                                            CommandParameter="{Binding}">
+                                        <sh:FontIcon  Height="16" Width="16"  Icon="Times"></sh:FontIcon>
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </Border>
+    </Expander>
+</UserControl>

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace sh.Creator.ViewModels
 {
-    public class VM_Hatch : ViewModelBase
+    public class VM_HatchBox : ViewModelBase
     {
-        public VM_Hatch(sh.Cad.HacthStyle style)
+        public VM_HatchBox(sh.Cad.HacthStyle style)
         {
             PatternAngle = style.PatternAngle;
             PatternDouble =style.PatternDouble ? "是" : "否";

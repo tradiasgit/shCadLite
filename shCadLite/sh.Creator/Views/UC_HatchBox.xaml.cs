@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace sh.Creator.Views
 {
     /// <summary>
-    /// UC_Data.xaml 的交互逻辑
+    /// UC_Hatch.xaml 的交互逻辑
     /// </summary>
-    public partial class UC_Data : UserControl
+    public partial class UC_HatchBox : UserControl
     {
-        public UC_Data()
+        public UC_HatchBox()
         {
             InitializeComponent();
         }

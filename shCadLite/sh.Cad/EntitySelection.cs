@@ -39,8 +39,7 @@ namespace sh.Cad
                     {
                         foreach (var oid in ObjectIds)
                         {
-                            var ent = new EntityInfo(oid);
-                            ent.Fill(tr);
+                            var ent =new EntityInfo( tr.GetObject(oid, OpenMode.ForRead) as Entity);
                             _entitys.Add(ent);
                         }
                     }

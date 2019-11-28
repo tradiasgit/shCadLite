@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace sh.Creator.Views
 {
     /// <summary>
-    /// UC_Hatch.xaml 的交互逻辑
+    /// UC_SingleSelectBox.xaml 的交互逻辑
     /// </summary>
-    public partial class UC_Hatch : UserControl
+    public partial class UC_MultiSelectBox : UserControl
     {
-        public UC_Hatch()
+        public UC_MultiSelectBox()
         {
             InitializeComponent();
         }

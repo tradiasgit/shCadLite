@@ -94,11 +94,6 @@
                                     <sh:FontIcon Icon="Brush" ></sh:FontIcon>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <!--<MenuItem Header="保存为图形过滤器" Command="{Binding Cmd_SaveAsQuery}">
-                                <MenuItem.Icon>
-                                    <sh:FontIcon Icon="Filter" ></sh:FontIcon>
-                                </MenuItem.Icon>
-                            </MenuItem>-->
                             <MenuItem Header="保存为图形过滤器">
                                 <MenuItem Header="按数量" Command="{Binding Cmd_SaveAsQuery}" CommandParameter="Count">
                                     <MenuItem.Icon>
@@ -125,152 +120,13 @@
         </Grid>
 
 
-        <Expander Header="选择集" IsExpanded="True">
-            <StackPanel>               
-                <sh:LabelContentControl Header="当前选中">
-                    <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Count}" ></TextBlock>
-                </sh:LabelContentControl>
-                <sh:LabelContentControl Header="总长度">
-                    <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding SumLengthText}" ></TextBlock>
-                </sh:LabelContentControl>
-                <sh:LabelContentControl Header="总面积">
-                    <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding SumAreaText}" ></TextBlock>
-                </sh:LabelContentControl>
-                <!--<sh:LabelContentControl Header="名称">
-                    <TextBox></TextBox>
-                </sh:LabelContentControl>
-                <sh:LabelContentControl Header="值类型">
-                    <ComboBox SelectedValue="{Binding SelectedResultType}" SelectedValuePath="Content">
-                        <ListBoxItem Content="数量"/>
-                        <ListBoxItem Content="长度"/>
-                        <ListBoxItem Content="面积"/>
-                    </ComboBox>
-                </sh:LabelContentControl>-->
-                <sh:LabelContentControl Header="笔刷图层">
-                    <ComboBox Grid.Column="2" Grid.ColumnSpan="2" ItemsSource="{Binding Layers}" DisplayMemberPath="LayerName" SelectedItem="{Binding SelectedLayer}">
-                    </ComboBox>
-                </sh:LabelContentControl>
-            </StackPanel>
-        </Expander>
-        <Expander Header="图层过滤" IsExpanded="True" >
-            <Border  BorderThickness="1,0" BorderBrush="#ff888888" Height="100"  Background="#fff0f0f0" Padding="0">
-                <DockPanel>
-                    <ListBox BorderThickness="0" ItemsSource="{Binding Layers}" SelectedItem="{Binding SelectedLayer}" ItemContainerStyle="{StaticResource listitem1}"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border x:Name="container" BorderThickness="1" BorderBrush="Transparent">
-                                    <Grid HorizontalAlignment="Stretch">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition></ColumnDefinition>
-                                            <ColumnDefinition Width="30" ></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock HorizontalAlignment="Left" Margin="10,0" Text ="{Binding}"></TextBlock>
-                                        <Button HorizontalAlignment="Right" Style="{StaticResource icon_Button_noBorder}" Height="18" Width="18" Grid.Column="1" Command="{Binding ElementName=root, Path=DataContext.Cmd_RemoveLayer}" CommandParameter="{Binding LayerName}">
-                                            <sh:FontIcon  Height="16" Width="16"  x:Name="s" Icon="Times"></sh:FontIcon>
-                                        </Button>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ListBox>
-                </DockPanel>
-            </Border>
-        </Expander>
-        <Expander Header="类型过滤" IsExpanded="True">
-            <Border  BorderThickness="1,0,1,1" BorderBrush="#ff888888" Height="100">
-                <ListBox BorderThickness="0" ItemsSource="{Binding Types}" ItemContainerStyle="{StaticResource listitem1}" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border x:Name="container" BorderThickness="1" BorderBrush="Transparent">
-                                <Grid HorizontalAlignment="Stretch">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition></ColumnDefinition>
-                                        <ColumnDefinition Width="30" ></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock HorizontalAlignment="Left" Margin="10,0" Text ="{Binding}"></TextBlock>
-                                    <Button HorizontalAlignment="Right" Style="{StaticResource icon_Button_noBorder}" Height="18" Width="18" Grid.Column="1" Command="{Binding ElementName=root, Path=DataContext.Cmd_RemoveEntityType}" CommandParameter="{Binding DxfName}">
-                                        <sh:FontIcon  Height="16" Width="16"  x:Name="s" Icon="Times" ></sh:FontIcon>
-                                    </Button>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ListBox>
-            </Border>
-        </Expander>
-        <Expander Header="数据过滤" IsExpanded="True" Padding="0">
-            <Border  BorderThickness="1,0" BorderBrush="#ff888888" Height="100"  Background="#fff0f0f0" Padding="0">
-                <DockPanel>
-                    <Border  DockPanel.Dock="Top" Height="20" BorderThickness="0,0,0,1" BorderBrush="#ff888888">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100"/>
-                                <ColumnDefinition Width="1"/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition Width="10"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox  Grid.Column="0" Text="{Binding NewData.Key}"/>
-                            <Border  Grid.Column="1" BorderThickness="1" BorderBrush="#ff888888"/>
-                            
-                            
-                            
-                            <TextBox  Grid.Column="2" Text="{Binding NewData.Value}"/>
 
-                            <Button  HorizontalAlignment="Right" Style="{StaticResource icon_Button_noBorder}"
-                                     Height="18" Width="18" 
-                                     Command="{Binding Cmd_AddData}"
-                                     Grid.Column="3">
-                                <sh:FontIcon  Height="16" Width="16" Icon="Plus"></sh:FontIcon>
-                            </Button>
-                            <Button  HorizontalAlignment="Right" Style="{StaticResource icon_Button_noBorder}"
-                                     Height="18" Width="18" 
-                                     Command="{Binding Cmd_RemoveData}"
-                                     Grid.Column="4">
-                                <sh:FontIcon  Height="16" Width="16" Icon="Search"></sh:FontIcon>
-                            </Button>
-                        </Grid>
-                        <!--<sh:WaterMarkTextBox WaterMark="输入新增的标签（:分隔标签名）"  BorderThickness="0">
-                            <sh:WaterMarkTextBox.Attach>
-                                <sh:FontIcon Icon="Plus"></sh:FontIcon>
-                            </sh:WaterMarkTextBox.Attach>
-                        </sh:WaterMarkTextBox>-->
-                    </Border>
-                    <ListBox BorderThickness="0,0,0,1" BorderBrush="#ff888888" ItemsSource="{Binding Data}" Margin="0"  Padding="0" ItemContainerStyle="{StaticResource listitem1}" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border x:Name="container" BorderThickness="1" BorderBrush="Transparent">
-                                    <Grid HorizontalAlignment="Stretch">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100"></ColumnDefinition>
-                                            <ColumnDefinition Width="*"></ColumnDefinition>
-                                            <ColumnDefinition Width="40" ></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock HorizontalAlignment="Left" Margin="10,0" Text ="{Binding Key}"></TextBlock>
-                                        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,0" Text ="{Binding Value}"></TextBlock>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="2">
-
-                                            <Button Visibility="{Binding IsNew,Converter={StaticResource BoolVisibilityConvertor},ConverterParameter=Collapsed}" HorizontalAlignment="Right" Style="{StaticResource icon_Button_noBorder}" Height="18" Width="18" Command="{Binding ElementName=root, Path=DataContext.Cmd_SaveData}" CommandParameter="{Binding}">
-                                                <sh:FontIcon  Height="16" Width="16"  Icon="FaFloppyO" Foreground="Green"></sh:FontIcon>
-                                            </Button>
-                                            <Button Visibility="{Binding IsNew,Converter={StaticResource BoolInverseVisibilityConvertor},ConverterParameter=Collapsed}" HorizontalAlignment="Right" Style="{StaticResource icon_Button_noBorder}" Height="18" Width="18" Command="{Binding ElementName=root, Path=DataContext.Cmd_DeleteData}" CommandParameter="{Binding}">
-                                                <sh:FontIcon  Height="16" Width="16"  Icon="Trash"></sh:FontIcon>
-                                            </Button>
-                                            <Button  HorizontalAlignment="Right" Style="{StaticResource icon_Button_noBorder}" Height="18" Width="18"  Command="{Binding ElementName=root, Path=DataContext.Cmd_RemoveData}" CommandParameter="{Binding}">
-                                                <sh:FontIcon  Height="16" Width="16"  x:Name="s" Icon="Times"></sh:FontIcon>
-                                            </Button>
-                                        </StackPanel>                                      
-                                    </Grid>
-                                </Border>                              
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ListBox>
-                </DockPanel>
-            </Border>
-        </Expander>
-
-        <local:UC_Hatch DataContext="{Binding HatchContext}" Visibility="{Binding Converter={StaticResource NullVisibilityContertor}, ConverterParameter=Collapsed}"/>
+            <local:UC_SingleSelectBox DataContext="{Binding SingleSelectBox}" Visibility="{Binding Converter={StaticResource NullVisibilityContertor}, ConverterParameter=Collapsed}"/>
+            <local:UC_MultiSelectBox DataContext="{Binding MultiSelectBox}" Visibility="{Binding Converter={StaticResource NullVisibilityContertor}, ConverterParameter=Collapsed}"/>
+            <local:UC_HatchBox DataContext="{Binding HatchBox}" Visibility="{Binding Converter={StaticResource NullVisibilityContertor}, ConverterParameter=Collapsed}"/>
+            <local:UC_DataBox DataContext="{Binding DataBox}" Visibility="{Binding Converter={StaticResource NullVisibilityContertor}, ConverterParameter=Collapsed}"/>
+            <local:UC_LayerBox  DataContext="{Binding LayerBox}" Visibility="{Binding Converter={StaticResource NullVisibilityContertor}, ConverterParameter=Collapsed}"/>            
+            
         </StackPanel>
     </ScrollViewer>
 </UserControl>

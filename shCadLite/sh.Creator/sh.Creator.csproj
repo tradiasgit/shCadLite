@@ -83,10 +83,14 @@
     </Compile>
     <Compile Include="ViewModels\VM_CadPart.cs" />
     <Compile Include="ViewModels\VM_Data.cs" />
-    <Compile Include="ViewModels\VM_EntityType.cs" />
+    <Compile Include="ViewModels\VM_DataBox_Multi.cs" />
+    <Compile Include="ViewModels\VM_MultiSelectBox.cs" />
+    <Compile Include="ViewModels\VM_SingleSelectBox.cs" />
+    <Compile Include="ViewModels\VM_LayerBox.cs" />
+    <Compile Include="ViewModels\VM_DataBox.cs" />
     <Compile Include="ViewModels\VM_Brush.cs" />
     <Compile Include="ViewModels\VM_Field.cs" />
-    <Compile Include="ViewModels\VM_Hatch.cs" />
+    <Compile Include="ViewModels\VM_HatchBox.cs" />
     <Compile Include="ViewModels\VM_Layer.cs" />
     <Compile Include="ViewModels\VM_shResourceBox.cs" />
     <Compile Include="ViewModels\VM_shQueryEditor.cs" />
@@ -100,11 +104,20 @@
     <Compile Include="Views\shTagEditor.xaml.cs">
       <DependentUpon>shTagEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UC_Data.xaml.cs">
-      <DependentUpon>UC_Data.xaml</DependentUpon>
+    <Compile Include="Views\UC_DataBox.xaml.cs">
+      <DependentUpon>UC_DataBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UC_Hatch.xaml.cs">
-      <DependentUpon>UC_Hatch.xaml</DependentUpon>
+    <Compile Include="Views\UC_HatchBox.xaml.cs">
+      <DependentUpon>UC_HatchBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UC_LayerBox.xaml.cs">
+      <DependentUpon>UC_LayerBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UC_MultiSelectBox.xaml.cs">
+      <DependentUpon>UC_MultiSelectBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UC_SingleSelectBox.xaml.cs">
+      <DependentUpon>UC_SingleSelectBox.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -129,11 +142,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UC_Data.xaml">
+    <Page Include="Views\UC_DataBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UC_Hatch.xaml">
+    <Page Include="Views\UC_HatchBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UC_LayerBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UC_MultiSelectBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UC_SingleSelectBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

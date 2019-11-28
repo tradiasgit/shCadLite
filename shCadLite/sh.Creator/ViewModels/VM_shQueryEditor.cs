@@ -31,8 +31,6 @@ namespace sh.Creator.ViewModels
         }
         private VM_shQueryEditor()
         {
-            NewData = new VM_Data();
-            Data = new ObservableCollection<VM_Data>();
             IsAutoPickUp = true;
         }
 
@@ -56,63 +54,31 @@ namespace sh.Creator.ViewModels
 
         public void OnSelectionChanged(EntitySelection selection)
         {
+            if (selection == null) return;
             try
             {
-                HatchContext = null;
+                HatchBox = null;
+                DataBox = null;
+                LayerBox = null;
+                MultiSelectBox = null;
+                SingleSelectBox = null;
 
-                if (selection != null && selection.Count > 0)
+                if (selection.Count == 1)
                 {
-                    Layers = new ObservableCollection<VM_Layer>(selection.Entitys.Select(ent => ent.LayerName).Distinct().Select(layer => new VM_Layer(layer)).OrderBy(vm => vm.LayerName));
-                    Types = new ObservableCollection<VM_EntityType>(selection.Entitys.Select(ent => ent.DxfName).Distinct().Select(name => new VM_EntityType(name)).OrderBy(vm => vm.ToString()));
-                    Count = selection.Count;
-                    Data = new ObservableCollection<VM_Data>();
+                    var id = selection.ObjectIds[0];
+                    var db = HostApplicationServices.WorkingDatabase;
 
-                    var kvlist = selection.Entitys.SelectMany(ent => ent.Data).Distinct().OrderBy(p => p.Key);
-
-                    foreach (var kv in kvlist)
-                    {
-                        var vm = new VM_Data(kv.Key, kv.Value);
-                        vm.IsCommon = selection.Entitys.All(ent => ent.Data.Contains(kv));
-                        Data.Add(vm);
-                    }
-                    Sum();
-
-
-                    if (selection.Count == 1)
-                    {
-                        var id = selection.ObjectIds[0];
-                        var db = HostApplicationServices.WorkingDatabase;
-                        using (var tr = db.TransactionManager.StartOpenCloseTransaction())
-                        {
-                            var ent = tr.GetObject(id, OpenMode.ForRead);
-                            if (ent.GetType() == typeof(Hatch))
-                            {
-                                var h = ent as Hatch;
-                                HatchContext = new VM_Hatch(new HacthStyle
-                                {
-                                    PatternAngle = h.PatternAngle,
-                                    PatternDouble = h.PatternDouble,
-                                    PatternName = h.PatternName,
-                                    PatternScale = h.PatternScale,
-                                    PatternSpace = h.PatternSpace,
-                                    PatternType = h.PatternType,
-                                    Associative=h.Associative,
-                                    HatchStyle=h.HatchStyle,
-                                    Origin=h.Origin
-                                });
-                            }
-                        }
-                    }
-
+                    var ent = selection.Entitys[0];
+                    LayerName = ent.LayerName;
+                    SingleSelectBox = new VM_SingleSelectBox(ent);
+                    DataBox = new VM_DataBox(ent);
+                    if (ent.IsHatch) HatchBox = new VM_HatchBox(ent.GetHatch());
                 }
-                else
+                else if (selection.Count > 1)
                 {
-                    Layers?.Clear();
-                    Types?.Clear();
-                    Data?.Clear();
-                    Count = 0;
-                    SumAreaText = "无选择";
-                    SumLengthText = "无选择";
+                    MultiSelectBox = new VM_MultiSelectBox(selection.Entitys);
+                    LayerBox = new VM_LayerBox();
+                    LayerBox.Layers = new ObservableCollection<VM_Layer>(selection.Entitys.Select(ent => ent.LayerName).Distinct().Select(layer => new VM_Layer(layer)).OrderBy(vm => vm.LayerName));
                 }
 
             }
@@ -143,188 +109,7 @@ namespace sh.Creator.ViewModels
             }
         }
 
-        #endregion
 
-
-        #region Layers
-        public ObservableCollection<VM_Layer> Layers { get { return GetValue<ObservableCollection<VM_Layer>>(); } set { SetValue(value); } }
-
-        public VM_Layer SelectedLayer { get { return GetValue<VM_Layer>(); } set { SetValue(value); } }
-
-        public ICommand Cmd_RemoveLayer
-        {
-            get
-            {
-                return CommandFactory.RegisterCommand(p =>
-                {
-                    var value = p as string;
-                    var tx = Layers.FirstOrDefault(t => t.LayerName == value);
-                    if (tx != null) Layers.Remove(tx);
-                });
-            }
-        }
-
-        #endregion
-
-        #region Types
-
-
-        public ICommand Cmd_RemoveEntityType
-        {
-            get
-            {
-                return CommandFactory.RegisterCommand(p =>
-                {
-                    var value = p as string;
-                    var tx = Types.FirstOrDefault(t => t.DxfName == value);
-                    if (tx != null) Types.Remove(tx);
-                });
-            }
-        }
-
-
-        public ObservableCollection<VM_EntityType> Types { get { return GetValue<ObservableCollection<VM_EntityType>>(); } set { SetValue(value); } }
-
-
-        #endregion
-
-
-        #region Data
-        public ObservableCollection<VM_Data> Data { get { return GetValue<ObservableCollection<VM_Data>>(); } set { SetValue(value); } }
-
-        public VM_Data NewData { get { return GetValue<VM_Data>(); } set { SetValue(value); } }
-
-        public ICommand Cmd_AddData
-        {
-            get
-            {
-                return CommandFactory.RegisterCommand(p =>
-                {
-                    NewData.IsNew = true;
-                    Data.Insert(0, NewData);
-                    NewData = new VM_Data();
-
-                });
-            }
-        }
-
-        public ICommand Cmd_RemoveData
-        {
-            get
-            {
-                return CommandFactory.RegisterCommand(p =>
-                {
-                    var data = p as VM_Data;
-                    Data.Remove(data);
-                });
-            }
-        }
-        protected double GetMlineLength(Entity ent)
-        {
-            var ml = ent as Mline;
-            double length = 0;
-            if (ml == null) return length;
-            for (int i = 0; i < ml.NumberOfVertices; i++)
-            {
-                Point3d pointS = ml.VertexAt(i);
-                if (i < ml.NumberOfVertices - 1)
-                {
-                    var pointE = ml.VertexAt(i + 1);
-                    length += pointS.DistanceTo(pointE);
-                }
-                else if (ml.IsClosed)
-                {
-                    var pointE = ml.VertexAt(0);
-                    length += pointS.DistanceTo(pointE);
-                }
-            }
-            return length;
-        }
-        private void ForEach(IEnumerable<ObjectId> selection, Action<Entity> fun, Func<Exception, bool> exFun = null)
-        {
-            if (fun != null)
-            {
-                var db = HostApplicationServices.WorkingDatabase;
-                using (var tr = db.TransactionManager.StartOpenCloseTransaction())
-                {
-                    foreach (var oid in selection)
-                    {
-                        try
-                        {
-                            var ent = tr.GetObject(oid, OpenMode.ForRead, false, true) as Entity;
-                            if (ent != null)
-                            {
-                                fun(ent);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            if (ex == null)
-                            {
-                                Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage(ex.Message);
-                            }
-                            else
-                            {
-                                exFun(ex);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        public double SumLength(IEnumerable<ObjectId> selection)
-        {
-            if (selection == null) return 0;
-            var value = 0.0;
-            ForEach(selection, ent =>
-            {
-                if (ent is Mline) value += GetMlineLength(ent);
-                else
-                {
-                    var prop = ent.GetType().GetProperty("Length");
-                    if (prop != null)
-                    {
-                        try
-                        {
-                            value += (double)prop.GetValue(ent);
-                        }
-                        catch (Exception ex)
-                        {
-                            Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage($@"1个对象获取长度失败：{ent.GetType().Name},{ex.Message}");
-                        }
-                    }
-                }
-
-            });
-            //WriteLine($"总长度:{value}{Environment.NewLine}");
-            return value;
-        }
-        public double SumArea(IEnumerable<ObjectId> selection)
-        {
-            if (selection == null) return 0;
-            var value = 0.0;
-            ForEach(selection, ent =>
-            {
-                var prop = ent.GetType().GetProperty("Area");
-                if (prop != null)
-                {
-                    try
-                    {
-                        value += (double)prop.GetValue(ent);
-                    }
-                    catch (Exception ex)
-                    {
-                        Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage($@"1个对象获取面积失败：{ent.GetType().Name},{ex.Message}");
-                    }
-                }
-            });
-            //WriteLine($"总面积:{value}{Environment.NewLine}");
-            return value;
-        }
-
-
-        public string SumAreaText { get { return GetValue<string>(); } set { SetValue(value); } }
-        public string SumLengthText { get { return GetValue<string>(); } set { SetValue(value); } }
 
         public ICommand Cmd_Refresh
         {
@@ -332,96 +117,15 @@ namespace sh.Creator.ViewModels
             {
                 return CommandFactory.RegisterCommand(p =>
                 {
-                    Sum();
+                    //Sum();
                 });
             }
         }
 
-        private void Sum()
-        {
-            var doc = Application.DocumentManager.MdiActiveDocument;
-            var ed = Application.DocumentManager.MdiActiveDocument.Editor;
-            var db_source = HostApplicationServices.WorkingDatabase;
-            using (var l = doc.LockDocument())
-            {
-                var op_ent = new PromptSelectionOptions();
-                var result_ent = ed.SelectImplied();
-
-
-                if (result_ent.Status == PromptStatus.OK && result_ent.Value.Count > 0)
-                {
-                    SumAreaText = string.Format("{0:f2}平米", 0.000001 * SumArea(result_ent.Value.GetObjectIds()));
-                    SumLengthText = string.Format("{0:f2}米", 0.001 * SumLength(result_ent.Value.GetObjectIds()));
-                }
-                //ed.SetImpliedSelection(result_ent.Value.GetObjectIds());
-            }
-        }
-
-        public ICommand Cmd_SaveData
-        {
-            get
-            {
-                return CommandFactory.RegisterCommand(p =>
-                {
-                    var data = p as VM_Data;
-                    if (data.IsNew)
-                    {
-                        var doc = Application.DocumentManager.MdiActiveDocument;
-                        var ed = Application.DocumentManager.MdiActiveDocument.Editor;
-                        var db_source = HostApplicationServices.WorkingDatabase;
-                        using (var l = doc.LockDocument())
-                        {
-                            var op_ent = new PromptSelectionOptions();
-                            var result_ent = ed.GetSelection(op_ent);
-
-                            if (result_ent.Status == PromptStatus.OK)
-                            {
-                                var ids = result_ent.Value.GetObjectIds();
-                                foreach (var oid in ids)
-                                {
-                                    sh.Cad.DataManager.WriteDictionary(oid, new Dictionary<string, string> { { data.Key, data.Value } });
-                                }
-                            }
-                            ed.SetImpliedSelection(result_ent.Value);
-                        }
-                    }
-                    data.IsNew = false;
-                });
-            }
-        }
-
-        public ICommand Cmd_DeleteData
-        {
-            get
-            {
-                return CommandFactory.RegisterCommand(p =>
-                {
-                    var data = p as VM_Data;
-                    var doc = Application.DocumentManager.MdiActiveDocument;
-                    var ed = Application.DocumentManager.MdiActiveDocument.Editor;
-                    var db_source = HostApplicationServices.WorkingDatabase;
-                    using (var l = doc.LockDocument())
-                    {
-                        var op_ent = new PromptSelectionOptions();
-                        var result_ent = ed.GetSelection(op_ent);
-
-                        if (result_ent.Status == PromptStatus.OK)
-                        {
-                            var ids = result_ent.Value.GetObjectIds();
-                            foreach (var oid in ids)
-                            {
-                                sh.Cad.DataManager.RemoveKey(oid, data.Key);
-                            }
-                        }
-                        ed.SetImpliedSelection(result_ent.Value);
-                    }
-                });
-            }
-        }
 
         #endregion
 
-        public string Name { get { return GetValue<string>(); } set { SetValue(value); } }
+
 
 
         #region 保存Cad部件
@@ -432,8 +136,8 @@ namespace sh.Creator.ViewModels
             {
                 return CommandFactory.RegisterCommand(p =>
                 {
-                    //var dbmod = Application.GetSystemVariable("DBMOD");
-                    var dwgtitled = Application.GetSystemVariable("DWGTITLED");
+            //var dbmod = Application.GetSystemVariable("DBMOD");
+            var dwgtitled = Application.GetSystemVariable("DWGTITLED");
                     if (Convert.ToInt16(dwgtitled) == 0)
                     {
                         ShowMessage("请保存图纸。");
@@ -571,26 +275,25 @@ namespace sh.Creator.ViewModels
 
 
             doc.AppendChild(root);
-            foreach (var data in Data)
+            if (DataBox != null)
             {
-                var dnode = doc.CreateElement("Data");
-                dnode.SetAttribute("Key", data.Key);
-                dnode.SetAttribute("Value", data.Value);
-                root.AppendChild(dnode);
+                foreach (var data in DataBox.Data)
+                {
+                    var dnode = doc.CreateElement("Data");
+                    dnode.SetAttribute("Key", data.Key);
+                    dnode.SetAttribute("Value", data.Value);
+                    root.AppendChild(dnode);
+                }
             }
-            foreach (var t in Types)
+            if (LayerBox != null)
             {
-                var node = doc.CreateElement("Filter");
-                node.SetAttribute("Type", "EntityTpye");
-                node.SetAttribute("Name", t.DxfName);
-                //root.AppendChild(node);
-            }
-            foreach (var l in Layers)
-            {
-                var node = doc.CreateElement("Filter");
-                node.SetAttribute("Type", "Layer");
-                node.SetAttribute("Name", l.LayerName);
-                root.AppendChild(node);
+                foreach (var l in LayerBox.Layers)
+                {
+                    var node = doc.CreateElement("Filter");
+                    node.SetAttribute("Type", "Layer");
+                    node.SetAttribute("Name", l.LayerName);
+                    root.AppendChild(node);
+                }
             }
             doc.AppendChild(root);
             return doc;
@@ -602,21 +305,17 @@ namespace sh.Creator.ViewModels
             var doc = new XmlDocument();
             var root = doc.CreateElement("BrushAction");
             root.SetAttribute("ColorIndex", "256");
-            root.SetAttribute("LayerName", SelectedLayer.LayerName);
+            root.SetAttribute("LayerName", LayerName);
             doc.AppendChild(root);
-            foreach (var data in Data)
+            if (DataBox != null)
             {
-                var dnode = doc.CreateElement("Data");
-                dnode.SetAttribute("Key", data.Key);
-                dnode.SetAttribute("Value", data.Value);
-                root.AppendChild(dnode);
-            }
-            foreach (var t in Types)
-            {
-                var node = doc.CreateElement("Filter");
-                node.SetAttribute("Type", "EntityTpye");
-                node.SetAttribute("Name", t.DxfName);
-                //root.AppendChild(node);
+                foreach (var data in DataBox.Data)
+                {
+                    var dnode = doc.CreateElement("Data");
+                    dnode.SetAttribute("Key", data.Key);
+                    dnode.SetAttribute("Value", data.Value);
+                    root.AppendChild(dnode);
+                }
             }
             doc.AppendChild(root);
             return doc;
@@ -635,7 +334,7 @@ namespace sh.Creator.ViewModels
                         return;
                     }
 
-                    if (SelectedLayer == null) System.Windows.MessageBox.Show("请选择笔刷图层");
+                    if (LayerName == null) System.Windows.MessageBox.Show("请选择笔刷图层");
 
                     var ed = Application.DocumentManager.MdiActiveDocument.Editor;
                     var db_source = HostApplicationServices.WorkingDatabase;
@@ -660,12 +359,15 @@ namespace sh.Creator.ViewModels
 
 
 
+        public string LayerName { get; set; }
+        public VM_SingleSelectBox SingleSelectBox { get { return GetValue<VM_SingleSelectBox>(); } set { SetValue(value); } }
 
+        public VM_MultiSelectBox MultiSelectBox { get { return GetValue<VM_MultiSelectBox>(); } set { SetValue(value); } }
 
+        public VM_LayerBox LayerBox { get { return GetValue<VM_LayerBox>(); } set { SetValue(value); } }
+        public VM_HatchBox HatchBox { get { return GetValue<VM_HatchBox>(); } set { SetValue(value); } }
 
-
-        public VM_Hatch HatchContext { get { return GetValue<VM_Hatch>(); } set { SetValue(value); } }
-
+        public VM_DataBox DataBox { get { return GetValue<VM_DataBox>(); } set { SetValue(value); } }
 
     }
 }

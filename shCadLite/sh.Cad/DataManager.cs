@@ -98,28 +98,32 @@ namespace sh.Cad
 
         public static void RemoveKey(ObjectId oid, string key)
         {
-            var layermanager = new LayerManager();
-            using (var tr = oid.Database.TransactionManager.StartTransaction())
+            var doc = Application.DocumentManager.MdiActiveDocument;
+            using (var l = doc.LockDocument())
             {
-                var ent = tr.GetObject(oid, OpenMode.ForRead) as Entity;
-                var layerid = ent.LayerId;
-                using (var layerlocker = layermanager.OpenLayer(tr, layerid))
+                var layermanager = new LayerManager();
+                using (var tr = oid.Database.TransactionManager.StartTransaction())
                 {
-                    var obj = tr.GetObject(oid, OpenMode.ForWrite);
-                    if (!obj.ExtensionDictionary.IsValid)
+                    var ent = tr.GetObject(oid, OpenMode.ForRead) as Entity;
+                    var layerid = ent.LayerId;
+                    using (var layerlocker = layermanager.OpenLayer(tr, layerid))
                     {
-                        //创建扩展字典
-                        return;
-                    }
+                        var obj = tr.GetObject(oid, OpenMode.ForWrite);
+                        if (!obj.ExtensionDictionary.IsValid)
+                        {
+                            //创建扩展字典
+                            return;
+                        }
 
 
-                    using (var objdict = (DBDictionary)tr.GetObject(obj.ExtensionDictionary, OpenMode.ForWrite, false))
-                    {
-                        //if(objdict.Contains(key))
-                        objdict.Remove(key);
+                        using (var objdict = (DBDictionary)tr.GetObject(obj.ExtensionDictionary, OpenMode.ForWrite, false))
+                        {
+                            //if(objdict.Contains(key))
+                            objdict.Remove(key);
+                        }
                     }
+                    tr.Commit();
                 }
-                tr.Commit();
             }
         }
 
