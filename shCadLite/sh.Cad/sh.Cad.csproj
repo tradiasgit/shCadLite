@@ -66,6 +66,7 @@
     <Compile Include="DataManager.cs" />
     <Compile Include="EntityInfo.cs" />
     <Compile Include="EntitySelection.cs" />
+    <Compile Include="HacthStyle.cs" />
     <Compile Include="IEntitySelectionListener.cs" />
     <Compile Include="LayerManager.cs" />
     <Compile Include="LayerStatesLocker.cs" />

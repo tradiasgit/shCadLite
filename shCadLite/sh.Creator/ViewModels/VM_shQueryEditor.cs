@@ -58,6 +58,8 @@ namespace sh.Creator.ViewModels
         {
             try
             {
+                HatchContext = null;
+
                 if (selection != null && selection.Count > 0)
                 {
                     Layers = new ObservableCollection<VM_Layer>(selection.Entitys.Select(ent => ent.LayerName).Distinct().Select(layer => new VM_Layer(layer)).OrderBy(vm => vm.LayerName));
@@ -74,6 +76,34 @@ namespace sh.Creator.ViewModels
                         Data.Add(vm);
                     }
                     Sum();
+
+
+                    if (selection.Count == 1)
+                    {
+                        var id = selection.ObjectIds[0];
+                        var db = HostApplicationServices.WorkingDatabase;
+                        using (var tr = db.TransactionManager.StartOpenCloseTransaction())
+                        {
+                            var ent = tr.GetObject(id, OpenMode.ForRead);
+                            if (ent.GetType() == typeof(Hatch))
+                            {
+                                var h = ent as Hatch;
+                                HatchContext = new VM_Hatch(new HacthStyle
+                                {
+                                    PatternAngle = h.PatternAngle,
+                                    PatternDouble = h.PatternDouble,
+                                    PatternName = h.PatternName,
+                                    PatternScale = h.PatternScale,
+                                    PatternSpace = h.PatternSpace,
+                                    PatternType = h.PatternType,
+                                    Associative=h.Associative,
+                                    HatchStyle=h.HatchStyle,
+                                    Origin=h.Origin
+                                });
+                            }
+                        }
+                    }
+
                 }
                 else
                 {
@@ -84,7 +114,7 @@ namespace sh.Creator.ViewModels
                     SumAreaText = "无选择";
                     SumLengthText = "无选择";
                 }
-                
+
             }
             catch (System.Exception ex)
             {
@@ -318,7 +348,7 @@ namespace sh.Creator.ViewModels
                 var result_ent = ed.SelectImplied();
 
 
-                if (result_ent.Status == PromptStatus.OK&&result_ent.Value.Count>0)
+                if (result_ent.Status == PromptStatus.OK && result_ent.Value.Count > 0)
                 {
                     SumAreaText = string.Format("{0:f2}平米", 0.000001 * SumArea(result_ent.Value.GetObjectIds()));
                     SumLengthText = string.Format("{0:f2}米", 0.001 * SumLength(result_ent.Value.GetObjectIds()));
@@ -404,12 +434,12 @@ namespace sh.Creator.ViewModels
                 {
                     //var dbmod = Application.GetSystemVariable("DBMOD");
                     var dwgtitled = Application.GetSystemVariable("DWGTITLED");
-                    if(Convert.ToInt16(dwgtitled)==0)
+                    if (Convert.ToInt16(dwgtitled) == 0)
                     {
                         ShowMessage("请保存图纸。");
                         return;
                     }
-                     
+
                     var doc = Application.DocumentManager.MdiActiveDocument;
                     var ed = Application.DocumentManager.MdiActiveDocument.Editor;
                     var db_source = HostApplicationServices.WorkingDatabase;
@@ -474,7 +504,7 @@ namespace sh.Creator.ViewModels
 
 
         #endregion
-     
+
         public ICommand Cmd_SaveAsQuery
         {
             get
@@ -539,7 +569,7 @@ namespace sh.Creator.ViewModels
                     }
             }
 
-            
+
             doc.AppendChild(root);
             foreach (var data in Data)
             {
@@ -566,7 +596,7 @@ namespace sh.Creator.ViewModels
             return doc;
         }
 
-       
+
         private XmlDocument GetBrushXmlDocument()
         {
             var doc = new XmlDocument();
@@ -613,7 +643,7 @@ namespace sh.Creator.ViewModels
                     dir = new DirectoryInfo($@"{dir.FullName}\support\brush");
                     dir.Create();
                     var op_file = new PromptSaveFileOptions("选择目标文件" + Environment.NewLine);
-                    op_file.InitialDirectory = $@"{dir.FullName}" ;
+                    op_file.InitialDirectory = $@"{dir.FullName}";
                     op_file.Filter = "笔刷配置文件 (*.xml)|*.xml";
 
                     var result_file = ed.GetFileNameForSave(op_file);
@@ -626,5 +656,16 @@ namespace sh.Creator.ViewModels
                 });
             }
         }
+
+
+
+
+
+
+
+
+        public VM_Hatch HatchContext { get { return GetValue<VM_Hatch>(); } set { SetValue(value); } }
+
+
     }
 }

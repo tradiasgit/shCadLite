@@ -29,10 +29,6 @@ namespace sh.Creator.Views
         public ViewModels.VM_shResourceBox ViewModel { get { return DataContext as ViewModels.VM_shResourceBox; } set { DataContext = value; } }
 
 
-        public Cad.PaletteConfig GetPaletteConfig()
-        {
-            return new Cad.PaletteConfig { Title = "资源盒子", View = this };
-        }
 
        
     }
