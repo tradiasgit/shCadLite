@@ -49,6 +49,9 @@
       <HintPath>C:\Program Files\Autodesk\AutoCAD 2016\acmgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -117,7 +120,7 @@
     <Compile Include="Views\UC_MultiSelectBox.xaml.cs">
       <DependentUpon>UC_MultiSelectBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UC_BudgetSheet.xaml.cs">
+    <Compile Include="Views\BudgetSheet\UC_BudgetSheet.xaml.cs">
       <DependentUpon>UC_BudgetSheet.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UC_SingleSelectBox.xaml.cs">
@@ -127,6 +130,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -146,7 +150,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UC_BudgetSheet.xaml">
+    <Page Include="Views\BudgetSheet\UC_BudgetSheet.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -181,6 +185,7 @@
       <Name>sh.UI.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

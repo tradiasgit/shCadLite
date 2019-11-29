@@ -52,6 +52,20 @@ namespace sh.Creator
                 Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog(ex.Message);
             }
         }
+
+        [CommandMethod("YuanSuanBiao")]
+        public static void YuSuanBiao()
+        {
+            try
+            {
+                var vm = new sh.Creator.ViewModels.VM_BudgetSheet();
+                vm.Show();
+            }
+            catch (System.Exception ex)
+            {
+                Autodesk.AutoCAD.ApplicationServices.Core.Application.ShowAlertDialog(ex.Message);
+            }
+        }
     }
 
 }
