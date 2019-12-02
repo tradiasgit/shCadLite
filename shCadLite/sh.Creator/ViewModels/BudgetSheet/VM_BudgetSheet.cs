@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Xml;
 
 namespace sh.Creator.ViewModels
@@ -21,9 +22,33 @@ namespace sh.Creator.ViewModels
 
         public void Show()
         {
-            var win = new Window();
-            win.Content = new UC_BudgetSheet();
+            var win = new Window { Content = new UC_BudgetSheet(), DataContext = this };
             win.Show();
+        }
+
+
+        public ICommand Cmd_AddGroup
+        {
+            get
+            {
+                return CommandFactory.RegisterCommand(p =>
+                {
+                    var vm = new VM_AddGroup();
+                    vm.Show();
+                });
+            }
+        }
+
+        public ICommand Cmd_EditGroup
+        {
+            get
+            {
+                return CommandFactory.RegisterCommand(p =>
+                {
+                    var vm = new VM_EditGroup();
+                    vm.Show();
+                });
+            }
         }
     }
 

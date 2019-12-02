@@ -63,6 +63,18 @@
         </Style>
     </UserControl.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Button Content="添加分组" Width="78" Height="38" FontSize="14" Margin="5,0,0,0"
+                    Command="{Binding Cmd_AddGroup}"></Button>
+            <Button Content="编辑分组" Width="78" Height="38" FontSize="14" Margin="10,0,0,0"
+                    Command="{Binding Cmd_EditGroup}"></Button>
+        </StackPanel>
+        
         <DataGrid x:Name="dgMain" Grid.Row="1" Style="{StaticResource DataGridStyle}" >
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="A" Width="150">
