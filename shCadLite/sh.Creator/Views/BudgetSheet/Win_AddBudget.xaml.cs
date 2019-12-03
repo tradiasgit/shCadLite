@@ -1,4 +1,7 @@
-﻿using System;
+﻿
+using Autodesk.AutoCAD.DatabaseServices;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +25,24 @@ namespace sh.Creator.Views
         public Win_AddBudget()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Title = "请选择文件";
+            dialog.Filter = "xml(*.xml)|*.xml";
+            dialog.InitialDirectory = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(HostApplicationServices.WorkingDatabase.Filename), @"support\brush");
+            var dialogResult = dialog.ShowDialog();
+            if (dialogResult.HasValue && dialogResult.Value)
+            {
+                txtExpression.Text = System.IO.Path.GetFileName(dialog.FileName);
+            }
         }
     }
 }
