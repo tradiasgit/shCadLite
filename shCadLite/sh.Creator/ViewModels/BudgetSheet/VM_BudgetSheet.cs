@@ -10,14 +10,14 @@ using System.Windows;
 using System.Windows.Input;
 using System.Xml;
 
-namespace sh.Creator.ViewModels
+namespace sh.Creator.ViewModels.BudgetSheet
 {
-    public class VM_BudgetSheet: ViewModelBase
+    public class VM_BudgetSheet : ViewModelBase
     {
         // 名称 工程量 金额 配置 string
         public VM_BudgetSheet()
         {
-            
+
         }
 
         public void Show()
@@ -27,6 +27,9 @@ namespace sh.Creator.ViewModels
         }
 
 
+        /// <summary>
+        /// 添加分组
+        /// </summary>
         public ICommand Cmd_AddGroup
         {
             get
@@ -39,6 +42,9 @@ namespace sh.Creator.ViewModels
             }
         }
 
+        /// <summary>
+        /// 编辑分组
+        /// </summary>
         public ICommand Cmd_EditGroup
         {
             get
@@ -50,41 +56,20 @@ namespace sh.Creator.ViewModels
                 });
             }
         }
+
+        /// <summary>
+        /// 添加预算
+        /// </summary>
+        public ICommand Cmd_AddBudget
+        {
+            get
+            {
+                return CommandFactory.RegisterCommand(p =>
+                {
+                    var vm = new VM_AddBudget();
+                    vm.Show();
+                });
+            }
+        }
     }
-
-    public class BudgetGroup
-    {
-        public string Name { get; set; }
-
-        /// <summary>
-        /// 预算
-        /// </summary>
-        public List<BudgetItem> BudgetItems { get; set; }
-    }
-
-    public class BudgetItem
-    {
-        public Guid ID { get; set; }
-
-        public string Name { get; set; }
-
-        /// <summary>
-        /// 工程量
-        /// </summary>
-        public double Quantities { get; set; }
-
-        /// <summary>
-        /// 表达式
-        /// </summary>
-        public string Expression { get; set; }
-
-        /// <summary>
-        /// 配置
-        /// </summary>
-        public string Configuration { get; set; }
-    }
-
-   
-
-
 }

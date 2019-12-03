@@ -11,14 +11,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace sh.Creator.ViewModels
+namespace sh.Creator.ViewModels.BudgetSheet
 {
     class VM_EditGroup:ViewModelBase
     {
-        
-
-        private string _path;
-
         private ObservableCollection <VM_BudgetGroup> _budgetGroups;
 
         public ObservableCollection<VM_BudgetGroup> BudgetGroups
@@ -53,17 +49,8 @@ namespace sh.Creator.ViewModels
 
         public VM_EditGroup()
         {
-            _path = Path.Combine(Path.GetDirectoryName(HostApplicationServices.WorkingDatabase.Filename), @"support\budgetsheet\budgetsheet.json");
-            if (!File.Exists(_path)) return;
-            try
-            {
-                var list = JsonConvert.DeserializeObject<List<BudgetGroup>>(File.ReadAllText(_path));
-                BudgetGroups = new ObservableCollection<VM_BudgetGroup>(list.Select(b => new VM_BudgetGroup(b)).ToList());
-            }
-            catch
-            {
-                BudgetGroups = new ObservableCollection<VM_BudgetGroup>();
-            }
+            var list = BudgetGroup.GetAll();
+            BudgetGroups = new ObservableCollection<VM_BudgetGroup>(list.Select(b => new VM_BudgetGroup(b)).ToList());
         }
 
         public void Show()
@@ -101,8 +88,10 @@ namespace sh.Creator.ViewModels
                     SelBudgetGroup.Name = Name;
                     Name = string.Empty;
                     SelBudgetGroup = null;
-                    File.WriteAllText(_path, JsonConvert.SerializeObject(BudgetGroups.Select(b => b.Model).ToList()));
-                    Message = "操作成功";
+                    if (BudgetGroup.SaveAll(BudgetGroups.Select(b => b.Model)))
+                        Message = "操作成功";
+                    else
+                        Message = "操作失败";
                 });
             }
         }

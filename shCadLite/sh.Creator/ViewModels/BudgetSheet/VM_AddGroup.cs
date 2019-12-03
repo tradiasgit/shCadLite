@@ -10,20 +10,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace sh.Creator.ViewModels
+namespace sh.Creator.ViewModels.BudgetSheet
 {
-    class VM_AddGroup:ViewModelBase
+    class VM_AddGroup : ViewModelBase
     {
         private List<BudgetGroup> _budgetGroupList;
-
-        private string _path;
 
         private string _name;
 
         public string Name
         {
             get { return _name; }
-            set { _name = value;RaisePropertyChanged(); }
+            set { _name = value; RaisePropertyChanged(); }
         }
 
         private string _message;
@@ -37,16 +35,7 @@ namespace sh.Creator.ViewModels
 
         public VM_AddGroup()
         {
-            _path = Path.Combine(Path.GetDirectoryName(HostApplicationServices.WorkingDatabase.Filename), @"support\budgetsheet\budgetsheet.json");
-            if (!File.Exists(_path)) return;
-            try
-            {
-                _budgetGroupList = JsonConvert.DeserializeObject<List<BudgetGroup>>(File.ReadAllText(_path));
-            }
-            catch
-            {
-                _budgetGroupList = new List<BudgetGroup>();
-            }
+            _budgetGroupList = BudgetGroup.GetAll();
         }
 
         public void Show()
@@ -61,19 +50,21 @@ namespace sh.Creator.ViewModels
             {
                 return CommandFactory.RegisterCommand(p =>
                 {
-                    if(string.IsNullOrEmpty(Name))
+                    if (string.IsNullOrEmpty(Name))
                     {
                         Message = "名字没有填写";
                         return;
                     }
-                    if(_budgetGroupList.Exists(g=>g.Name==Name))
+                    if (_budgetGroupList.Exists(g => g.Name == Name))
                     {
                         Message = "名字重复";
                         return;
                     }
                     _budgetGroupList.Add(new BudgetGroup { Name = Name });
-                    File.WriteAllText(_path, JsonConvert.SerializeObject(_budgetGroupList));
-                    Message = "操作成功";
+                    if (BudgetGroup.SaveAll(_budgetGroupList))
+                        Message = "操作成功";
+                    else
+                        Message = "操作失败";
                 });
             }
         }
