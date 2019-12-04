@@ -37,7 +37,7 @@ namespace sh.Creator.Views
             var dialog = new OpenFileDialog();
             dialog.Title = "请选择文件";
             dialog.Filter = "xml(*.xml)|*.xml";
-            dialog.InitialDirectory = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(HostApplicationServices.WorkingDatabase.Filename), @"support\brush");
+            dialog.InitialDirectory = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(HostApplicationServices.WorkingDatabase.Filename), @"support\field");
             var dialogResult = dialog.ShowDialog();
             if (dialogResult.HasValue && dialogResult.Value)
             {

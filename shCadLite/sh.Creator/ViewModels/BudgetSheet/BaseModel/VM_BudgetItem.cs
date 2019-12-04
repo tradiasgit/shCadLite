@@ -27,14 +27,16 @@ namespace sh.Creator.ViewModels.BudgetSheet
             set { Model.Name = value; RaisePropertyChanged(); }
         }
 
+        private string _quantitieString;
         /// <summary>
         /// 工程量
         /// </summary>
-        public double Quantities
+        public string QuantitieString
         {
-            get { return Model.Quantities; }
-            set { Model.Quantities = value; RaisePropertyChanged(); }
+            get { return _quantitieString; }
+            set { _quantitieString = value; RaisePropertyChanged(); }
         }
+
 
         /// <summary>
         /// 表达式
@@ -54,6 +56,15 @@ namespace sh.Creator.ViewModels.BudgetSheet
             set { Model.Configuration = value; RaisePropertyChanged(); }
         }
 
+        private string  _groupName;
+
+        public string GroupName
+        {
+            get { return _groupName; }
+            set { _groupName = value;RaisePropertyChanged(); }
+        }
+
+
         public VM_BudgetItem(BudgetItem model)
         {
             Model = model;
@@ -69,7 +80,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
         /// <summary>
         /// 工程量
         /// </summary>
-        public double Quantities { get; set; }
+        //public double Quantities { get; set; }
 
         /// <summary>
         /// 表达式

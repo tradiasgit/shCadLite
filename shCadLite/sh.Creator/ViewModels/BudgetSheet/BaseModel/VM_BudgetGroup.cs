@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using sh.UI.Common.MVVM;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -18,9 +19,25 @@ namespace sh.Creator.ViewModels.BudgetSheet
             set { Model.Name = value; RaisePropertyChanged(); }
         }
 
+        private ObservableCollection<VM_BudgetItem> _budgetItemss;
+
+        public ObservableCollection<VM_BudgetItem> BudgetItemss
+        {
+            get { return _budgetItemss; }
+            set { _budgetItemss = value; RaisePropertyChanged(); }
+        }
+
         public VM_BudgetGroup(BudgetGroup model)
         {
             Model = model;
+            if (model.BudgetItems==null)
+            {
+                BudgetItemss = new ObservableCollection<VM_BudgetItem>();
+            }
+            else
+            {
+                BudgetItemss = new ObservableCollection<VM_BudgetItem>(model.BudgetItems.Select(b => new VM_BudgetItem(b)).ToList());
+            }
         }
     }
 

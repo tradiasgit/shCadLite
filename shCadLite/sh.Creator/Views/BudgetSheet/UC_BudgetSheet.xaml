@@ -61,6 +61,21 @@
             </Style.Triggers>
 
         </Style>
+
+        <Style x:Key="GroupHeaderStyle" TargetType="{x:Type GroupItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GroupItem}" >
+                        <Expander IsExpanded="True" Background="#F2F2F2">
+                            <Expander.Header>
+                                <TextBlock FontSize="14" Text="{Binding Path=Name}"/>
+                            </Expander.Header>
+                            <ItemsPresenter  />
+                        </Expander>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -75,35 +90,41 @@
                     Command="{Binding Cmd_EditGroup}"></Button>
             <Button Content="添加预算" Width="78" Height="38" FontSize="14" Margin="10,0,0,0"
                     Command="{Binding Cmd_AddBudget}"></Button>
+            
+            <Button Content="计算工程量" Width="78" Height="38" FontSize="14" Margin="10,0,0,0"
+                    Command="{Binding Cmd_Calculate}"></Button>
         </StackPanel>
         
-        <DataGrid x:Name="dgMain" Grid.Row="1" Style="{StaticResource DataGridStyle}" >
+        <DataGrid x:Name="dgMain" Grid.Row="1" Style="{StaticResource DataGridStyle}" 
+                  ItemsSource="{Binding BudgetItems}">
+            <DataGrid.GroupStyle>
+                <GroupStyle ContainerStyle="{StaticResource GroupHeaderStyle}" >
+                    <GroupStyle.Panel>
+                        <ItemsPanelTemplate>
+                            <DataGridRowsPresenter />
+                        </ItemsPanelTemplate>
+                    </GroupStyle.Panel>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="A" Width="150">
+                <DataGridTemplateColumn Header="名称" Width="150">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding C1}" ></TextBox>
+                            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding Name}" ></TextBox>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="B" Width="150">
+                <DataGridTemplateColumn Header="工程量" Width="150">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding C2}" ></TextBox>
+                            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding QuantitieString}" ></TextBox>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="C" Width="150">
+                <DataGridTemplateColumn Header="配置" Width="150">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding C3}" ></TextBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="D" Width="150">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBox IsReadOnly="True" BorderThickness="0" TextWrapping="Wrap" Text="{Binding C4}" Margin="0,2,0,2"></TextBox>
+                            <TextBox IsReadOnly="True" BorderThickness="0" TextWrapping="Wrap" Text="{Binding Configuration}" Margin="0,2,0,2"></TextBox>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
