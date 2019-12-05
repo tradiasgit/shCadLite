@@ -20,6 +20,7 @@ namespace sh.Creator
             try
             {
                 Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage($"【山河软件】创造者插件已加载({Assembly.GetExecutingAssembly().GetName().Version.ToString()},Location:{Assembly.GetExecutingAssembly().Location})" + Environment.NewLine);
+                sh.Cad.EventManager.Start();
                 CadCommands.Query();
             } 
             catch (System.Exception ex)

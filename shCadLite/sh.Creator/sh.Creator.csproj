@@ -82,20 +82,20 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewModels\VM_BudgetSheet.cs" />
-    <Compile Include="ViewModels\VM_CadPart.cs" />
     <Compile Include="ViewModels\VM_Data.cs" />
-    <Compile Include="ViewModels\VM_DataBox_Multi.cs" />
     <Compile Include="ViewModels\VM_MultiSelectBox.cs" />
     <Compile Include="ViewModels\VM_SingleSelectBox.cs" />
     <Compile Include="ViewModels\VM_LayerBox.cs" />
     <Compile Include="ViewModels\VM_DataBox.cs" />
-    <Compile Include="ViewModels\VM_Brush.cs" />
-    <Compile Include="ViewModels\VM_Field.cs" />
     <Compile Include="ViewModels\VM_HatchBox.cs" />
     <Compile Include="ViewModels\VM_Layer.cs" />
     <Compile Include="ViewModels\VM_shResourceBox.cs" />
     <Compile Include="ViewModels\VM_shQueryEditor.cs" />
     <Compile Include="ViewModels\VM_shTagEditor.cs" />
+    <Compile Include="ViewModels\VM_TreeCadBrush.cs" />
+    <Compile Include="ViewModels\VM_TreeCadPart.cs" />
+    <Compile Include="ViewModels\VM_TreeFolder.cs" />
+    <Compile Include="ViewModels\VM_TreeItem.cs" />
     <Compile Include="Views\shQueryEditor.xaml.cs">
       <DependentUpon>shQueryEditor.xaml</DependentUpon>
     </Compile>

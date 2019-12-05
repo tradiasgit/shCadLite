@@ -1,4 +1,5 @@
-﻿using sh.UI.Common.MVVM;
+﻿using Autodesk.AutoCAD.DatabaseServices;
+using sh.UI.Common.MVVM;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,34 +11,35 @@ using System.Xml;
 
 namespace sh.Creator.ViewModels
 {
-    public class VM_Brush:ViewModelBase
+    class VM_TreeCadBrush : VM_TreeItem
     {
-        public string Title { get; set; }
 
         public string Value { get; set; }
 
-        public VM_Brush(FileInfo f)
+        public VM_TreeCadBrush(FileInfo f)
         {
             var doc = new XmlDocument();
             doc.Load(f.FullName);
-            Brush = new XmlResourcesParsing.Models.BrushAction(doc.DocumentElement);
-            Title = f.Name;
-
+            Text = f.Name;
+            Brush = new Cad.EntityConfig(f);
         }
 
 
-        public ICommand Cmd_Brush
+        public ICommand Command
         {
             get
             {
-                return CommandFactory.RegisterCommand(p=>
+                return CommandFactory.RegisterCommand(p =>
                 {
-                    Brush.Execute();
+                    Brush.Brush();
                 });
             }
         }
 
 
-        public XmlResourcesParsing.Models.BrushAction Brush { get; set; }
+        public sh.Cad.EntityConfig Brush { get; set; }
+
+       
+        
     }
 }

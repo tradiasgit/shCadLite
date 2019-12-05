@@ -23,10 +23,10 @@ namespace sh.Creator.Views
         public shQueryEditor()
         {
             InitializeComponent();
-            ViewModel = ViewModels.VM_shQueryEditor.Instance;
+           // ViewModel = ViewModels.VM_shQueryEditor.Instance;
         }
 
-        public ViewModels.VM_shQueryEditor ViewModel { get { return DataContext as ViewModels.VM_shQueryEditor; } set { DataContext = value; } }
+        //public ViewModels.VM_shQueryEditor ViewModel { get { return DataContext as ViewModels.VM_shQueryEditor; } set { DataContext = value; } }
 
 
     

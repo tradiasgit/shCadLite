@@ -59,7 +59,7 @@
 
         </ResourceDictionary>
     </UserControl.Resources>
-    <Expander Header="{Binding TypeName}" IsExpanded="True">
+    <Expander Header="{Binding TypeName}" IsExpanded="True"  Visibility="{Binding IsVisible,Converter={StaticResource BoolVisibilityConvertor},ConverterParameter=Collapsed}">
         <StackPanel>
             <sh:LabelContentControl Header="长度">
                 <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding LengthText}" ></TextBlock>
@@ -69,6 +69,17 @@
             </sh:LabelContentControl>          
             <sh:LabelContentControl Header="图层">
                 <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding LayerName}" ></TextBlock>
+            </sh:LabelContentControl>
+            <sh:LabelContentControl Header="保存">
+                <Grid>
+                    <ComboBox Margin="0,0,30,0" SelectedItem="{Binding ValueTypeText}">
+                        <ComboBoxItem>数量</ComboBoxItem>
+                        <ComboBoxItem>长度</ComboBoxItem>
+                        <ComboBoxItem>面积</ComboBoxItem>
+                    </ComboBox>
+                    <Button Width="30" HorizontalAlignment="Right"  Command="{Binding Cmd_SaveAs}" Content="Save"></Button>
+                </Grid>
+               
             </sh:LabelContentControl>
         </StackPanel>
     </Expander>

@@ -5,128 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:sh.Creator.Views"
              xmlns:sh="clr-namespace:sh.UI.Common;assembly=sh.UI.Common"
+             xmlns:vm="clr-namespace:sh.Creator.ViewModels"
              mc:Ignorable="d"   Background="#fff0f0f0" Padding="10"
              d:DesignHeight="640" d:DesignWidth="320">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/sh.UI.Common;component/Theme_AutoCAD.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/sh.UI.Common;component/Themes/Styles/ToggleButton_Switch.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-            <Style TargetType="TextBox">
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-            </Style>
-            <Style TargetType="ComboBox">
-                <Setter Property="BorderThickness" Value="0"/>
-            </Style>
-            <Style TargetType="TextBlock" x:Key="txtFieldHeader">
-                <Setter Property="Margin" Value="5,0,0,0"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-            </Style>
-            <Style TargetType="ListBoxItem" x:Key="listitem1">
-                <Setter Property="Height" Value="20" />
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-                <Setter Property="Margin" Value="0"/>
-                <Setter Property="Padding" Value="0"/>
-                <Setter Property="FontSize" Value="12"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="ListBoxItem">
-                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" TextBlock.Foreground="{TemplateBinding Foreground}"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-                <Style.Triggers>
-                    <Trigger Property="IsSelected" Value="true">
-                        <Setter Property="Background" Value="#ff3399ff"/>
-                        <Setter Property="Foreground" Value="White"/>
-                    </Trigger>
-                    <Trigger Property="IsMouseOver" Value="true">
-                        <Setter Property="Background" Value="#ffe5f1fb"/>
-                        <Setter Property="Foreground" Value="Black"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-
-        </ResourceDictionary>
-    </UserControl.Resources>
     <ScrollViewer>
     <StackPanel x:Name="root">
-
-        <Grid Margin="5,0,5,5">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-
-            <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                <TextBlock VerticalAlignment="Center">自动拾取</TextBlock>
-                <ToggleButton  Margin="5,0" Style="{StaticResource Switch}" IsChecked="{Binding IsAutoPickUp}"></ToggleButton>
-            </StackPanel>
-
-            <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-                <Button Margin="5,0,0,0" Command="{Binding Cmd_PickFromSelection}" ToolTip="从选择集中推断">
-                    <sh:FontIcon Icon="EyeDropper"></sh:FontIcon>
-                </Button>
-                <Button Margin="5,0,0,0" Command="{Binding Cmd_Refresh}">
-                    <sh:FontIcon Icon="Refresh" ></sh:FontIcon>
-                </Button>
-                <sh:DropDownMenuButton Margin="5,0,0,0">
-                    <sh:FontIcon Icon="FaFloppyO" ></sh:FontIcon>
-                    <sh:DropDownMenuButton.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="保存为Cad部件" Command="{Binding Cmd_SaveAs}">
-                                <MenuItem.Icon>
-                                    <sh:FontIcon Icon="FaFloppyO" ></sh:FontIcon>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="保存为快速笔刷" Command="{Binding Cmd_SaveAsBrush}">
-                                <MenuItem.Icon>
-                                    <sh:FontIcon Icon="Brush" ></sh:FontIcon>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="保存为图形过滤器">
-                                <MenuItem Header="按数量" Command="{Binding Cmd_SaveAsQuery}" CommandParameter="Count">
-                                    <MenuItem.Icon>
-                                        <sh:FontIcon Icon="Filter" ></sh:FontIcon>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <MenuItem Header="按长度" Command="{Binding Cmd_SaveAsQuery}" CommandParameter="SumLength">
-                                    <MenuItem.Icon>
-                                        <sh:FontIcon Icon="Filter" ></sh:FontIcon>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                                <MenuItem Header="按面积" Command="{Binding Cmd_SaveAsQuery}" CommandParameter="SumArea">
-                                    <MenuItem.Icon>
-                                        <sh:FontIcon Icon="Filter" ></sh:FontIcon>
-                                    </MenuItem.Icon>
-                                </MenuItem>
-                            </MenuItem>
-                           
-                        </ContextMenu>
-                    </sh:DropDownMenuButton.ContextMenu>
-                </sh:DropDownMenuButton>
-            </StackPanel>
-
-        </Grid>
-
-
-
-            <local:UC_SingleSelectBox DataContext="{Binding SingleSelectBox}" Visibility="{Binding Converter={StaticResource NullVisibilityContertor}, ConverterParameter=Collapsed}"/>
-            <local:UC_MultiSelectBox DataContext="{Binding MultiSelectBox}" Visibility="{Binding Converter={StaticResource NullVisibilityContertor}, ConverterParameter=Collapsed}"/>
-            <local:UC_HatchBox DataContext="{Binding HatchBox}" Visibility="{Binding Converter={StaticResource NullVisibilityContertor}, ConverterParameter=Collapsed}"/>
-            <local:UC_DataBox DataContext="{Binding DataBox}" Visibility="{Binding Converter={StaticResource NullVisibilityContertor}, ConverterParameter=Collapsed}"/>
-            <local:UC_LayerBox  DataContext="{Binding LayerBox}" Visibility="{Binding Converter={StaticResource NullVisibilityContertor}, ConverterParameter=Collapsed}"/>            
-            
+            <Button Height="30" >asdads</Button>
+            <local:UC_SingleSelectBox/>
+            <local:UC_MultiSelectBox/>
+            <local:UC_HatchBox/>
+            <local:UC_DataBox/>
+            <local:UC_LayerBox/>
+            <local:shResourceBox/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

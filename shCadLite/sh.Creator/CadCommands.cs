@@ -36,7 +36,7 @@ namespace sh.Creator
                     psConfig.PaletteConfigs = new Dictionary<string, FrameworkElement>
                     {
                         {"选择集",  new Views.shQueryEditor() },
-                         {"资源盒子",  new Views.shResourceBox() },
+                         //{"资源盒子",  new Views.shResourceBox() },
                     };
                     var ps = new sh.Cad.PaletteSetManager();
 

@@ -23,6 +23,9 @@ namespace sh.Creator.Views
         public UC_DataBox()
         {
             InitializeComponent();
+            var vm = new ViewModels.VM_DataBox();
+            sh.Cad.EventManager.RegisterSelectionListener(vm);
+            this.DataContext = vm;
         }
     }
 }

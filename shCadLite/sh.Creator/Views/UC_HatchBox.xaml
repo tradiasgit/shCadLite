@@ -18,7 +18,7 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Expander Header="图案" IsExpanded="True">
+    <Expander Header="图案" IsExpanded="True"  Visibility="{Binding IsVisible,Converter={StaticResource BoolVisibilityConvertor},ConverterParameter=Collapsed}">
         <StackPanel>
             <sh:LabelContentControl Header="类型">
                 <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding PatternType}" ></TextBlock>

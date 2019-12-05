@@ -16,77 +16,78 @@ using System.Xml;
 
 namespace sh.Creator.ViewModels
 {
-    public class VM_shResourceBox : ViewModelBase
+    public class VM_shResourceBox : ViewModelBase, IEntitySelectionListener
     {
 
-        private static VM_shResourceBox _Instance;
-        public static VM_shResourceBox Instance
+        public VM_shResourceBox()
         {
-            get
-            {
-                if (_Instance == null) _Instance = new VM_shResourceBox();
-                return _Instance;
-            }
+            IsVisible = true;
         }
 
-
-
-        private VM_shResourceBox()
-        {
-            LoadCadParts();
-            LoadFields();
-            LoadBrush();
-        }
+        public bool IsVisible { get { return GetValue<bool>(); } set { SetValue(value); } }
+        public ObservableCollection<VM_TreeItem> ResourceTree { get { return GetValue<ObservableCollection<VM_TreeItem>>(); } set { SetValue(value); } }
 
 
 
-        private void LoadCadParts()
+        private void Load()
         {
             var db_source = HostApplicationServices.WorkingDatabase;
             var dir = new FileInfo(db_source.OriginalFileName).Directory;
-            dir = new DirectoryInfo($@"{dir.FullName}\support\dwg");
-            if (dir.Exists)
-            {
-                CadParts = new ObservableCollection<VM_CadPart>(dir.GetFiles().Where(f => f.Extension.ToLower() == ".dwg" && !f.Name.ToLower().EndsWith("_recover.dwg")).Select(f => new VM_CadPart(f)));
-            }
+            dir = new DirectoryInfo($@"{dir.FullName}\support");
+            ResourceTree = new ObservableCollection<VM_TreeItem>(LoadFromDir(dir));
         }
-        private void LoadFields()
+
+        private IEnumerable<VM_TreeItem> LoadFromDir(DirectoryInfo dir)
         {
-            var db_source = HostApplicationServices.WorkingDatabase;
-            var dir = new FileInfo(db_source.OriginalFileName).Directory;
-            dir = new DirectoryInfo($@"{dir.FullName}\support\field");
+            var result = new List<VM_TreeItem>();
             if (dir.Exists)
             {
-                Fields = new ObservableCollection<VM_Field>(dir.GetFiles().Where(f => f.Extension.ToLower() == ".xml").Select(f => new VM_Field(f)));
+                foreach (var cd in dir.GetDirectories())
+                {
+                    var vmcd = new VM_TreeFolder() { Text = cd.Name };
+                    vmcd.Children = new ObservableCollection<VM_TreeItem>(LoadFromDir(cd));
+                    vmcd.IsExpanded = vmcd.Children.Count > 0;
+                    result.Add(vmcd);
+                }
+                foreach (var cf in dir.GetFiles())
+                {
+                    if (cf.Extension.ToLower() == ".ecx")
+                    {
+                        var doc = new XmlDocument();
+                        doc.Load(cf.FullName);
+                        if (doc.DocumentElement.Name == "EntityConfig")
+                        {
+                            var vmcf = new VM_TreeCadBrush(cf);
+                            result.Add(vmcf);
+                        }
+                    }
+                    else if (cf.Extension.ToLower() == ".dwg" && !cf.Name.ToLower().EndsWith("_recover.dwg"))
+                    {
+                        var vmcf = new VM_TreeCadPart(cf);
+                        result.Add(vmcf);
+                    }
+                }
             }
+            return result;
         }
 
-        private void LoadBrush()
+
+        public void OnSelectionChanged(EntitySelection selection)
         {
-            var db_source = HostApplicationServices.WorkingDatabase;
-            var dir = new FileInfo(db_source.OriginalFileName).Directory;
-            dir = new DirectoryInfo($@"{dir.FullName}\support\brush");
-            if (dir.Exists)
+            IsVisible = false;
+            if (selection == null || selection.Count == 0)
             {
-                Brushes = new ObservableCollection<VM_Brush>(dir.GetFiles().Where(f => f.Extension.ToLower() == ".xml").Select(f => new VM_Brush(f)));
+                IsVisible = true;
             }
         }
-
-        public ObservableCollection<VM_CadPart> CadParts { get { return GetValue<ObservableCollection<VM_CadPart>>(); } set { SetValue(value); } }
-
-
-
-        public ObservableCollection<VM_Field> Fields { get { return GetValue<ObservableCollection<VM_Field>>(); } set { SetValue(value); } }
-
-        public ObservableCollection<VM_Brush> Brushes { get { return GetValue<ObservableCollection<VM_Brush>>(); } set { SetValue(value); } }
+  
         public ICommand Cmd_Refresh
         {
             get
             {
                 return CommandFactory.RegisterCommand(p =>
                 {
-                    LoadCadParts();
-                    LoadFields(); LoadBrush();
+                    Load();
                 });
             }
         }

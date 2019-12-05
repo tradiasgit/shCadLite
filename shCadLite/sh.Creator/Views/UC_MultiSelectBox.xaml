@@ -59,17 +59,21 @@
 
         </ResourceDictionary>
     </UserControl.Resources>
-    <Expander Header="选择集" IsExpanded="True">
+    <Expander Header="选择集" IsExpanded="True"  Visibility="{Binding IsVisible,Converter={StaticResource BoolVisibilityConvertor},ConverterParameter=Collapsed}">
         <StackPanel>
             <sh:LabelContentControl Header="数量">
-                <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Count}" ></TextBlock>
+                <Grid>
+                    <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Count}" ></TextBlock>
+                    <Button Width="80" HorizontalAlignment="Right" Command="{Binding Cmd_SaveAs}">保存为团组</Button>
+                </Grid>
             </sh:LabelContentControl>
             <sh:LabelContentControl Header="长度">
                 <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding LengthText}" ></TextBlock>
             </sh:LabelContentControl>
             <sh:LabelContentControl Header="面积">
                 <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding AreaText}" ></TextBlock>
-            </sh:LabelContentControl>          
+            </sh:LabelContentControl>      
+            
         </StackPanel>
     </Expander>
 </UserControl>

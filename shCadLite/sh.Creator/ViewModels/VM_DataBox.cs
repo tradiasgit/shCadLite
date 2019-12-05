@@ -14,17 +14,11 @@ using System.Windows.Input;
 
 namespace sh.Creator.ViewModels
 {
-    public class VM_DataBox:ViewModelBase
+    public class VM_DataBox:ViewModelBase, IEntitySelectionListener
     {
         EntityInfo Info;
 
-        public VM_DataBox(EntityInfo info)
-        {
-            Info = info;
-            var d = info.GetData();
-            Data = new ObservableCollection<VM_Data>(d.Select(p=>new VM_Data(p.Key,p.Value)).OrderBy(p=>p.Key));
-            NewData = new VM_Data();
-        }
+       
 
 
         public ObservableCollection<VM_Data> Data { get { return GetValue<ObservableCollection<VM_Data>>(); } set { SetValue(value); } }
@@ -59,6 +53,20 @@ namespace sh.Creator.ViewModels
             }
         }
 
+        public void OnSelectionChanged(EntitySelection selection)
+        {
+            IsVisible = false;
+            if (selection!=null&&selection.Count == 1)
+            {
+                Info = selection.GetEntity();
+                var d = Info.GetData();
+                Data = new ObservableCollection<VM_Data>(d.Select(p => new VM_Data(p.Key, p.Value)).OrderBy(p => p.Key));
+                NewData = new VM_Data();
+                IsVisible = true;
+            }
+        }
 
+
+        public bool IsVisible { get { return GetValue<bool>(); } set { SetValue(value); } }
     }
 }

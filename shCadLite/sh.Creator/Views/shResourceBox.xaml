@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:sh.Creator.Views"
+             xmlns:vm="clr-namespace:sh.Creator.ViewModels"
              xmlns:sh="clr-namespace:sh.UI.Common;assembly=sh.UI.Common"
              mc:Ignorable="d"  Background="#fff0f0f0" Padding="10"
              d:DesignHeight="640" d:DesignWidth="320">
@@ -58,7 +59,7 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    <StackPanel x:Name="root">
+    <StackPanel x:Name="root"  Visibility="{Binding IsVisible,Converter={StaticResource BoolVisibilityConvertor},ConverterParameter=Collapsed}">
 
         <Grid Margin="5,0,5,5">
             <Grid.RowDefinitions>
@@ -83,76 +84,27 @@
             </StackPanel>
 
         </Grid>
-
-
-        <Expander Header="Cad部件" IsExpanded="True">
+        <Expander Header="资源盒子" IsExpanded="True">
             <Border  BorderThickness="1,0" BorderBrush="#ff888888" Height="200"  Background="#fff0f0f0" Padding="0">
-                <DockPanel>
-                    <ListBox BorderThickness="0" ItemsSource="{Binding CadParts}"   ItemContainerStyle="{StaticResource listitem1}"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border x:Name="container" BorderThickness="1" BorderBrush="Transparent">
-                                    <Grid HorizontalAlignment="Stretch">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition></ColumnDefinition>
-                                            <ColumnDefinition Width="30" ></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock HorizontalAlignment="Left" Margin="10,0" Text ="{Binding}"></TextBlock>
-                                        <Button x:Name="btn" Visibility="Visible" HorizontalAlignment="Right" Style="{StaticResource icon_Button_noBorder}" Height="18" Width="18" Grid.Column="1" Command="{Binding Cmd_Import}">
-                                            <sh:FontIcon  Height="16" Width="16"  x:Name="s" Icon="Clone"></sh:FontIcon>
-                                        </Button>
-                                    </Grid>
-                                </Border>
-                                <!--<DataTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="btn" Property="Visibility" Value="Visible"/>
-                                    </Trigger>
-                                </DataTemplate.Triggers>-->
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ListBox>
-                </DockPanel>
+                <TreeView ItemsSource="{Binding ResourceTree}" x:Name="tree">
+                    <TreeView.Resources>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type vm:VM_TreeFolder}">
+                            <Label Content="{Binding Text}"></Label>
+                        </HierarchicalDataTemplate>
+                        <DataTemplate DataType="{x:Type vm:VM_TreeCadPart}">
+                            <Label Content="{Binding Text}"></Label>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type vm:VM_TreeCadBrush}">
+                            <Label Content="{Binding Text}"></Label>
+                        </DataTemplate>
+                    </TreeView.Resources>
+                </TreeView>
             </Border>
         </Expander>
-        <Expander Header="智能笔刷" IsExpanded="True" >
-            <Border  BorderThickness="1,0,1,1" BorderBrush="#ff888888" Height="100">
-                <ListBox BorderThickness="0" ItemsSource="{Binding Brushes}" ItemContainerStyle="{StaticResource listitem1}" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border x:Name="container" BorderThickness="1" BorderBrush="Transparent">
-                                <Grid HorizontalAlignment="Stretch">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition></ColumnDefinition>
-                                        <ColumnDefinition Width="30" ></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock HorizontalAlignment="Left" Margin="10,0" Text ="{Binding Title}"></TextBlock>
-                                    <Button HorizontalAlignment="Right" Style="{StaticResource icon_Button_noBorder}" Height="18" Width="18" Grid.Column="1" Command="{Binding Cmd_Brush}">
-                                        <sh:FontIcon  Height="16" Width="16"  x:Name="s" Icon="Brush" ></sh:FontIcon>
-                                    </Button>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ListBox>
+        <Expander DataContext="{Binding ElementName=tree, Path=SelectedItem}" Header="{Binding Text}" IsExpanded="True" Visibility="{Binding Converter={StaticResource NullVisibilityContertor}}">
+            <Border  BorderThickness="1,0" BorderBrush="#ff888888" Height="200"  Background="#fff0f0f0" Padding="0">
+                <Button Command="{Binding Command}">a</Button>
             </Border>
-        </Expander>
-        <Expander Header="统计" IsExpanded="True">
-            <ScrollViewer>
-                <ItemsControl Height="200" ItemsSource="{Binding Fields}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <sh:LabelContentControl Header="{Binding Title}">
-                                <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Value}" ></TextBlock>
-                            </sh:LabelContentControl>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
         </Expander>
     </StackPanel>
 </UserControl>

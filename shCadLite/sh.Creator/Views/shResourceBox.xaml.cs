@@ -23,13 +23,15 @@ namespace sh.Creator.Views
         public shResourceBox()
         {
             InitializeComponent();
-            ViewModel = ViewModels.VM_shResourceBox.Instance;
+            var vm =new ViewModels.VM_shResourceBox();
+            sh.Cad.EventManager.RegisterSelectionListener(vm);
+            DataContext = vm;
         }
 
-        public ViewModels.VM_shResourceBox ViewModel { get { return DataContext as ViewModels.VM_shResourceBox; } set { DataContext = value; } }
-
-
-
-       
+        private void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            //dynamic data  = ((TreeViewItem)sender)?.DataContext;
+            //data.Command?.Execute();
+        }
     }
 }

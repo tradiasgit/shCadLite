@@ -23,6 +23,9 @@ namespace sh.Creator.Views
         public UC_LayerBox()
         {
             InitializeComponent();
+            var vm = new ViewModels.VM_LayerBox();
+            sh.Cad.EventManager.RegisterSelectionListener(vm);
+            DataContext = vm;
         }
     }
 }

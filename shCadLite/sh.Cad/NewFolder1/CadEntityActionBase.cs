@@ -60,7 +60,7 @@ namespace sh.XmlResourcesParsing
             if (string.IsNullOrWhiteSpace(file)) return null;
             var dbfile = new FileInfo(HostApplicationServices.WorkingDatabase.OriginalFileName);
             List<string> locations = new List<string>();
-            locations.Add($@"{dbfile.DirectoryName}");
+            //locations.Add($@"{dbfile.DirectoryName}");
             locations.Add($@"{dbfile.DirectoryName}\support");
 
             var dotindex = file.LastIndexOf('.');

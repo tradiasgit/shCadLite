@@ -2,6 +2,7 @@
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
+using sh.Cad;
 using sh.UI.Common.MVVM;
 using System;
 using System.Collections.Generic;
@@ -13,16 +14,11 @@ using System.Windows.Input;
 
 namespace sh.Creator.ViewModels
 {
-    public class VM_LayerBox:ViewModelBase
+    public class VM_LayerBox:ViewModelBase,sh.Cad.IEntitySelectionListener
     {
-        public VM_LayerBox()
-        {
-            Layers = new ObservableCollection<VM_Layer>();
-        }
 
         public ObservableCollection<VM_Layer> Layers { get { return GetValue<ObservableCollection<VM_Layer>>(); } set { SetValue(value); } }
 
-        public VM_Layer SelectedLayer { get { return GetValue<VM_Layer>(); } set { SetValue(value); } }
 
         public ICommand Cmd_RemoveLayer
         {
@@ -37,7 +33,16 @@ namespace sh.Creator.ViewModels
             }
         }
 
+        public void OnSelectionChanged(EntitySelection selection)
+        {
+            IsVisible = false;
+            if (selection != null && selection.Count > 1)
+            {
+                Layers = new ObservableCollection<VM_Layer>(selection.GetEntityies().Select(p=>p.LayerName).Distinct().Select(p=>new VM_Layer(p)).OrderBy(p => p.LayerName));
+                IsVisible = true;
+            }
+        }
 
-
+        public bool IsVisible { get { return GetValue<bool>(); } set { SetValue(value); } }
     }
 }

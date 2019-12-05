@@ -9,23 +9,17 @@ using System.Windows.Input;
 
 namespace sh.Creator.ViewModels
 {
-    public class VM_CadPart:ViewModelBase
+    class VM_TreeCadPart: VM_TreeItem
     {
 
-        public VM_CadPart(FileInfo f)
+        public VM_TreeCadPart(FileInfo f)
         {
             File = f;
+            Text = File.Name;
         }
         public FileInfo File { get; set; }
 
-        public override string ToString()
-        {
-            return File.Name;
-        }
-
-
-
-        public ICommand Cmd_Import
+        public ICommand Command
         {
             get
             {
@@ -37,6 +31,5 @@ namespace sh.Creator.ViewModels
                 });
             }
         }
-
     }
 }

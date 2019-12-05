@@ -16,36 +16,43 @@ namespace sh.Cad
             if (result.Status == PromptStatus.OK && result.Value != null)
             {
                 ObjectIds = result.Value.GetObjectIds().ToList();
+                Count = ObjectIds.Count;
             }
         }
 
-        public int Count { get { return ObjectIds.Count; } }
-       
+        public EntitySelection()
+        {
+        }
 
-        public List<ObjectId> ObjectIds { get; private set; } = new List<ObjectId>();
+        public int Count { get; set; }
+
+
+        private List<ObjectId> ObjectIds { get; set; } = new List<ObjectId>();
+
+        public EntityInfo GetEntity()
+        {
+            return GetEntityies()?[0];
+        }
 
 
         List<EntityInfo> _entitys;
-        public List<EntityInfo> Entitys
+        public List<EntityInfo> GetEntityies()
         {
-            get
+            if (_entitys == null && ObjectIds.Count > 0)
             {
-                if (_entitys == null && ObjectIds.Count > 0)
+                _entitys = new List<EntityInfo>();
+                var db = HostApplicationServices.WorkingDatabase;
+                _entitys.Clear();
+                using (var tr = db.TransactionManager.StartOpenCloseTransaction())
                 {
-                    _entitys = new List<EntityInfo>();
-                    var db = HostApplicationServices.WorkingDatabase;
-                    _entitys.Clear();
-                    using (var tr = db.TransactionManager.StartOpenCloseTransaction())
+                    foreach (var oid in ObjectIds)
                     {
-                        foreach (var oid in ObjectIds)
-                        {
-                            var ent =new EntityInfo( tr.GetObject(oid, OpenMode.ForRead) as Entity);
-                            _entitys.Add(ent);
-                        }
+                        var ent = new EntityInfo(tr.GetObject(oid, OpenMode.ForRead) as Entity);
+                        _entitys.Add(ent);
                     }
                 }
-                return _entitys;
             }
+            return _entitys;
         }
 
     }

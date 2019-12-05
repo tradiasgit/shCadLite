@@ -23,6 +23,9 @@ namespace sh.Creator.Views
         public UC_HatchBox()
         {
             InitializeComponent();
+            var vm = new ViewModels.VM_HatchBox();
+            sh.Cad.EventManager.RegisterSelectionListener(vm);
+            DataContext = vm;
         }
     }
 }

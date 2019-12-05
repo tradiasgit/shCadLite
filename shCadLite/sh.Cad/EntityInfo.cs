@@ -111,22 +111,21 @@ namespace sh.Cad
 
         public bool IsHatch { get { return ent.GetType() == typeof(Hatch); } }
 
-        public HacthStyle GetHatch()
+        public HacthConfig GetHatch()
         {
             if (IsHatch)
             {
                 var h = ent as Hatch;
-                return new HacthStyle
+                return new HacthConfig
                 {
                     PatternAngle = h.PatternAngle,
                     PatternDouble = h.PatternDouble,
                     PatternName = h.PatternName,
                     PatternScale = h.PatternScale,
                     PatternSpace = h.PatternSpace,
-                    PatternType = h.PatternType,
+                    PatternType = h.PatternType.ToString(),
                     Associative = h.Associative,
-                    HatchStyle = h.HatchStyle,
-                    Origin = h.Origin
+                    HatchStyle = h.HatchStyle.ToString(),
                 };
             }
             return null;

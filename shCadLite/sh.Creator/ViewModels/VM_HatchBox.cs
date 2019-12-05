@@ -1,4 +1,5 @@
 ﻿using Autodesk.AutoCAD.DatabaseServices;
+using sh.Cad;
 using sh.UI.Common.MVVM;
 using System;
 using System.Collections.Generic;
@@ -8,59 +9,72 @@ using System.Threading.Tasks;
 
 namespace sh.Creator.ViewModels
 {
-    public class VM_HatchBox : ViewModelBase
+    public class VM_HatchBox : ViewModelBase,IEntitySelectionListener
     {
-        public VM_HatchBox(sh.Cad.HacthStyle style)
-        {
-            PatternAngle = style.PatternAngle;
-            PatternDouble =style.PatternDouble ? "是" : "否";
-            PatternName = style.PatternName;
-            PatternScale = style.PatternScale;
-            PatternSpace = style.PatternSpace;
-            switch (style.PatternType) { case HatchPatternType.CustomDefined: PatternType = "自定义"; break; case HatchPatternType.PreDefined: PatternType = "预定义"; break; case HatchPatternType.UserDefined: PatternType = "用户定义"; break; }
-            switch (style.HatchStyle) { case Autodesk.AutoCAD.DatabaseServices.HatchStyle.Normal: HatchStyle = "普通"; break; case Autodesk.AutoCAD.DatabaseServices.HatchStyle.Outer: HatchStyle = "外部"; break; case Autodesk.AutoCAD.DatabaseServices.HatchStyle.Ignore: HatchStyle = "忽略"; break; }
-            Associative = style.Associative?"是":"否";
-            OriginX = style.Origin.X;
-            OriginY = style.Origin.Y;
-        }
-        public double PatternScale { get; set; } = 1;
-
+        public double PatternScale { get { return GetValue<double>(); } set { SetValue(value); } }
         /// <summary>
         /// 填充角度
         /// </summary>
-        public double PatternAngle { get; set; }
+        public double PatternAngle { get { return GetValue<double>(); } set { SetValue(value); } }
 
         /// <summary>
         /// Cad索引颜色，默认为7：白色，-1为ByLayer
         /// </summary>
-        public short ColorIndex { get; set; } = 7;
+        public short ColorIndex { get { return GetValue<short>(); } set { SetValue(value); } }
 
         /// <summary>
         /// CAD预设样式名称
         /// </summary>
-        public string PatternName { get; set; } = "SOLID";
+        public string PatternName { get { return GetValue<string>(); } set { SetValue(value); } }
 
-        public string HatchStyle { get; set; }
+        public string HatchStyle { get { return GetValue<string>(); } set { SetValue(value); } }
 
-        public string Associative { get; set; }
+        public string Associative { get { return GetValue<string>(); } set { SetValue(value); } }
 
         /// <summary>
         /// 类型
         /// </summary>
-        public string PatternType { get; set; }
+        public string PatternType { get { return GetValue<string>(); } set { SetValue(value); } }
 
         /// <summary>
         /// 间隙
         /// </summary>
-        public double PatternSpace { get; set; } = 1;
+        public double PatternSpace { get { return GetValue<double>(); } set { SetValue(value); } }
 
         /// <summary>
         /// 双向
         /// </summary>
-        public string PatternDouble { get; set; }
+        public string PatternDouble { get { return GetValue<string>(); } set { SetValue(value); } }
 
-        public double OriginX { get; set; }
+        public double OriginX { get { return GetValue<double>(); } set { SetValue(value); } }
 
-        public double OriginY { get; set; }
+        public double OriginY { get { return GetValue<double>(); } set { SetValue(value); } }
+
+        public bool IsVisible { get { return GetValue<bool>(); } set { SetValue(value); } }
+
+        public void OnSelectionChanged(EntitySelection selection)
+        {
+            IsVisible = false;
+            if (selection!=null&&selection.Count == 1)
+            {
+                var ent = selection.GetEntity();
+                if (ent.IsHatch)
+                {
+                    var style = ent.GetHatch();
+                    PatternAngle = style.PatternAngle;
+                    PatternDouble = style.PatternDouble ? "是" : "否";
+                    PatternName = style.PatternName;
+                    PatternScale = style.PatternScale;
+                    PatternSpace = style.PatternSpace;
+                    switch (style.PatternType) { case "CustomDefined": PatternType = "自定义"; break; case "PreDefined": PatternType = "预定义"; break; case "UserDefined": PatternType = "用户定义"; break; }
+                    switch (style.HatchStyle) { case "Normal": HatchStyle = "普通"; break; case "Outer": HatchStyle = "外部"; break; case "Ignore": HatchStyle = "忽略"; break; }
+                    Associative = style.Associative ? "是" : "否";
+                    IsVisible = true;
+                }
+            }
+        }
+
+
+       
     }
 }

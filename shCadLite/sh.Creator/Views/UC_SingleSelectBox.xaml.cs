@@ -23,6 +23,9 @@ namespace sh.Creator.Views
         public UC_SingleSelectBox()
         {
             InitializeComponent();
+            var vm = new ViewModels.VM_SingleSelectBox();
+            sh.Cad.EventManager.RegisterSelectionListener(vm);
+            DataContext = vm;
         }
     }
 }

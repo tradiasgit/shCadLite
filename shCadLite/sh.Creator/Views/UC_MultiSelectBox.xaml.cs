@@ -23,6 +23,9 @@ namespace sh.Creator.Views
         public UC_MultiSelectBox()
         {
             InitializeComponent();
+            var vm = new ViewModels.VM_MultiSelectBox();
+            sh.Cad.EventManager.RegisterSelectionListener(vm);
+            DataContext = vm;
         }
     }
 }
