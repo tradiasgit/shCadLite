@@ -49,6 +49,9 @@
       <HintPath>C:\Program Files\Autodesk\AutoCAD 2016\acmgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -81,7 +84,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\VM_BudgetSheet.cs" />
+    <Compile Include="ViewModels\BudgetSheet\VM_AddBudget.cs" />
+    <Compile Include="ViewModels\BudgetSheet\VM_AddGroup.cs" />
+    <Compile Include="ViewModels\BudgetSheet\BaseModel\VM_BudgetGroup.cs" />
+    <Compile Include="ViewModels\BudgetSheet\BaseModel\VM_BudgetItem.cs" />
+    <Compile Include="ViewModels\BudgetSheet\VM_BudgetSheet.cs" />
+    <Compile Include="ViewModels\BudgetSheet\VM_EditGroup.cs" />
+    <Compile Include="ViewModels\VM_CadPart.cs" />
     <Compile Include="ViewModels\VM_Data.cs" />
     <Compile Include="ViewModels\VM_MultiSelectBox.cs" />
     <Compile Include="ViewModels\VM_SingleSelectBox.cs" />
@@ -117,16 +126,26 @@
     <Compile Include="Views\UC_MultiSelectBox.xaml.cs">
       <DependentUpon>UC_MultiSelectBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UC_BudgetSheet.xaml.cs">
+    <Compile Include="Views\BudgetSheet\UC_BudgetSheet.xaml.cs">
       <DependentUpon>UC_BudgetSheet.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UC_SingleSelectBox.xaml.cs">
       <DependentUpon>UC_SingleSelectBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BudgetSheet\Win_AddGroup.xaml.cs">
+      <DependentUpon>Win_AddGroup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BudgetSheet\Win_EditGroup.xaml.cs">
+      <DependentUpon>Win_EditGroup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BudgetSheet\Win_AddBudget.xaml.cs">
+      <DependentUpon>Win_AddBudget.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -146,7 +165,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UC_BudgetSheet.xaml">
+    <Page Include="Views\BudgetSheet\UC_BudgetSheet.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -170,6 +189,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\BudgetSheet\Win_AddGroup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BudgetSheet\Win_EditGroup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BudgetSheet\Win_AddBudget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\sh.Cad\sh.Cad.csproj">
@@ -181,6 +212,7 @@
       <Name>sh.UI.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
