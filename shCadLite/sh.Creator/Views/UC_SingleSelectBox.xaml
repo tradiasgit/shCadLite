@@ -59,27 +59,44 @@
 
         </ResourceDictionary>
     </UserControl.Resources>
-    <Expander Header="{Binding TypeName}" IsExpanded="True"  Visibility="{Binding IsVisible,Converter={StaticResource BoolVisibilityConvertor},ConverterParameter=Collapsed}">
+    <Expander Header="{Binding EntityTypeText}" IsExpanded="True"  Visibility="{Binding IsVisible,Converter={StaticResource BoolVisibilityConvertor},ConverterParameter=Collapsed}">
         <StackPanel>
+            <sh:LabelContentControl Header="类型">
+                <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding EntityTypeText}" ></TextBlock>
+            </sh:LabelContentControl>
+            <sh:LabelContentControl Header="颜色">
+                <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.ColorIndex}" ></TextBlock>
+            </sh:LabelContentControl>
+            <sh:LabelContentControl Header="块名">
+                <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.BlockName}" ></TextBlock>
+            </sh:LabelContentControl>
+            <sh:LabelContentControl Header="图层">
+                <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.LayerName}" ></TextBlock>
+            </sh:LabelContentControl>
             <sh:LabelContentControl Header="长度">
                 <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding LengthText}" ></TextBlock>
             </sh:LabelContentControl>
             <sh:LabelContentControl Header="面积">
                 <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding AreaText}" ></TextBlock>
-            </sh:LabelContentControl>          
-            <sh:LabelContentControl Header="图层">
-                <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding LayerName}" ></TextBlock>
-            </sh:LabelContentControl>
+            </sh:LabelContentControl>   
+            <ItemsControl ItemsSource="{Binding Model.Data}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel></StackPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <sh:LabelContentControl Header="{Binding Key}">
+                            <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Value}" ></TextBlock>
+                        </sh:LabelContentControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
             <sh:LabelContentControl Header="保存">
                 <Grid>
-                    <ComboBox Margin="0,0,30,0" SelectedItem="{Binding ValueTypeText}">
-                        <ComboBoxItem>数量</ComboBoxItem>
-                        <ComboBoxItem>长度</ComboBoxItem>
-                        <ComboBoxItem>面积</ComboBoxItem>
-                    </ComboBox>
                     <Button Width="30" HorizontalAlignment="Right"  Command="{Binding Cmd_SaveAs}" Content="Save"></Button>
                 </Grid>
-               
             </sh:LabelContentControl>
         </StackPanel>
     </Expander>

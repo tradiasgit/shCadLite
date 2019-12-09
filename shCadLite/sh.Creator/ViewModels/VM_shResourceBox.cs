@@ -13,6 +13,7 @@ using System.IO;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using System.Xml;
+using Newtonsoft.Json;
 
 namespace sh.Creator.ViewModels
 {
@@ -51,13 +52,13 @@ namespace sh.Creator.ViewModels
                 }
                 foreach (var cf in dir.GetFiles())
                 {
-                    if (cf.Extension.ToLower() == ".ecx")
+                    if (cf.Extension.ToLower() == ".ecj")
                     {
-                        var doc = new XmlDocument();
-                        doc.Load(cf.FullName);
-                        if (doc.DocumentElement.Name == "EntityConfig")
+                        var info = JsonConvert.DeserializeObject<EntityInfo>(File.ReadAllText(cf.FullName));
+                        if (info != null)
                         {
-                            var vmcf = new VM_TreeCadBrush(cf);
+                            var text = cf.Name.TrimEnd(cf.Extension.ToArray());
+                            var vmcf = new VM_TreeEntityInfo(text,info);
                             result.Add(vmcf);
                         }
                     }
@@ -80,7 +81,7 @@ namespace sh.Creator.ViewModels
                 IsVisible = true;
             }
         }
-  
+
         public ICommand Cmd_Refresh
         {
             get

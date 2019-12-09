@@ -33,7 +33,7 @@ namespace sh.Creator.ViewModels
                 {
                     NewData.IsNew = true;
                     Data.Insert(0, NewData);
-                    Info.WriteData(NewData.Key, NewData.Value);
+                    sh.Cad.DataManager.WriteDictionary(Info.EntityHandle, new Dictionary<string, string> { { NewData.Key, NewData.Value } });
                     NewData = new VM_Data();
 
                 });
@@ -47,7 +47,7 @@ namespace sh.Creator.ViewModels
                 return CommandFactory.RegisterCommand(p =>
                 {
                     var data = p as VM_Data;
-                    Info.RemoveData(data.Key);
+                    sh.Cad.DataManager.RemoveKey(Info.EntityHandle, data.Key);
                     Data.Remove(data);
                 });
             }
@@ -59,7 +59,7 @@ namespace sh.Creator.ViewModels
             if (selection!=null&&selection.Count == 1)
             {
                 Info = selection.GetEntity();
-                var d = Info.GetData();
+                var d = Info.Data;
                 Data = new ObservableCollection<VM_Data>(d.Select(p => new VM_Data(p.Key, p.Value)).OrderBy(p => p.Key));
                 NewData = new VM_Data();
                 IsVisible = true;

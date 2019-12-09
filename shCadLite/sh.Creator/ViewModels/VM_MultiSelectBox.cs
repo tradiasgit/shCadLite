@@ -29,8 +29,8 @@ namespace sh.Creator.ViewModels
             if (selection != null && selection.Count > 1)
             {
                 var ents = selection.GetEntityies();
-                AreaText = string.Format("{0:f2}平米", 0.000001 * (ents.Sum(i => i.GetArea())));
-                LengthText = string.Format("{0:f2}米", 0.001 * (ents.Sum(i => i.GetLength())));
+                AreaText = string.Format("{0:f2}平米", 0.000001 * (ents.Sum(i => i.Area)));
+                LengthText = string.Format("{0:f2}米", 0.001 * (ents.Sum(i => i.Length)));
                 Count = selection.Count;
                 IsVisible = true;
             }

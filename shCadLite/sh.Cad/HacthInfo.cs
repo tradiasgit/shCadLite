@@ -9,9 +9,15 @@ using System.Xml;
 
 namespace sh.Cad
 {
-    public class HacthConfig
+    public class HacthInfo
     {
-
+        public override string ToString()
+        {
+            if (PatternType == "UserDefined") return $"用户定义:{PatternSpace}" + (PatternDouble ? "-双向" : "");
+            else if (PatternType == "CustomDefined") return $"自定义:{PatternName}";
+            else if (PatternType == "PreDefined") return $"预定义:{PatternName}";
+            else return "未知";
+        }
 
         public double PatternScale { get; set; } = 1;
 
@@ -59,9 +65,9 @@ namespace sh.Cad
             result.SetAttribute("PatternDouble", PatternDouble.ToString());
             return result;
         }
-        public HacthConfig()
+        public HacthInfo()
         { }
-        public HacthConfig(XmlElement ele)
+        public HacthInfo(XmlElement ele)
         {
             SetPropertyFromAttribute(this, ele, "PatternScale");
             SetPropertyFromAttribute(this, ele, "PatternAngle");

@@ -94,7 +94,7 @@
                         <DataTemplate DataType="{x:Type vm:VM_TreeCadPart}">
                             <Label Content="{Binding Text}"></Label>
                         </DataTemplate>
-                        <DataTemplate DataType="{x:Type vm:VM_TreeCadBrush}">
+                        <DataTemplate DataType="{x:Type vm:VM_TreeEntityInfo}">
                             <Label Content="{Binding Text}"></Label>
                         </DataTemplate>
                     </TreeView.Resources>
@@ -102,9 +102,14 @@
             </Border>
         </Expander>
         <Expander DataContext="{Binding ElementName=tree, Path=SelectedItem}" Header="{Binding Text}" IsExpanded="True" Visibility="{Binding Converter={StaticResource NullVisibilityContertor}}">
-            <Border  BorderThickness="1,0" BorderBrush="#ff888888" Height="200"  Background="#fff0f0f0" Padding="0">
-                <Button Command="{Binding Command}">a</Button>
-            </Border>
+            <StackPanel>
+                <local:UC_EntityInfo/>
+                <sh:LabelContentControl Header="笔刷">
+                    <Grid>
+                        <Button Width="30" HorizontalAlignment="Right"  Command="{Binding Cmd_Brush}" Content="Brush"></Button>
+                    </Grid>
+                </sh:LabelContentControl>
+            </StackPanel>
         </Expander>
     </StackPanel>
 </UserControl>

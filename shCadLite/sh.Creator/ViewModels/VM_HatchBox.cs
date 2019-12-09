@@ -58,9 +58,9 @@ namespace sh.Creator.ViewModels
             if (selection!=null&&selection.Count == 1)
             {
                 var ent = selection.GetEntity();
-                if (ent.IsHatch)
+                if (ent.Hatch!=null)
                 {
-                    var style = ent.GetHatch();
+                    var style = ent.Hatch;
                     PatternAngle = style.PatternAngle;
                     PatternDouble = style.PatternDouble ? "是" : "否";
                     PatternName = style.PatternName;

@@ -1,5 +1,7 @@
 ﻿using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,45 +11,78 @@ using System.Threading.Tasks;
 
 namespace sh.Cad
 {
+  
+
     public class EntityInfo
     {
-        private EntityInfo(ObjectId oid)
+        public string EntityTypeName { get;  set; }
+
+        public int ColorIndex { get; set; } = 256;
+
+        public string LayerName { get; set; }
+
+        public Dictionary<string, string> Data { get;  set; }
+
+        public HacthInfo Hatch { get;  set; }
+
+        public string BlockName { get;  set; }
+
+
+        public EntityInfo() { }
+
+
+
+
+
+
+
+        public static EntityInfo Get(Entity ent)
         {
-            _oid = oid;
-            var db = HostApplicationServices.WorkingDatabase;
-            using (var tr = db.TransactionManager.StartOpenCloseTransaction())
+            if (ent == null) return null;
+            EntityInfo result = new EntityInfo();
+            result.Data = new DataManager().ReadDictionary(ent);
+            result.EntityTypeName = ent.GetType().Name;
+            result.EntityHandle = ent.Handle.ToString();
+            result.ColorIndex = ent.ColorIndex;
+            result.LayerName = ent.Layer;
+            result.Area = GetArea(ent);
+            result.Length = GetLength(ent);
+            if (ent is Hatch)
             {
-                ent = tr.GetObject(_oid, OpenMode.ForRead) as Entity;
+                var h = ent as Hatch;
+                result.Hatch = new HacthInfo
+                {
+                    PatternAngle = h.PatternAngle,
+                    PatternDouble = h.PatternDouble,
+                    PatternName = h.PatternName,
+                    PatternScale = h.PatternScale,
+                    PatternSpace = h.PatternSpace,
+                    PatternType = h.PatternType.ToString(),
+                    Associative = h.Associative,
+                    HatchStyle = h.HatchStyle.ToString(),
+
+                };
             }
+            else if (ent is BlockReference)
+            {
+                var br = ent as BlockReference;
+                result.BlockName = br.Name;
+            }
+            return result;
         }
 
-        Entity ent;
+        [JsonIgnore]
+        public string EntityHandle { get;private set; }             
 
-        public EntityInfo(Entity ent)
+        [JsonIgnore]
+        public double? Area { get; private set; }
+
+        [JsonIgnore]
+        public double? Length { get; private set; }
+
+        private static double? GetArea(Entity ent)
         {
-            _oid = ent.ObjectId;
-            this.ent = ent;
-
-        }
-        private ObjectId _oid;
-
-        public string LayerName { get { return ent.Layer; } }
-        public string DxfName { get { return _oid.ObjectClass.DxfName; } }
-
-        public string ClassName { get { return _oid.ObjectClass.Name; } }
-
-        public string TypeName { get { return ent.GetType().Name; } }
-
-
-        public Dictionary<string, string> GetData()
-        {
-            var datamanger = new DataManager();
-            return datamanger.ReadDictionary(ent);
-        }
-
-        public double GetArea()
-        {
-            if (ent == null) return 0;
+            if (ent == null) return null;
             var prop = ent.GetType().GetProperty("Area");
             if (prop != null)
             {
@@ -55,20 +90,38 @@ namespace sh.Cad
                 {
                     return (double)prop.GetValue(ent);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage($@"1个对象获取面积失败：{ent.GetType().Name},{ex.Message}");
+                    return null;
                 }
             }
-            //WriteLine($"总面积:{value}{Environment.NewLine}");
-            return -1;
+            return null;
         }
 
-        public double GetLength()
+        private static  double? GetLength(Entity ent)
         {
-            if (ent == null) return 0;
-
-            if (ent is Mline) return GetMlineLength(ent);
+            if (ent == null) return null;
+            if (ent is Mline)
+            {
+                var ml = ent as Mline;
+                double length = 0;
+                if (ml == null) return length;
+                for (int i = 0; i < ml.NumberOfVertices; i++)
+                {
+                    Point3d pointS = ml.VertexAt(i);
+                    if (i < ml.NumberOfVertices - 1)
+                    {
+                        var pointE = ml.VertexAt(i + 1);
+                        length += pointS.DistanceTo(pointE);
+                    }
+                    else if (ml.IsClosed)
+                    {
+                        var pointE = ml.VertexAt(0);
+                        length += pointS.DistanceTo(pointE);
+                    }
+                }
+                return length;
+            }
             else
             {
                 var prop = ent.GetType().GetProperty("Length");
@@ -80,68 +133,98 @@ namespace sh.Cad
                     }
                     catch (Exception ex)
                     {
-                        Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage($@"1个对象获取长度失败：{ent.GetType().Name},{ex.Message}");
+                        return null;
                     }
                 }
-            }
-            return -1;
-        }
-        private double GetMlineLength(Entity ent)
-        {
-            var ml = ent as Mline;
-            double length = 0;
-            if (ml == null) return length;
-            for (int i = 0; i < ml.NumberOfVertices; i++)
-            {
-                Point3d pointS = ml.VertexAt(i);
-                if (i < ml.NumberOfVertices - 1)
-                {
-                    var pointE = ml.VertexAt(i + 1);
-                    length += pointS.DistanceTo(pointE);
-                }
-                else if (ml.IsClosed)
-                {
-                    var pointE = ml.VertexAt(0);
-                    length += pointS.DistanceTo(pointE);
-                }
-            }
-            return length;
-        }
-
-
-        public bool IsHatch { get { return ent.GetType() == typeof(Hatch); } }
-
-        public HacthConfig GetHatch()
-        {
-            if (IsHatch)
-            {
-                var h = ent as Hatch;
-                return new HacthConfig
-                {
-                    PatternAngle = h.PatternAngle,
-                    PatternDouble = h.PatternDouble,
-                    PatternName = h.PatternName,
-                    PatternScale = h.PatternScale,
-                    PatternSpace = h.PatternSpace,
-                    PatternType = h.PatternType.ToString(),
-                    Associative = h.Associative,
-                    HatchStyle = h.HatchStyle.ToString(),
-                };
             }
             return null;
         }
 
 
 
-        public void WriteData(string key, string value)
+
+
+
+
+
+
+
+
+
+        protected void OnExection(Exception ex)
         {
-            sh.Cad.DataManager.WriteDictionary(_oid, new Dictionary<string, string> { { key, value } });
+            Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage($"执行失败，{ex.Message}{Environment.NewLine}");
+
         }
 
-        public void RemoveData(string key)
+
+
+
+        public void Brush()
         {
-            sh.Cad.DataManager.RemoveKey(_oid, key);
+            try
+            {
+                while (DoBrush()) ;
+            }
+            catch (Exception ex)
+            {
+                OnExection(ex);
+            }
         }
+        private string BlockTableRecord { get; set; } = "*MODEL_SPACE";
+
+        private bool DoBrush()
+        {
+            try
+            {
+                var oid = ObjectId.Null;
+                var doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+                var db = HostApplicationServices.WorkingDatabase;
+                var ed = doc.Editor;
+                using (var l = doc.LockDocument())
+                {
+                    PromptEntityResult r;
+
+                    r = ed.DoPrompt(new PromptEntityOptions("选择目标对象或[设置(S)]", "s") { AllowObjectOnLockedLayer = true }) as PromptEntityResult;
+                    if (r.Status == PromptStatus.OK)
+                    {
+                        oid = r.ObjectId;
+                        using (var tr = db.TransactionManager.StartTransaction())
+                        {
+                            Entity ent = tr.GetObject(r.ObjectId, OpenMode.ForWrite) as Entity;
+                            ent.ColorIndex = ColorIndex;
+                            if (!string.IsNullOrWhiteSpace(LayerName))
+                            {
+                                LayerManager.SetLayer(db, ent, LayerName, true);
+                            }
+
+
+                            if (ent is Hatch && Hatch != null)
+                            {
+                                var h = ent as Hatch;
+                                Hatch.SetHatch(h);
+                            }
+                            tr.Commit();
+                            if (Data != null)
+                                DataManager.WriteDictionary(ent.Id, Data);
+                        }
+                        ed.WriteMessage(Environment.NewLine);
+                        return true;
+                    }
+                    else if (r.Status == PromptStatus.Keyword)
+                    {
+                        return true;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                OnExection(ex);
+            }
+            return false;
+        }
+
 
     }
 }

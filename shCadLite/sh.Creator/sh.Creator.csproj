@@ -90,7 +90,6 @@
     <Compile Include="ViewModels\BudgetSheet\BaseModel\VM_BudgetItem.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_BudgetSheet.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_EditGroup.cs" />
-    <Compile Include="ViewModels\VM_CadPart.cs" />
     <Compile Include="ViewModels\VM_Data.cs" />
     <Compile Include="ViewModels\VM_MultiSelectBox.cs" />
     <Compile Include="ViewModels\VM_SingleSelectBox.cs" />
@@ -101,7 +100,7 @@
     <Compile Include="ViewModels\VM_shResourceBox.cs" />
     <Compile Include="ViewModels\VM_shQueryEditor.cs" />
     <Compile Include="ViewModels\VM_shTagEditor.cs" />
-    <Compile Include="ViewModels\VM_TreeCadBrush.cs" />
+    <Compile Include="ViewModels\VM_TreeEntityInfo.cs" />
     <Compile Include="ViewModels\VM_TreeCadPart.cs" />
     <Compile Include="ViewModels\VM_TreeFolder.cs" />
     <Compile Include="ViewModels\VM_TreeItem.cs" />
@@ -116,6 +115,12 @@
     </Compile>
     <Compile Include="Views\UC_DataBox.xaml.cs">
       <DependentUpon>UC_DataBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UC_EntityConfig.xaml.cs">
+      <DependentUpon>UC_EntityConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UC_EntityInfo.xaml.cs">
+      <DependentUpon>UC_EntityInfo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UC_HatchBox.xaml.cs">
       <DependentUpon>UC_HatchBox.xaml</DependentUpon>
@@ -153,6 +158,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Themes\Cad2012.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\shQueryEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -170,6 +179,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UC_DataBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UC_EntityConfig.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UC_EntityInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

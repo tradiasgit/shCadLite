@@ -14,6 +14,7 @@ namespace sh.Cad
 
         public Dictionary<string, string> ReadDictionary(Entity ent)
         {
+            if (ent == null) throw new Exception("读取数据字典失败，ent为null");
             Dictionary<string, string> result = new Dictionary<string, string>();
             if (ent.ExtensionDictionary.IsNull) return result;
             using (var tr = ent.Database.TransactionManager.StartTransaction())
@@ -33,6 +34,13 @@ namespace sh.Cad
             }
             return result;
         }
+        public static void WriteDictionary(string handle, Dictionary<string, string> data)
+        {
+            var oid = DatabaseManager.GetObjectIdByHandle(handle);
+            if (oid != ObjectId.Null)
+                WriteDictionary(oid, data);
+        }
+
         public void WriteDictionary(Entity ent, Dictionary<string, string> data)
         {
             using (var locker = Application.DocumentManager.MdiActiveDocument.LockDocument())
@@ -94,7 +102,12 @@ namespace sh.Cad
             }
         }
 
-
+        public static void RemoveKey(string handle, string key)
+        {
+            var oid = DatabaseManager.GetObjectIdByHandle(handle);
+            if (oid != ObjectId.Null)
+                RemoveKey(oid,key);
+        }
 
         public static void RemoveKey(ObjectId oid, string key)
         {

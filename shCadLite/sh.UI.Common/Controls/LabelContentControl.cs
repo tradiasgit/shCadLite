@@ -49,5 +49,20 @@ namespace sh.UI.Common
             DependencyProperty.Register("LabelWidth", typeof(int), typeof(LabelContentControl), new PropertyMetadata(100));
 
 
+
+
+        public Brush HeaderBorderBrush
+        {
+            get { return (Brush)GetValue(HeaderBorderBrushProperty); }
+            set { SetValue(HeaderBorderBrushProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for HeaderBorderBrush.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty HeaderBorderBrushProperty =
+            DependencyProperty.Register("HeaderBorderBrush", typeof(Brush), typeof(LabelContentControl), new PropertyMetadata(null));
+
+
+
+
     }
 }

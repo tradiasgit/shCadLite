@@ -142,20 +142,23 @@
         <Setter Property="BorderThickness" Value="1,0,1,1"/>
         <Setter Property="Height" Value="20"/>
         <Setter Property="BorderBrush" Value="#ff888888"/>
+        <Setter Property="HeaderBorderBrush" Value="Transparent"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type sh:LabelContentControl}">
                     <Border  BorderThickness="{TemplateBinding BorderThickness}" Height="{TemplateBinding Height}"  BorderBrush="{TemplateBinding BorderBrush}">
                         <Grid>
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2"></ColumnDefinition>
                                 <ColumnDefinition Width="{TemplateBinding LabelWidth}"/>
                                 <ColumnDefinition Width="1"/>
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="20"/>
                             </Grid.ColumnDefinitions>
-                            <ContentPresenter Margin="5,0,0,0" VerticalAlignment="Center" ContentSource="Header"></ContentPresenter>
-                            <Border  Grid.Column="1" BorderThickness="1" BorderBrush="{TemplateBinding BorderBrush}"/>
-                            <ContentPresenter  Grid.Column="2" Grid.ColumnSpan="{TemplateBinding ContentColumnSpan}"></ContentPresenter>
+                            <Border Grid.Column="0" BorderThickness="1" BorderBrush="{TemplateBinding HeaderBorderBrush}"></Border>
+                            <ContentPresenter Grid.Column="1" Margin="5,0,0,0" VerticalAlignment="Center" ContentSource="Header"></ContentPresenter>
+                            <Border Grid.Column="2"  BorderThickness="1" BorderBrush="{TemplateBinding BorderBrush}"/>
+                            <ContentPresenter  Grid.Column="3" Grid.ColumnSpan="{TemplateBinding ContentColumnSpan}"></ContentPresenter>
                         </Grid>
                     </Border>
                 </ControlTemplate>                

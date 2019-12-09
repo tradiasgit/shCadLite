@@ -47,6 +47,9 @@
       <HintPath>C:\Program Files\Autodesk\AutoCAD 2016\acmgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -67,7 +70,7 @@
     <Compile Include="EntityInfo.cs" />
     <Compile Include="EntitySelection.cs" />
     <Compile Include="EventManager.cs" />
-    <Compile Include="HacthConfig.cs" />
+    <Compile Include="HacthInfo.cs" />
     <Compile Include="IEntitySelectionListener.cs" />
     <Compile Include="LayerManager.cs" />
     <Compile Include="LayerStatesLocker.cs" />
@@ -77,7 +80,7 @@
     <Compile Include="NewFolder1\CadEntityFactoryAction.cs" />
     <Compile Include="NewFolder1\CopyAllEntity.cs" />
     <Compile Include="NewFolder1\DrawBlockReference.cs" />
-    <Compile Include="NewFolder1\EntityConfig.cs" />
+    <Compile Include="EntityConfig.cs" />
     <Compile Include="NewFolder1\Field.cs" />
     <Compile Include="NewFolder1\INode.cs" />
     <Compile Include="NewFolder1\NodeBase.cs" />
