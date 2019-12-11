@@ -68,10 +68,12 @@
     <Compile Include="DatabaseManager.cs" />
     <Compile Include="DataManager.cs" />
     <Compile Include="EntityInfo.cs" />
+    <Compile Include="EntityQuery.cs" />
     <Compile Include="EntitySelection.cs" />
     <Compile Include="EventManager.cs" />
     <Compile Include="HacthInfo.cs" />
     <Compile Include="IEntitySelectionListener.cs" />
+    <Compile Include="Jig\BlockReferenceJig.cs" />
     <Compile Include="LayerManager.cs" />
     <Compile Include="LayerStatesLocker.cs" />
     <Compile Include="NewFolder1\ActionNode.cs" />

@@ -16,22 +16,19 @@ using System.Windows.Shapes;
 namespace sh.Creator.Views
 {
     /// <summary>
-    /// shResourceBox.xaml 的交互逻辑
+    /// shQueryEditor.xaml 的交互逻辑
     /// </summary>
-    public partial class shResourceBox : UserControl
+    public partial class Main : UserControl
     {
-        public shResourceBox()
+        public Main()
         {
             InitializeComponent();
-            var vm =new ViewModels.VM_shResourceBox();
-            sh.Cad.EventManager.RegisterSelectionListener(vm);
-            DataContext = vm;
+           // ViewModel = ViewModels.VM_shQueryEditor.Instance;
         }
 
-        private void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            //dynamic data  = ((TreeViewItem)sender)?.DataContext;
-            //data.Command?.Execute();
-        }
+        //public ViewModels.VM_shQueryEditor ViewModel { get { return DataContext as ViewModels.VM_shQueryEditor; } set { DataContext = value; } }
+
+
+    
     }
 }

@@ -4,6 +4,7 @@ using Autodesk.AutoCAD.Geometry;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,30 +12,44 @@ using System.Threading.Tasks;
 
 namespace sh.Cad
 {
-  
+
 
     public class EntityInfo
     {
-        public string EntityTypeName { get;  set; }
+        public string EntityTypeName { get; set; }
 
         public int ColorIndex { get; set; } = 256;
 
         public string LayerName { get; set; }
 
-        public Dictionary<string, string> Data { get;  set; }
+        public Dictionary<string, string> Data { get; set; }
 
-        public HacthInfo Hatch { get;  set; }
+        public HacthInfo Hatch { get; set; }
 
-        public string BlockName { get;  set; }
+        public string BlockName { get; set; }
 
 
         public EntityInfo() { }
 
 
+        public bool IsHatch
+
+        {
+            get
+            {
+                return EntityTypeName == "Hatch";
+            }
+        }
 
 
 
+        public bool IsBlock
 
+        {
+            get {
+                return EntityTypeName == "BlockReference";
+            }
+        }
 
         public static EntityInfo Get(Entity ent)
         {
@@ -72,7 +87,7 @@ namespace sh.Cad
         }
 
         [JsonIgnore]
-        public string EntityHandle { get;private set; }             
+        public string EntityHandle { get; private set; }
 
         [JsonIgnore]
         public double? Area { get; private set; }
@@ -98,7 +113,7 @@ namespace sh.Cad
             return null;
         }
 
-        private static  double? GetLength(Entity ent)
+        private static double? GetLength(Entity ent)
         {
             if (ent == null) return null;
             if (ent is Mline)
@@ -171,7 +186,7 @@ namespace sh.Cad
                 OnExection(ex);
             }
         }
-        private string BlockTableRecord { get; set; } = "*MODEL_SPACE";
+        private string BlockTableRecordName { get; set; } = "*MODEL_SPACE";
 
         private bool DoBrush()
         {
@@ -223,6 +238,57 @@ namespace sh.Cad
                 OnExection(ex);
             }
             return false;
+        }
+
+
+
+        public void PutBlock()
+        {
+            using (var l = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.LockDocument())
+            {
+                try
+                {
+                    while (Block()) ;
+                }
+                catch (Exception ex)
+                {
+                    OnExection(ex);
+                }
+            }
+        }
+        public bool Block()
+        {
+
+            var db = HostApplicationServices.WorkingDatabase;
+            using (var tr = db.TransactionManager.StartTransaction())
+            {
+                BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
+                if (!bt.Has(BlockName)) return false;
+                using (var ent = new BlockReference(Point3d.Origin, bt[BlockName]))
+                {
+                    if (LayerName != null)
+                        LayerManager.SetLayer(db, ent, LayerName, true);
+                    try
+                    {
+                        var space = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite);
+                        space.AppendEntity(ent);
+                        tr.AddNewlyCreatedDBObject(ent, true);
+                        var jig = new Jig.BlockReferenceJig(ent as BlockReference);
+                        if (jig.Run())
+                        {
+                            tr.Commit();
+                            DataManager.WriteDictionary(ent.ObjectId, Data);
+                        }
+                        return false;
+                    }
+                    catch (Exception ex)
+                    {
+                        if (!ent.IsDisposed) ent.Dispose();
+                        tr.Abort();
+                        throw ex;
+                    }
+                }
+            }
         }
 
 

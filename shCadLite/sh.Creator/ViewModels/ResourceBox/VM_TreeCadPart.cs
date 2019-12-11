@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace sh.Creator.ViewModels
 {
-    class VM_TreeCadPart: VM_TreeItem
+    public class VM_TreeCadPart: VM_TreeItem
     {
 
         public VM_TreeCadPart(FileInfo f)
@@ -19,7 +19,7 @@ namespace sh.Creator.ViewModels
         }
         public FileInfo File { get; set; }
 
-        public ICommand Command
+        public ICommand Commands
         {
             get
             {

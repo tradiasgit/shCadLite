@@ -35,7 +35,7 @@ namespace sh.Creator
                     psConfig.IsDock = true;
                     psConfig.PaletteConfigs = new Dictionary<string, FrameworkElement>
                     {
-                        {"选择集",  new Views.shQueryEditor() },
+                        {"选择集",  new Views.Main() },
                          //{"资源盒子",  new Views.shResourceBox() },
                     };
                     var ps = new sh.Cad.PaletteSetManager();

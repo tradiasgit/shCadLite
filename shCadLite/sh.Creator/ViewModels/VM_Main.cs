@@ -16,7 +16,7 @@ using System.Xml;
 
 namespace sh.Creator.ViewModels
 {
-    public class VM_shQueryEditor : ViewModelBase
+    public class VM_Main : ViewModelBase
     {
 
         

@@ -34,6 +34,14 @@ namespace sh.UI.Common.MVVM
             }
         }
 
+        protected virtual void RaiseAllPropertyChanged()
+        {
+            foreach (var kv in Values)
+            {
+                RaisePropertyChanged(kv.Key);
+            }
+        }
+
         #endregion
 
         #region Values
@@ -65,6 +73,8 @@ namespace sh.UI.Common.MVVM
         }
 
         #endregion
+
+
 
 
         #region Commands

@@ -17,10 +17,10 @@ using Newtonsoft.Json;
 
 namespace sh.Creator.ViewModels
 {
-    public class VM_shResourceBox : ViewModelBase, IEntitySelectionListener
+    public class VM_ResourceBox : ViewModelBase, IEntitySelectionListener
     {
 
-        public VM_shResourceBox()
+        public VM_ResourceBox()
         {
             IsVisible = true;
         }
@@ -52,17 +52,23 @@ namespace sh.Creator.ViewModels
                 }
                 foreach (var cf in dir.GetFiles())
                 {
-                    if (cf.Extension.ToLower() == ".ecj")
+                    if (cf.Extension.ToLower() == ".enf")
                     {
                         var info = JsonConvert.DeserializeObject<EntityInfo>(File.ReadAllText(cf.FullName));
                         if (info != null)
                         {
-                            var text = cf.Name.TrimEnd(cf.Extension.ToArray());
-                            var vmcf = new VM_TreeEntityInfo(text,info);
-                            result.Add(vmcf);
+                            if (info.IsBlock)
+                            {
+                                result.Add(new VM_TreeBlockInfo(cf, info));
+                            }
+                            else
+                            {
+                                result.Add(new VM_TreeEntityInfo(cf, info));
+
+                            }
                         }
                     }
-                    else if (cf.Extension.ToLower() == ".dwg" && !cf.Name.ToLower().EndsWith("_recover.dwg"))
+                    else if (cf.Extension.ToLower() == ".dwg" && !cf.Name.ToLower().EndsWith("_recover.dwg") && !cf.Name.ToLower().EndsWith("_block.dwg"))
                     {
                         var vmcf = new VM_TreeCadPart(cf);
                         result.Add(vmcf);
