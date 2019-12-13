@@ -1,5 +1,4 @@
-﻿
-using Autodesk.AutoCAD.DatabaseServices;
+﻿using Autodesk.AutoCAD.DatabaseServices;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -18,31 +17,35 @@ using System.Windows.Shapes;
 namespace sh.Creator.Views
 {
     /// <summary>
-    /// Win_AddBudget.xaml 的交互逻辑
+    /// Win_EditBudgetVar.xaml 的交互逻辑
     /// </summary>
-    public partial class Win_AddBudget : Window
+    public partial class Win_EditBudgetVar : Window
     {
-        public Win_AddBudget()
+        public Win_EditBudgetVar()
         {
             InitializeComponent();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog();
             dialog.Title = "请选择文件";
-            dialog.Filter = "ecx(*.ecx)|*.ecx";
+            dialog.Filter = "ecj(*.ecj)|*.ecj";
             dialog.InitialDirectory = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(HostApplicationServices.WorkingDatabase.Filename), @"support");
             var dialogResult = dialog.ShowDialog();
             if (dialogResult.HasValue && dialogResult.Value)
             {
-                txtExpression.Text = System.IO.Path.GetFileName(dialog.FileName);
+                txtVar.Text = System.IO.File.ReadAllText(dialog.FileName);
             }
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var cbox = sender as ComboBox;
+            if (cbox.SelectedIndex == 0)
+                btnSelFile.Visibility = System.Windows.Visibility.Collapsed;
+            else
+                btnSelFile.Visibility = System.Windows.Visibility.Visible;
         }
     }
 }

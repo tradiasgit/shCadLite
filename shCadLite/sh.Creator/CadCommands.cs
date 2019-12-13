@@ -58,7 +58,9 @@ namespace sh.Creator
         {
             try
             {
-                var vm = new sh.Creator.ViewModels.BudgetSheet.VM_BudgetSheet();
+                //var vm = new sh.Creator.ViewModels.BudgetSheet.VM_BudgetSheet();
+                //vm.Show(); 
+                var vm = new sh.Creator.ViewModels.BudgetSheet.VM_BudgetMain();
                 vm.Show();
             }
             catch (System.Exception ex)

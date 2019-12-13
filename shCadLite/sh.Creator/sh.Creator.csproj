@@ -84,11 +84,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\BudgetSheet\BaseModel\VM_BudgetVar.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_AddBudget.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_AddGroup.cs" />
     <Compile Include="ViewModels\BudgetSheet\BaseModel\VM_BudgetGroup.cs" />
     <Compile Include="ViewModels\BudgetSheet\BaseModel\VM_BudgetItem.cs" />
+    <Compile Include="ViewModels\BudgetSheet\VM_BudgetMain.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_BudgetSheet.cs" />
+    <Compile Include="ViewModels\BudgetSheet\VM_BudgetVarTable.cs" />
+    <Compile Include="ViewModels\BudgetSheet\VM_EditBudgetVar.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_EditGroup.cs" />
     <Compile Include="ViewModels\VM_Data.cs" />
     <Compile Include="ViewModels\VM_MultiSelectBox.cs" />
@@ -104,6 +108,12 @@
     <Compile Include="ViewModels\VM_TreeCadPart.cs" />
     <Compile Include="ViewModels\VM_TreeFolder.cs" />
     <Compile Include="ViewModels\VM_TreeItem.cs" />
+    <Compile Include="Views\BudgetSheet\UC_BudgetVarTable.xaml.cs">
+      <DependentUpon>UC_BudgetVarTable.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BudgetSheet\Win_EditBudgetVar.xaml.cs">
+      <DependentUpon>Win_EditBudgetVar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\shQueryEditor.xaml.cs">
       <DependentUpon>shQueryEditor.xaml</DependentUpon>
     </Compile>
@@ -159,6 +169,14 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Themes\Cad2012.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BudgetSheet\UC_BudgetVarTable.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BudgetSheet\Win_EditBudgetVar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

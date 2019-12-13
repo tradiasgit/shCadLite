@@ -78,11 +78,6 @@ namespace sh.Creator.ViewModels.BudgetSheet
         public string Name { get; set; }
 
         /// <summary>
-        /// 工程量
-        /// </summary>
-        //public double Quantities { get; set; }
-
-        /// <summary>
         /// 表达式
         /// </summary>
         public string Expression { get; set; }
@@ -91,5 +86,9 @@ namespace sh.Creator.ViewModels.BudgetSheet
         /// 配置
         /// </summary>
         public string Configuration { get; set; }
+
+
+        // 计算
+
     }
 }
