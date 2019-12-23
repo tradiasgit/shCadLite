@@ -14,7 +14,7 @@ namespace sh.Cad
     {
         public LayerStatesLocker OpenLayer(Transaction tr, ObjectId layerid)
         {
-            LayerStatesLocker result = new LayerStatesLocker(tr,layerid);
+            LayerStatesLocker result = new LayerStatesLocker(tr, layerid);
             return result;
         }
 
@@ -50,6 +50,27 @@ namespace sh.Cad
         {
             GetAndSaveLayerID(null, layername, color, weight, linetype);
         }
+
+
+        public static void SetLayer(Entity ent, string layerName, Transaction tr)
+        {
+            var db = HostApplicationServices.WorkingDatabase;
+            if (string.IsNullOrWhiteSpace(layerName)) return;
+            using (LayerTable lt = (LayerTable)tr.GetObject(db.LayerTableId, OpenMode.ForWrite))
+            {
+                if (!lt.Has(layerName))
+                {
+                    using (LayerTableRecord ltr = new LayerTableRecord())
+                    {
+                        ltr.Name = layerName;
+                        lt.Add(ltr);
+                        tr.AddNewlyCreatedDBObject(ltr, true);
+                    }
+                }
+            }
+            ent.Layer = layerName;
+        }
+
 
 
 

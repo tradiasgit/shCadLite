@@ -71,6 +71,7 @@
     <Compile Include="Convertors\BoolInverseConvertor.cs" />
     <Compile Include="Convertors\BoolInverseVisibilityConvertor.cs" />
     <Compile Include="Convertors\IsNullOrEmptyBoolConvertor.cs" />
+    <Compile Include="Convertors\TypeVisibilityContertor.cs" />
     <Compile Include="Convertors\PageIndexConvertor.cs" />
     <Compile Include="Convertors\PercentConvertor.cs" />
     <Compile Include="Convertors\BoolVisibilityConvertor.cs" />

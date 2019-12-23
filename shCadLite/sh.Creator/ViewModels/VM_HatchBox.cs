@@ -57,18 +57,17 @@ namespace sh.Creator.ViewModels
             IsVisible = false;
             if (selection!=null&&selection.Count == 1)
             {
-                var ent = selection.GetEntity();
-                if (ent.Hatch!=null)
+                var ent = selection.GetEntity<HatchInfo>() ;
+                if (ent!=null)
                 {
-                    var style = ent.Hatch;
-                    PatternAngle = style.PatternAngle;
-                    PatternDouble = style.PatternDouble ? "是" : "否";
-                    PatternName = style.PatternName;
-                    PatternScale = style.PatternScale;
-                    PatternSpace = style.PatternSpace;
-                    switch (style.PatternType) { case "CustomDefined": PatternType = "自定义"; break; case "PreDefined": PatternType = "预定义"; break; case "UserDefined": PatternType = "用户定义"; break; }
-                    switch (style.HatchStyle) { case "Normal": HatchStyle = "普通"; break; case "Outer": HatchStyle = "外部"; break; case "Ignore": HatchStyle = "忽略"; break; }
-                    Associative = style.Associative ? "是" : "否";
+                    PatternAngle = ent.PatternAngle;
+                    PatternDouble = ent.PatternDouble ? "是" : "否";
+                    PatternName = ent.PatternName;
+                    PatternScale = ent.PatternScale;
+                    PatternSpace = ent.PatternSpace;
+                    switch (ent.PatternType) { case "CustomDefined": PatternType = "自定义"; break; case "PreDefined": PatternType = "预定义"; break; case "UserDefined": PatternType = "用户定义"; break; }
+                    switch (ent.HatchStyle) { case "Normal": HatchStyle = "普通"; break; case "Outer": HatchStyle = "外部"; break; case "Ignore": HatchStyle = "忽略"; break; }
+                    Associative = ent.Associative ? "是" : "否";
                     IsVisible = true;
                 }
             }

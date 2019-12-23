@@ -65,13 +65,18 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlockInfo.cs" />
     <Compile Include="DatabaseManager.cs" />
     <Compile Include="DataManager.cs" />
     <Compile Include="EntityInfo.cs" />
+    <Compile Include="EntityInfoFactory.cs" />
+    <Compile Include="EntityQuery.cs" />
     <Compile Include="EntitySelection.cs" />
     <Compile Include="EventManager.cs" />
-    <Compile Include="HacthInfo.cs" />
+    <Compile Include="HatchInfo.cs" />
     <Compile Include="IEntitySelectionListener.cs" />
+    <Compile Include="Jig\BlockReferenceJig.cs" />
+    <Compile Include="Json\JsonConvert.cs" />
     <Compile Include="LayerManager.cs" />
     <Compile Include="LayerStatesLocker.cs" />
     <Compile Include="NewFolder1\ActionNode.cs" />

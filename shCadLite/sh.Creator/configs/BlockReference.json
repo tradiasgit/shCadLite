@@ -1,0 +1,10 @@
+{
+  "EntityType": "BlockReference",
+  "PropertyConfigs": [
+    {
+      "ProperyName": "BlockName",
+      "ViewModelName": "sh.Creator.ViewModels.SingleSelectBox.VM_EntityProperty_BlockName",
+      "Title": "块"
+    }
+  ]
+}

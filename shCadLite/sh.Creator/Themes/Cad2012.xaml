@@ -14,6 +14,7 @@
     <sh:BoolVisibilityConvertor  x:Key="BoolVisibilityConvertor"></sh:BoolVisibilityConvertor>
     <sh:BoolInverseVisibilityConvertor  x:Key="BoolInverseVisibilityConvertor"></sh:BoolInverseVisibilityConvertor>
     <sh:BoolInverseConvertor  x:Key="BoolInverseConvertor"></sh:BoolInverseConvertor>
+    <sh:TypeVisibilityContertor x:Key="TypeVisibilityContertor"/>
     <Style TargetType="TreeView" BasedOn="{StaticResource CAD风格TreeView}"/>
     <Style TargetType="Expander" BasedOn="{StaticResource CAD特性面板风格}"/>
     <Style TargetType="ScrollBar" BasedOn="{StaticResource DefaultScrollBar}"/>

@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="CadApplication.cs" />
     <Compile Include="CadCommands.cs" />
+    <Compile Include="Models\EntityConfig.cs" />
     <Compile Include="Models\shQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -94,16 +95,23 @@
     <Compile Include="ViewModels\BudgetSheet\VM_BudgetVarTable.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_EditBudgetVar.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_EditGroup.cs" />
+    <Compile Include="ViewModels\ResourceBox\VM_TreeBlockInfo.cs" />
+    <Compile Include="ViewModels\SingleSelectBox\VM_EntityConfig.cs" />
+    <Compile Include="ViewModels\SingleSelectBox\VM_EntityPrefab.cs" />
+    <Compile Include="ViewModels\SingleSelectBox\VM_EntityProperty.cs" />
     <Compile Include="ViewModels\VM_Data.cs" />
-    <Compile Include="ViewModels\VM_MultiSelectBox.cs" />
-    <Compile Include="ViewModels\VM_SingleSelectBox.cs" />
-    <Compile Include="ViewModels\VM_LayerBox.cs" />
-    <Compile Include="ViewModels\VM_DataBox.cs" />
+    <Compile Include="ViewModels\MultiSelectBox\VM_MultiSelectBox.cs" />
+    <Compile Include="ViewModels\SingleSelectBox\VM_SingleSelectBox.cs" />
+    <Compile Include="ViewModels\MultiSelectBox\VM_LayerBox.cs" />
     <Compile Include="ViewModels\VM_HatchBox.cs" />
     <Compile Include="ViewModels\VM_Layer.cs" />
-    <Compile Include="ViewModels\VM_shResourceBox.cs" />
-    <Compile Include="ViewModels\VM_shQueryEditor.cs" />
+    <Compile Include="ViewModels\ResourceBox\VM_ResourceBox.cs" />
+    <Compile Include="ViewModels\VM_Main.cs" />
     <Compile Include="ViewModels\VM_shTagEditor.cs" />
+    <Compile Include="Views\Convertors\DoubleValueConvertor.cs" />
+    <Compile Include="Views\Convertors\EntityTypeConvertor.cs" />
+    <Compile Include="Views\Main.xaml.cs">
+      <DependentUpon>Main.xaml</DependentUpon>
     <Compile Include="ViewModels\VM_TreeEntityInfo.cs" />
     <Compile Include="ViewModels\VM_TreeCadPart.cs" />
     <Compile Include="ViewModels\VM_TreeFolder.cs" />
@@ -117,22 +125,19 @@
     <Compile Include="Views\shQueryEditor.xaml.cs">
       <DependentUpon>shQueryEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\shResourceBox.xaml.cs">
-      <DependentUpon>shResourceBox.xaml</DependentUpon>
+    <Compile Include="Views\SingleSelectBox\PropertiesBox_Block.xaml.cs">
+      <DependentUpon>PropertiesBox_Block.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SingleSelectBox\WD_RenameBlock.xaml.cs">
+      <DependentUpon>WD_RenameBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UC_ResourceBox.xaml.cs">
+      <DependentUpon>UC_ResourceBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\shTagEditor.xaml.cs">
       <DependentUpon>shTagEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UC_DataBox.xaml.cs">
-      <DependentUpon>UC_DataBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UC_EntityConfig.xaml.cs">
-      <DependentUpon>UC_EntityConfig.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UC_EntityInfo.xaml.cs">
-      <DependentUpon>UC_EntityInfo.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UC_HatchBox.xaml.cs">
+    <Compile Include="Views\SingleSelectBox\UC_HatchBox.xaml.cs">
       <DependentUpon>UC_HatchBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UC_LayerBox.xaml.cs">
@@ -144,7 +149,7 @@
     <Compile Include="Views\BudgetSheet\UC_BudgetSheet.xaml.cs">
       <DependentUpon>UC_BudgetSheet.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UC_SingleSelectBox.xaml.cs">
+    <Compile Include="Views\SingleSelectBox\UC_SingleSelectBox.xaml.cs">
       <DependentUpon>UC_SingleSelectBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BudgetSheet\Win_AddGroup.xaml.cs">
@@ -160,6 +165,21 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="configs\BlockReference.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="configs\Entity.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="configs\Hatch.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="assets\entityconfigs\Hatch\地砖300x300.enf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="assets\entityconfigs\Hatch\地砖600x600.enf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -185,6 +205,19 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\shResourceBox.xaml">
+    <Page Include="Views\Main.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SingleSelectBox\PropertiesBox_Block.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SingleSelectBox\WD_RenameBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UC_ResourceBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -196,19 +229,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UC_DataBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UC_EntityConfig.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UC_EntityInfo.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\UC_HatchBox.xaml">
+    <Page Include="Views\SingleSelectBox\UC_HatchBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -220,7 +241,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\UC_SingleSelectBox.xaml">
+    <Page Include="Views\SingleSelectBox\UC_SingleSelectBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -249,6 +270,7 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

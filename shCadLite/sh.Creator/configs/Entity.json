@@ -1,0 +1,17 @@
+{
+  "EntityType": "Hatch",
+  "PropertyConfigs": [
+    {
+      "ProperyName": "EntityTypeName",
+      "Title": "类型"
+    },
+    {
+      "ProperyName": "LayerName",
+      "Title": "图层"
+    },
+    {
+      "ProperyName": "ColorIndex",
+      "Title": "颜色"
+    }
+  ]
+}

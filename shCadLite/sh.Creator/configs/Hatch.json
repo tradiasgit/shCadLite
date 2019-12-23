@@ -1,0 +1,21 @@
+{
+  "EntityType": "Hatch",
+  "PropertyConfigs": [
+    {
+      "ProperyName": "PatternName",
+      "Title": "图案名称"
+    },
+    {
+      "ProperyName": "PatternScale",
+      "Title": "图案比例"
+    },
+    {
+      "ProperyName": "PatternAngle",
+      "Title": "图案角度"
+    },
+    {
+      "ProperyName": "PatternSpace",
+      "Title": "图案间距"
+    }
+  ]
+}
