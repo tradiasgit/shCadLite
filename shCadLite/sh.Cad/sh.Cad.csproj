@@ -73,6 +73,7 @@
     <Compile Include="EntityQuery.cs" />
     <Compile Include="EntitySelection.cs" />
     <Compile Include="EventManager.cs" />
+    <Compile Include="Extensions\EntityExtensioncs.cs" />
     <Compile Include="HatchInfo.cs" />
     <Compile Include="IEntitySelectionListener.cs" />
     <Compile Include="Jig\BlockReferenceJig.cs" />

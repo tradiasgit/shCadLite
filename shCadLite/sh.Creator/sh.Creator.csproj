@@ -117,18 +117,11 @@
     <Compile Include="Views\Main.xaml.cs">
       <DependentUpon>Main.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\VM_TreeEntityInfo.cs" />
-    <Compile Include="ViewModels\VM_TreeCadPart.cs" />
-    <Compile Include="ViewModels\VM_TreeFolder.cs" />
-    <Compile Include="ViewModels\VM_TreeItem.cs" />
     <Compile Include="Views\BudgetSheet\UC_BudgetVarTable.xaml.cs">
       <DependentUpon>UC_BudgetVarTable.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BudgetSheet\Win_EditBudgetVar.xaml.cs">
       <DependentUpon>Win_EditBudgetVar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\shQueryEditor.xaml.cs">
-      <DependentUpon>shQueryEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SingleSelectBox\PropertiesBox_Block.xaml.cs">
       <DependentUpon>PropertiesBox_Block.xaml</DependentUpon>
@@ -173,6 +166,9 @@
     <None Include="configs\BlockReference.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="configs\Line.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="configs\Entity.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -202,14 +198,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BudgetSheet\Win_EditBudgetVar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\shQueryEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\shResourceBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

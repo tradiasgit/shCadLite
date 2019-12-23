@@ -45,7 +45,7 @@ namespace sh.Creator.ViewModels
             {
                 return CommandFactory.RegisterCommand(p =>
                 {
-                    var q = new sh.Cad.EntityQuery(Model);
+                    var q = EntityQuery.Compute(Model);
                     q.Select();
                 });
             }

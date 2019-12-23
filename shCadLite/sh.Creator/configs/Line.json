@@ -1,0 +1,9 @@
+{
+  "EntityType": "Line",
+  "PropertyConfigs": [
+    {
+      "ProperyName": "Length",
+      "Title": "长度"
+    }
+  ]
+}

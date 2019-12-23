@@ -23,8 +23,8 @@ namespace sh.Cad
             EntityHandle = ent.Handle.ToString();
             ColorIndex = ent.ColorIndex;
             LayerName = ent.Layer;
-            //Area = GetArea(ent);
-            //Length = GetLength(ent);
+            Area = ent.GetArea();
+            Length = ent.GetLength();
         }
 
 
@@ -101,65 +101,7 @@ namespace sh.Cad
         [JsonIgnore]
         public BlockInfo AsBlock { get { if (IsBlock) return new BlockInfo(); else return null; } }
 
-        private static double? GetArea(Entity ent)
-        {
-            if (ent == null) return null;
-            var prop = ent.GetType().GetProperty("Area");
-            if (prop != null)
-            {
-                try
-                {
-                    return (double)prop.GetValue(ent);
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
-            }
-            return null;
-        }
-
-        private static double? GetLength(Entity ent)
-        {
-            if (ent == null) return null;
-            if (ent is Mline)
-            {
-                var ml = ent as Mline;
-                double length = 0;
-                if (ml == null) return length;
-                for (int i = 0; i < ml.NumberOfVertices; i++)
-                {
-                    Point3d pointS = ml.VertexAt(i);
-                    if (i < ml.NumberOfVertices - 1)
-                    {
-                        var pointE = ml.VertexAt(i + 1);
-                        length += pointS.DistanceTo(pointE);
-                    }
-                    else if (ml.IsClosed)
-                    {
-                        var pointE = ml.VertexAt(0);
-                        length += pointS.DistanceTo(pointE);
-                    }
-                }
-                return length;
-            }
-            else
-            {
-                var prop = ent.GetType().GetProperty("Length");
-                if (prop != null)
-                {
-                    try
-                    {
-                        return (double)prop.GetValue(ent);
-                    }
-                    catch (Exception ex)
-                    {
-                        return null;
-                    }
-                }
-            }
-            return null;
-        }
+     
 
 
 
