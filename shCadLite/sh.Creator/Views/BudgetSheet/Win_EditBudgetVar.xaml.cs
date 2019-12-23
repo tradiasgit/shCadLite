@@ -30,7 +30,7 @@ namespace sh.Creator.Views
         {
             var dialog = new OpenFileDialog();
             dialog.Title = "请选择文件";
-            dialog.Filter = "ecj(*.ecj)|*.ecj";
+            dialog.Filter = "enf(*.enf)|*.enf";
             dialog.InitialDirectory = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(HostApplicationServices.WorkingDatabase.Filename), @"support");
             var dialogResult = dialog.ShowDialog();
             if (dialogResult.HasValue && dialogResult.Value)

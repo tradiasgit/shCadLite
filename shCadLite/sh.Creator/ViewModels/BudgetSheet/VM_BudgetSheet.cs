@@ -1,5 +1,6 @@
 ﻿using Autodesk.AutoCAD.DatabaseServices;
 using Newtonsoft.Json;
+using sh.Cad;
 using sh.Creator.Views;
 using sh.UI.Common.MVVM;
 using sh.XmlResourcesParsing.Fields;
@@ -31,6 +32,18 @@ namespace sh.Creator.ViewModels.BudgetSheet
         // 名称 工程量 金额 配置 string
         public VM_BudgetSheet()
         {
+            Initialize();
+        }
+
+        public void Show()
+        {
+            var win = new Window { Content = new UC_BudgetSheet(), DataContext = this };
+            win.Show();
+        }
+
+
+        private void Initialize()
+        {
             var list = BudgetGroup.GetAll();
             BudgetItems = new ObservableCollection<VM_BudgetItem>();
             foreach (var itemGroup in list)
@@ -44,12 +57,6 @@ namespace sh.Creator.ViewModels.BudgetSheet
 
             var vw = CollectionViewSource.GetDefaultView(BudgetItems);
             vw.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
-        }
-
-        public void Show()
-        {
-            var win = new Window { Content = new UC_BudgetSheet(), DataContext = this };
-            win.Show();
         }
 
 
@@ -94,6 +101,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
                 {
                     var vm = new VM_AddBudget();
                     vm.Show();
+                    Initialize();
                 });
             }
         }
@@ -104,17 +112,54 @@ namespace sh.Creator.ViewModels.BudgetSheet
             {
                 return CommandFactory.RegisterCommand(p =>
                 {
+                    var budgetVars = BudgetVar.GetAll();
+
                     foreach (var item in BudgetItems)
                     {
-                        //var path= Path.Combine(Path.GetDirectoryName(HostApplicationServices.WorkingDatabase.Filename), $@"support\field\{item.Expression}");
-                        //if (!File.Exists(path)) continue;
-                        //var doc = new XmlDocument();
-                        //doc.Load(path);
-                        //var qf = new QueryField(doc.DocumentElement);
-                        //item.QuantitieString = qf.GetText();
+                        var expression = item.Expression;
+                        foreach (var bv in budgetVars)
+                        {
+                            if (expression.Contains(bv.Name))
+                            {
+                                string v = Getbiaodashizhi(bv);
+                                expression = expression.Replace(bv.Name, v);
+                            }
+                        }
+                        if(double.TryParse(new System.Data.DataTable().Compute(expression, null).ToString(), out var cr))
+                        {
+                            item.QuantitieString = Math.Round(cr, 2, MidpointRounding.AwayFromZero).ToString();
+                        }
                     }
                 });
             }
+        }
+
+
+        private static string Getbiaodashizhi(BudgetVar bv)
+        {
+            var v = string.Empty;
+            if (bv.Method == "Value")
+            {
+                v = bv.GetValue();
+            }
+            else
+            {
+                var query = new sh.Cad.EntityQuery(JsonConvert.DeserializeObject<EntityInfo>(bv.GetValue()));
+                switch (bv.Method)
+                {
+                    case "Count":
+                        v = query.Count().ToString();
+                        break;
+                    case "Length":
+                        v = query.SumLength().ToString();
+                        break;
+                    case "Area":
+                        v = query.SumArea().ToString();
+                        break;
+                }
+            }
+
+            return v;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using sh.Creator.Views;
+﻿using Newtonsoft.Json;
+using sh.Cad;
+using sh.Creator.Views;
 using sh.UI.Common.MVVM;
 using System;
 using System.Collections.Generic;
@@ -72,6 +74,12 @@ namespace sh.Creator.ViewModels.BudgetSheet
             {
                 return CommandFactory.RegisterCommand(p =>
                 {
+                    if(BudgetGroups.Count==0)
+                    {
+                        Message = "没有分组信息";
+                        return;
+                    }
+
                     if (BudgetGroups[SelGroupIndex].BudgetItems == null)
                         BudgetGroups[SelGroupIndex].BudgetItems = new List<BudgetItem>();
                     if (string.IsNullOrEmpty(ModelNew.Name))
@@ -93,19 +101,17 @@ namespace sh.Creator.ViewModels.BudgetSheet
                     {
                         if(expression.Contains(bv.Name))
                         {
-                            expression = expression.Replace(bv.Name, bv.GetValue());
+                            string v = Getbiaodashizhi(bv);
+                            expression = expression.Replace(bv.Name, v);
                         }
                     }
                     // 试算
-
-                    if(false)
+                    var calculationResult = new System.Data.DataTable().Compute(expression, null).ToString();
+                    if (calculationResult=="False")
                     {
                         Message = "表达式不正确，请检查";
                         return;
                     }
-
-
-                    
                     if(string.IsNullOrEmpty(ModelNew.Configuration))
                     {
                         Message = "配置没有填写";
@@ -126,5 +132,31 @@ namespace sh.Creator.ViewModels.BudgetSheet
             }
         }
 
+        private static string Getbiaodashizhi(BudgetVar bv)
+        {
+            var v = string.Empty;
+            if (bv.Method == "Value")
+            {
+                v = bv.GetValue();
+            }
+            else
+            {
+                var query = new sh.Cad.EntityQuery(JsonConvert.DeserializeObject<EntityInfo>(bv.GetValue()));
+                switch (bv.Method)
+                {
+                    case "Count":
+                        v = query.Count().ToString();
+                        break;
+                    case "Length":
+                        v = query.SumLength().ToString();
+                        break;
+                    case "Area":
+                        v = query.SumArea().ToString();
+                        break;
+                }
+            }
+
+            return v;
+        }
     }
 }
