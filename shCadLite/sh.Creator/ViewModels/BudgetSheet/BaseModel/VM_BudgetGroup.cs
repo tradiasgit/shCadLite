@@ -74,17 +74,14 @@ namespace sh.Creator.ViewModels.BudgetSheet
             var result = false;
             if (string.IsNullOrEmpty(path))
                 path = Path.Combine(Path.GetDirectoryName(HostApplicationServices.WorkingDatabase.Filename), @"support\budgetsheet\budgetsheet.json");
-            if (File.Exists(path))
+            try
             {
-                try
-                {
-                    File.WriteAllText(path, JsonConvert.SerializeObject(list));
-                    result = true;
-                }
-                catch (Exception ex)
-                {
+                File.WriteAllText(path, JsonConvert.SerializeObject(list));
+                result = true;
+            }
+            catch (Exception ex)
+            {
 
-                }
             }
             return result;
         }
