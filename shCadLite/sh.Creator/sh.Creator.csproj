@@ -96,6 +96,10 @@
     <Compile Include="ViewModels\BudgetSheet\VM_EditBudgetVar.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_EditGroup.cs" />
     <Compile Include="ViewModels\ResourceBox\VM_TreeBlockInfo.cs" />
+    <Compile Include="ViewModels\ResourceBox\VM_TreeCadPart.cs" />
+    <Compile Include="ViewModels\ResourceBox\VM_TreeEntityInfo.cs" />
+    <Compile Include="ViewModels\ResourceBox\VM_TreeFolder.cs" />
+    <Compile Include="ViewModels\ResourceBox\VM_TreeItem.cs" />
     <Compile Include="ViewModels\SingleSelectBox\VM_EntityConfig.cs" />
     <Compile Include="ViewModels\SingleSelectBox\VM_EntityPrefab.cs" />
     <Compile Include="ViewModels\SingleSelectBox\VM_EntityProperty.cs" />
@@ -112,6 +116,7 @@
     <Compile Include="Views\Convertors\EntityTypeConvertor.cs" />
     <Compile Include="Views\Main.xaml.cs">
       <DependentUpon>Main.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\VM_TreeEntityInfo.cs" />
     <Compile Include="ViewModels\VM_TreeCadPart.cs" />
     <Compile Include="ViewModels\VM_TreeFolder.cs" />
@@ -205,6 +210,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\shResourceBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Main.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

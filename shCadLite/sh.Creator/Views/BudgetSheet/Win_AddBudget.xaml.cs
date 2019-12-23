@@ -26,23 +26,5 @@ namespace sh.Creator.Views
         {
             InitializeComponent();
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new OpenFileDialog();
-            dialog.Title = "请选择文件";
-            dialog.Filter = "ecx(*.ecx)|*.ecx";
-            dialog.InitialDirectory = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(HostApplicationServices.WorkingDatabase.Filename), @"support");
-            var dialogResult = dialog.ShowDialog();
-            if (dialogResult.HasValue && dialogResult.Value)
-            {
-                txtExpression.Text = System.IO.Path.GetFileName(dialog.FileName);
-            }
-        }
     }
 }

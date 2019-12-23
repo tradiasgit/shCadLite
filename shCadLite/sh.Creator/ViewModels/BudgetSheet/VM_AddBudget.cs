@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -11,10 +12,14 @@ namespace sh.Creator.ViewModels.BudgetSheet
 {
     class VM_AddBudget:ViewModelBase
     {
+        private List<BudgetVar> _budgetVars;
+
         public List<BudgetGroup> BudgetGroups { get; private set; }
 
         private int _selGroupIndex;
-
+        /// <summary>
+        /// 选择分组
+        /// </summary>
         public int SelGroupIndex
         {
             get { return _selGroupIndex; }
@@ -24,7 +29,9 @@ namespace sh.Creator.ViewModels.BudgetSheet
 
 
         private VM_BudgetItem _modelNew;
-
+        /// <summary>
+        /// 新预算
+        /// </summary>
         public VM_BudgetItem ModelNew
         {
             get { return _modelNew; }
@@ -32,7 +39,9 @@ namespace sh.Creator.ViewModels.BudgetSheet
         }
 
         private string _message;
-
+        /// <summary>
+        /// 信息
+        /// </summary>
         public string Message
         {
             get { return _message; }
@@ -40,10 +49,14 @@ namespace sh.Creator.ViewModels.BudgetSheet
         }
 
 
+
         public VM_AddBudget()
         {
             ModelNew = new VM_BudgetItem(new BudgetItem());
             BudgetGroups = BudgetGroup.GetAll();
+
+            _budgetVars = BudgetVar.GetAll();
+
         }
 
         public void Show()
@@ -73,13 +86,26 @@ namespace sh.Creator.ViewModels.BudgetSheet
                     }
                     if (string.IsNullOrEmpty(ModelNew.Expression))
                     {
-                        Message = "表达式没有选择";
+                        Message = "表达式没有填写";
                     }
-                    if (BudgetGroups[SelGroupIndex].BudgetItems.Exists(b => b.Expression == ModelNew.Expression))
+                    var expression = ModelNew.Expression;
+                    foreach (var bv in _budgetVars)
                     {
-                        Message = "表达式重复";
+                        if(expression.Contains(bv.Name))
+                        {
+                            expression = expression.Replace(bv.Name, bv.GetValue());
+                        }
+                    }
+                    // 试算
+
+                    if(false)
+                    {
+                        Message = "表达式不正确，请检查";
                         return;
                     }
+
+
+                    
                     if(string.IsNullOrEmpty(ModelNew.Configuration))
                     {
                         Message = "配置没有填写";
@@ -99,5 +125,6 @@ namespace sh.Creator.ViewModels.BudgetSheet
                 });
             }
         }
+
     }
 }

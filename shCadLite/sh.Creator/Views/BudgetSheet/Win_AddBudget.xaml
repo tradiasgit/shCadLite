@@ -39,13 +39,10 @@
         <TextBlock Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"  
                    Text="表达式" FontSize="14" Margin="0,0,5,0"></TextBlock>
         <TextBox x:Name="txtExpression" Grid.Row="3" Grid.Column="1" VerticalContentAlignment="Center" 
-                 FontSize="14" Height="38" Width="230" Margin="5,0,0,0" IsReadOnly="True"
+                 FontSize="14" Height="38" Width="230" Margin="5,0,0,0"
                  VerticalAlignment="Center" HorizontalAlignment="Left" 
-                 Text="{Binding ModelNew.Expression,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
-        <Button Grid.Row="3" Grid.Column="1" Height="38" Width="30" FontSize="14" 
-                VerticalAlignment="Center" Margin="205,0,0,0" HorizontalAlignment="Left"
-                Content="..." Click="Button_Click" ></Button>
-
+                 Text="{Binding ModelNew.Expression}"></TextBox>
+        
         <TextBlock Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center"  
                    Text="配置" FontSize="14" Margin="0,0,5,0"></TextBlock>
         <TextBox Grid.Row="4" Grid.Column="1" VerticalContentAlignment="Center" 

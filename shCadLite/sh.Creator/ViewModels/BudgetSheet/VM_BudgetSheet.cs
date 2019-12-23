@@ -106,12 +106,12 @@ namespace sh.Creator.ViewModels.BudgetSheet
                 {
                     foreach (var item in BudgetItems)
                     {
-                        var path= Path.Combine(Path.GetDirectoryName(HostApplicationServices.WorkingDatabase.Filename), $@"support\field\{item.Expression}");
-                        if (!File.Exists(path)) continue;
-                        var doc = new XmlDocument();
-                        doc.Load(path);
-                        var qf = new QueryField(doc.DocumentElement);
-                        item.QuantitieString = qf.GetText();
+                        //var path= Path.Combine(Path.GetDirectoryName(HostApplicationServices.WorkingDatabase.Filename), $@"support\field\{item.Expression}");
+                        //if (!File.Exists(path)) continue;
+                        //var doc = new XmlDocument();
+                        //doc.Load(path);
+                        //var qf = new QueryField(doc.DocumentElement);
+                        //item.QuantitieString = qf.GetText();
                     }
                 });
             }

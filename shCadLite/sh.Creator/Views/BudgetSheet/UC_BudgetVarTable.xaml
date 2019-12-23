@@ -110,6 +110,15 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="方法" Width="120">
+                    <DataGridTemplateColumn.CellTemplate >
+                        <DataTemplate>
+                            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding Method}" ></TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
                 <DataGridTemplateColumn Header="变量值" Width="280">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

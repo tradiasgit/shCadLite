@@ -133,7 +133,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
             {
                 if (Double.TryParse(Value, out var varDouble))
                 {
-                    budgetVar = new BudgetVarDouble { Name = Name, Constant = varDouble };
+                    budgetVar = new BudgetVarDouble { Name = Name, Constant = varDouble,Method=SelMethod };
                 }
                 else
                 {
@@ -146,7 +146,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
                 try
                 {
                     var jsonObject = JObject.Parse(Value);
-                    budgetVar = new BudgetVarString { Name = Name, EcjJsonString = Value };
+                    budgetVar = new BudgetVarString { Name = Name, EcjJsonString = Value, Method = SelMethod };
                 }
                 catch 
                 {
@@ -163,20 +163,22 @@ namespace sh.Creator.ViewModels.BudgetSheet
 
         private void Edit()
         {
-            BudgetVar budgetVar;
+            
             budgetVars = BudgetVar.GetAll();
+            var index = budgetVars.FindIndex(b => b.Name == _oldName);
             budgetVars.RemoveAll(b => b.Name == _oldName);
             if (budgetVars.Exists(b => b.Name == Name))
             {
                 Message = "变量名称重复";
                 return;
             }
-            // 
+
+            BudgetVar budgetVar;
             if (SelMethod == "Value")
             {
                 if (Double.TryParse(Value, out var varDouble))
                 {
-                    budgetVar = new BudgetVarDouble { Name = Name, Constant = varDouble };
+                    budgetVar = new BudgetVarDouble { Name = Name, Constant = varDouble, Method = SelMethod };
                 }
                 else
                 {
@@ -189,7 +191,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
                 try
                 {
                     var jsonObject = JObject.Parse(Value);
-                    budgetVar = new BudgetVarString { Name = Name, EcjJsonString = Value };
+                    budgetVar = new BudgetVarString { Name = Name, EcjJsonString = Value, Method = SelMethod };
                 }
                 catch
                 {
@@ -197,7 +199,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
                     return;
                 }
             }
-            budgetVars.Add(budgetVar);
+            budgetVars.Insert(index,budgetVar);
             BudgetVar.SaveAll(budgetVars);
 
             Message = "操作成功";
