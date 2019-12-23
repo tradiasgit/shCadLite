@@ -11,6 +11,6 @@ namespace sh.Creator.ViewModels
     {
         public string Text { get { return GetValue<string>(); } set { SetValue(value); } }
 
-        public bool IsExpanded { get { return GetValue<bool>(); } set { SetValue(value); } }
+        
     }
 }

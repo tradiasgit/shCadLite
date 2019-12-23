@@ -1,0 +1,10 @@
+{
+  "Url": "ftp://192.168.3.32/update/",
+  "Files": [
+    "Newtonsoft.Json.dll",
+    "sh.Creator.dll",
+    "shcad.dll",
+    "sh.UI.Common.dll",
+    "update.json"
+  ]
+}

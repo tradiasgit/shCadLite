@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:sh.Creator.Views"
-              xmlns:sh="clr-namespace:sh.UI.Common;assembly=sh.UI.Common"
+             xmlns:sh="clr-namespace:sh.UI.Common;assembly=sh.UI.Common"
              mc:Ignorable="d"   Background="#fff0f0f0"
              d:DesignHeight="450" d:DesignWidth="320">
     <UserControl.Resources>
@@ -21,7 +21,23 @@
             <sh:IconButton Icon="Brush" Command="{Binding Cmd_Brush}"/>
             <sh:IconButton Icon="Copy" Command="{Binding Cmd_PutBlock}" Visibility="{Binding Model.BlockName ,Converter={StaticResource NullVisibilityContertor},ConverterParameter=Collapsed}"/>
             <sh:IconButton Icon="FaFloppyO" Command="{Binding Cmd_SaveAs}"/>
-        </StackPanel> 
+        </StackPanel>
+        <Expander Header="{Binding EntityTypeText}" IsExpanded="True">
+            <ItemsControl ItemsSource="{Binding EntityProperties}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <sh:LabelContentControl Header="{Binding Title}"  HeaderBorderBrush="Gray">
+                            <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Value}" ></TextBlock>
+                        </sh:LabelContentControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel></StackPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </Expander>
         <Expander Header="{Binding EntityTypeText}" IsExpanded="True">
             <StackPanel>
                 <sh:LabelContentControl Header="类型"  HeaderBorderBrush="Gray">
@@ -29,8 +45,10 @@
                 </sh:LabelContentControl>
                 <sh:LabelContentControl Header="块名"  HeaderBorderBrush="Brown" Visibility="{Binding Model.BlockName ,Converter={StaticResource NullVisibilityContertor},ConverterParameter=Collapsed}">
                     <Grid>
-                        <TextBlock  Style="{StaticResource txtFieldHeader}" Text="{Binding Model.BlockName}" Margin="0,0,30,0"></TextBlock>
-                        <Button Width="30" HorizontalAlignment="Right"  Command="{Binding Cmd_RenameBlock}" Content="R"></Button>
+                        <TextBlock  Style="{StaticResource txtFieldHeader}" Text="{Binding Model.BlockName}" Margin="0,0,45,0"></TextBlock>
+                        <Button Width="15" HorizontalAlignment="Right"  Command="{Binding Cmd_RenameBlock}" Content="R"></Button>
+                        <Button Width="15" HorizontalAlignment="Right"  Command="{Binding Cmd_PutBlockTo0}" Content="0" Margin="0,0,15,0"></Button>
+                        <Button Width="15" HorizontalAlignment="Right"  Command="{Binding Cmd_SetBasePoint}" Content="P" Margin="0,0,30,0"></Button>
                     </Grid>
                 </sh:LabelContentControl>
                 <sh:LabelContentControl Header="颜色"  HeaderBorderBrush="Blue">
@@ -109,6 +127,30 @@
                     </ListBox>
                 </DockPanel>
             </Border>
+        </Expander>
+        <Expander Header="{Binding Header}" IsExpanded="True" DataContext="{Binding EntityConfig}" Visibility="{Binding Converter={StaticResource NullVisibilityContertor}}">
+            <ItemsControl ItemsSource="{Binding Prefabs}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel></StackPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <sh:LabelContentControl Header="{Binding Key}" HeaderBorderBrush="Red">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="0"  Command="{Binding Cmd_Draw}" Content="Draw"></Button>
+                                <Button Grid.Column="1"  Command="{Binding Cmd_Brush}" Content="Brush"></Button>
+                            </Grid>
+
+                        </sh:LabelContentControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Expander>
     </StackPanel>
 </UserControl>

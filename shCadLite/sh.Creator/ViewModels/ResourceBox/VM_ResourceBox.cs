@@ -54,7 +54,7 @@ namespace sh.Creator.ViewModels
                 {
                     if (cf.Extension.ToLower() == ".enf")
                     {
-                        var info = JsonConvert.DeserializeObject<EntityInfo>(File.ReadAllText(cf.FullName));
+                        var info = EntityInfo.Get(cf);
                         if (info != null)
                         {
                             if (info.IsBlock)
@@ -64,7 +64,6 @@ namespace sh.Creator.ViewModels
                             else
                             {
                                 result.Add(new VM_TreeEntityInfo(cf, info));
-
                             }
                         }
                     }
@@ -98,6 +97,8 @@ namespace sh.Creator.ViewModels
                 });
             }
         }
+        
+       
 
     }
 }

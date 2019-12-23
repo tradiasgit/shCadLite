@@ -15,7 +15,7 @@ namespace sh.UI.Common
             if (value != null) return Visibility.Visible;
             else
             {
-                if (parameter != null && parameter.ToString() == "Hidden")
+                if ((string)parameter == "Hidden")
                     return Visibility.Hidden;
                 else
                     return Visibility.Collapsed;

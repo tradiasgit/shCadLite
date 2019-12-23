@@ -1,4 +1,5 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+﻿using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Newtonsoft.Json;
@@ -12,10 +13,49 @@ using System.Threading.Tasks;
 
 namespace sh.Cad
 {
-
-
     public class EntityInfo
     {
+        public EntityInfo() { }
+        public EntityInfo(Entity ent, Transaction tr)
+        {
+            Data = new DataManager().ReadDictionary(ent, tr);
+            EntityTypeName = ent.GetType().Name;
+            EntityHandle = ent.Handle.ToString();
+            ColorIndex = ent.ColorIndex;
+            LayerName = ent.Layer;
+            //Area = GetArea(ent);
+            //Length = GetLength(ent);
+        }
+
+
+        protected bool Compare_Base(Entity ent, Transaction tr)
+        {
+            if (EntityTypeName != ent.GetType().Name) return false;
+            if (LayerName != ent.Layer) return false;
+            return true;
+        }
+        protected virtual bool Compare_Property(Entity ent, Transaction tr)
+        {
+            return true;
+        }
+        protected bool Compare_Data(Entity ent, Transaction tr)
+        {
+            //if (Data != info.Data) return false;
+            return true;
+        }
+        public virtual bool Compare(Entity ent, Transaction tr)
+        {
+            return
+                Compare_Base(ent, tr) &&
+                Compare_Property(ent, tr) &&
+                Compare_Data(ent, tr);
+        }
+
+
+        public virtual void Draw() { }
+
+
+
         public string EntityTypeName { get; set; }
 
         public int ColorIndex { get; set; } = 256;
@@ -24,66 +64,22 @@ namespace sh.Cad
 
         public Dictionary<string, string> Data { get; set; }
 
-        public HacthInfo Hatch { get; set; }
 
-        public string BlockName { get; set; }
-
-
-        public EntityInfo() { }
-
-
-        public bool IsHatch
-
+        public static EntityInfo Get(ObjectId oid, Transaction tr)
         {
-            get
-            {
-                return EntityTypeName == "Hatch";
-            }
-        }
-
-
-
-        public bool IsBlock
-
-        {
-            get {
-                return EntityTypeName == "BlockReference";
-            }
-        }
-
-        public static EntityInfo Get(Entity ent)
-        {
+            var ent = tr.GetObject(oid, OpenMode.ForRead) as Entity;
             if (ent == null) return null;
-            EntityInfo result = new EntityInfo();
-            result.Data = new DataManager().ReadDictionary(ent);
-            result.EntityTypeName = ent.GetType().Name;
-            result.EntityHandle = ent.Handle.ToString();
-            result.ColorIndex = ent.ColorIndex;
-            result.LayerName = ent.Layer;
-            result.Area = GetArea(ent);
-            result.Length = GetLength(ent);
-            if (ent is Hatch)
-            {
-                var h = ent as Hatch;
-                result.Hatch = new HacthInfo
-                {
-                    PatternAngle = h.PatternAngle,
-                    PatternDouble = h.PatternDouble,
-                    PatternName = h.PatternName,
-                    PatternScale = h.PatternScale,
-                    PatternSpace = h.PatternSpace,
-                    PatternType = h.PatternType.ToString(),
-                    Associative = h.Associative,
-                    HatchStyle = h.HatchStyle.ToString(),
+            else if (ent is BlockReference) return new BlockInfo(ent as BlockReference, tr);
+            else if (ent is Hatch) return new HatchInfo(ent as Hatch, tr);
+            else return new EntityInfo(ent, tr);
+        }
 
-                };
-            }
-            else if (ent is BlockReference)
-            {
-                var br = ent as BlockReference;
-                result.BlockName = br.Name;
-            }
-            return result;
+        public static EntityInfo Get(FileInfo file)
+        {
+            if (file == null || !file.Exists || file.Extension.ToLower() != ".enf") return null;
+            var text = File.ReadAllText(file.FullName);
+            var info = JsonConvert.DeserializeObject<EntityInfo>(text, new Json.JsonDemoConverter());
+            return info;
         }
 
         [JsonIgnore]
@@ -94,6 +90,16 @@ namespace sh.Cad
 
         [JsonIgnore]
         public double? Length { get; private set; }
+
+        [JsonIgnore]
+        public bool IsHatch { get { return EntityTypeName == "Hatch"; } }
+
+
+        [JsonIgnore]
+        public bool IsBlock { get { return EntityTypeName == "BlockReference"; } }
+
+        [JsonIgnore]
+        public BlockInfo AsBlock { get { if (IsBlock) return new BlockInfo(); else return null; } }
 
         private static double? GetArea(Entity ent)
         {
@@ -188,6 +194,53 @@ namespace sh.Cad
         }
         private string BlockTableRecordName { get; set; } = "*MODEL_SPACE";
 
+
+        protected void BrushEntity_Base(Entity ent, Transaction tr)
+        {
+            ent.ColorIndex = ColorIndex;
+            if (!string.IsNullOrWhiteSpace(LayerName))
+            {
+                LayerManager.SetLayer(ent, LayerName, tr);
+            }
+        }
+        protected void BrushEntity_Data(Entity ent, Transaction tr)
+        {
+            if (Data != null)
+            {
+                DataManager.WriteDictionary(ent, Data, tr);
+            }
+        }
+        protected virtual void BrushEntity_Property(Entity ent, Transaction tr)
+        {
+        }
+
+        public void BrushImplied()
+        {
+            var doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            var ed = doc.Editor;
+            var db = HostApplicationServices.WorkingDatabase;
+            using (var l = doc.LockDocument())
+            {
+                var result = ed.SelectImplied();
+                if (result.Status == Autodesk.AutoCAD.EditorInput.PromptStatus.OK)
+                {
+                    using (var tr = db.TransactionManager.StartTransaction())
+                    {
+                        foreach (var oid in result.Value.GetObjectIds())
+                        {
+                            Entity ent = tr.GetObject(oid, OpenMode.ForWrite) as Entity;
+                            BrushEntity_Base(ent, tr);
+                            BrushEntity_Property(ent, tr);
+                            BrushEntity_Data(ent, tr);
+                            tr.Commit();
+                        }
+                    }
+                }
+            }
+        }
+
+
+
         private bool DoBrush()
         {
             try
@@ -207,21 +260,10 @@ namespace sh.Cad
                         using (var tr = db.TransactionManager.StartTransaction())
                         {
                             Entity ent = tr.GetObject(r.ObjectId, OpenMode.ForWrite) as Entity;
-                            ent.ColorIndex = ColorIndex;
-                            if (!string.IsNullOrWhiteSpace(LayerName))
-                            {
-                                LayerManager.SetLayer(db, ent, LayerName, true);
-                            }
-
-
-                            if (ent is Hatch && Hatch != null)
-                            {
-                                var h = ent as Hatch;
-                                Hatch.SetHatch(h);
-                            }
+                            BrushEntity_Base(ent, tr);
+                            BrushEntity_Property(ent, tr);
+                            BrushEntity_Data(ent, tr);
                             tr.Commit();
-                            if (Data != null)
-                                DataManager.WriteDictionary(ent.Id, Data);
                         }
                         ed.WriteMessage(Environment.NewLine);
                         return true;
@@ -242,52 +284,29 @@ namespace sh.Cad
 
 
 
-        public void PutBlock()
-        {
-            using (var l = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.LockDocument())
-            {
-                try
-                {
-                    while (Block()) ;
-                }
-                catch (Exception ex)
-                {
-                    OnExection(ex);
-                }
-            }
-        }
-        public bool Block()
-        {
 
-            var db = HostApplicationServices.WorkingDatabase;
-            using (var tr = db.TransactionManager.StartTransaction())
+
+
+
+        public virtual void SaveAs()
+        {
+            var dwgtitled = Application.GetSystemVariable("DWGTITLED");
+            if (Convert.ToInt16(dwgtitled) == 0)
             {
-                BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
-                if (!bt.Has(BlockName)) return false;
-                using (var ent = new BlockReference(Point3d.Origin, bt[BlockName]))
-                {
-                    if (LayerName != null)
-                        LayerManager.SetLayer(db, ent, LayerName, true);
-                    try
-                    {
-                        var space = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite);
-                        space.AppendEntity(ent);
-                        tr.AddNewlyCreatedDBObject(ent, true);
-                        var jig = new Jig.BlockReferenceJig(ent as BlockReference);
-                        if (jig.Run())
-                        {
-                            tr.Commit();
-                            DataManager.WriteDictionary(ent.ObjectId, Data);
-                        }
-                        return false;
-                    }
-                    catch (Exception ex)
-                    {
-                        if (!ent.IsDisposed) ent.Dispose();
-                        tr.Abort();
-                        throw ex;
-                    }
-                }
+                throw new Exception("图纸为临时图纸，不能保存");
+            }
+            var ed = Application.DocumentManager.MdiActiveDocument.Editor;
+            var db_source = HostApplicationServices.WorkingDatabase;
+            var dir = new FileInfo(db_source.OriginalFileName).Directory;
+            dir = new DirectoryInfo($@"{dir.FullName}\support");
+            dir.Create();
+            var op_file = new PromptSaveFileOptions("选择目标文件" + Environment.NewLine);
+            op_file.InitialDirectory = $@"{dir.FullName}";
+            op_file.Filter = "图形配置文件-json格式 (*.enf)|*.enf";
+            var result_file = ed.GetFileNameForSave(op_file);
+            if (result_file.Status == PromptStatus.OK)
+            {
+                File.WriteAllText(result_file.StringResult, JsonConvert.SerializeObject(this));
             }
         }
 

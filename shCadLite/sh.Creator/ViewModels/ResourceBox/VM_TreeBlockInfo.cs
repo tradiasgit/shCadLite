@@ -25,14 +25,28 @@ namespace sh.Creator.ViewModels
             {
                 return CommandFactory.RegisterCommand(p =>
                 {
-                    if (!DatabaseManager.HasBlock(Model.BlockName))
+                    var br = Model as BlockInfo;
+                    if (!DatabaseManager.HasBlock(br.BlockName))
                     {
                         var blockfile = new FileInfo(File.FullName.Replace(".enf", "_block.dwg"));
                         if (!blockfile.Exists) throw new FileNotFoundException("文件不存在", blockfile.FullName);
-                        if (!DatabaseManager.HasBlock(blockfile, Model.BlockName)) throw new Exception($"文件中不包含指定的块：【{Model.BlockName}】{blockfile.FullName}");
-                        DatabaseManager.ImportBlock(blockfile, Model.BlockName);
+                        if (!DatabaseManager.HasBlock(blockfile, br.BlockName)) throw new Exception($"文件中不包含指定的块：【{br.BlockName}】{blockfile.FullName}");
+                        //DatabaseManager.ImportBlock(blockfile, Model.BlockName);
+                        DatabaseManager.CopyAllEntity(blockfile);
                     }
-                    Model?.PutBlock();
+                    br?.Draw();
+                });
+            }
+        }
+
+        public ICommand Cmd_Select
+        {
+            get
+            {
+                return CommandFactory.RegisterCommand(p =>
+                {
+                    var q = new sh.Cad.EntityQuery(Model);
+                    q.Select();
                 });
             }
         }

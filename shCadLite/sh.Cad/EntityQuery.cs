@@ -1,4 +1,5 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+﻿using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace sh.Cad
         private EntityInfo info;
 
 
-        public virtual string GetValueText(double value,string format,double ratio) { return string.Format(format, value * ratio); }
+        public virtual string GetValueText(double value, string format, double ratio) { return string.Format(format, value * ratio); }
 
 
         private string BlockName = Autodesk.AutoCAD.DatabaseServices.BlockTableRecord.ModelSpace;
@@ -40,8 +41,10 @@ namespace sh.Cad
                             {
                                 foreach (var oid in btr)
                                 {
-                                    if (HitLayerFilter(oid, tr) && HitDataFilter(oid, tr))
-                                        result.Add(oid);
+                                    var ent = tr.GetObject(oid, OpenMode.ForRead) as Entity;
+                                    if (ent!=null&&info.Compare(ent,tr)) result.Add(oid);
+                                    //if (HitTypeFilter(oid, tr) && HitLayerFilter(oid, tr) && HitDataFilter(oid, tr))
+                                        //result.Add(oid);
                                 }
                             }
                         }
@@ -57,6 +60,18 @@ namespace sh.Cad
         }
 
         IEnumerable<ObjectId> selection;
+
+        public void Select()
+        {
+            var s = Query();
+            var doc = Application.DocumentManager.MdiActiveDocument;
+            using (doc.LockDocument())
+            {
+                doc.Editor.SetImpliedSelection(s.ToArray());
+            }
+        }
+
+
         #region 计算
         public int Count()
         {
@@ -165,59 +180,93 @@ namespace sh.Cad
 
         #region 命中
 
-        private bool HitLayerFilter(ObjectId oid, Transaction tr)
-        {
-            if (info.LayerName == null) return true;
-            Entity ent = tr.GetObject(oid, OpenMode.ForRead, false, true) as Entity;
-            return ent != null && ent.Layer == info.LayerName;
 
-        }
-        private bool HitDataFilter(ObjectId oid, Transaction tr)
-        {
-            if (info.Data == null) return true;
-            bool dataFlag = true;
-            if (info.Data.Any())
-            {
-                dataFlag = false;
-                var obj = tr.GetObject(oid, OpenMode.ForRead);
-                if (obj != null)
-                {
-                    if (!obj.ExtensionDictionary.IsNull && obj.ExtensionDictionary.IsValid)
-                    {
-                        using (DBDictionary dbextdic = tr.GetObject(obj.ExtensionDictionary, OpenMode.ForRead) as DBDictionary)
-                        {
-                            dataFlag = info.Data.All(kv => IfEntityContainsKeyValue(dbextdic, kv, tr));
-                        }
-                    }
-                }
-            }
-            return dataFlag;
-        }
-        private bool IfEntityContainsKeyValue(DBDictionary dbextdic, KeyValuePair<string, string> kv, Transaction tr)
-        {
-            var r = false;
-            if (dbextdic.Contains(kv.Key))
-            {
-                if (string.IsNullOrWhiteSpace(kv.Value) || kv.Value == "*") return true;
-                else
-                {
-                    var one = dbextdic.GetAt(kv.Key);
-                    using (var xRec = tr.GetObject(one, OpenMode.ForRead) as Xrecord)
-                    {
-                        if (xRec != null && xRec.Data != null)
-                        {
-                            var array = xRec.Data.AsArray();
-                            if (array.Any())
-                            {
-                                var value = array[0].Value.ToString();
-                                return value == kv.Value;
-                            }
-                        }
-                    }
-                }
-            }
-            return r;
-        }
+        //private bool HitTypeFilter(ObjectId oid, Transaction tr)
+        //{
+        //    if (info.EntityTypeName == null) return true;
+        //    Entity ent = tr.GetObject(oid, OpenMode.ForRead, false, true) as Entity;
+        //    var entinfo = EntityInfo.Get(oid, tr);
+
+        //    if (info.EntityTypeName == "BlockReference")
+        //    {
+        //        var br = ent as BlockReference;
+        //        if (br == null) return false;
+        //        else if (br.IsDynamicBlock)
+        //        {
+        //            var btr = tr.GetObject(br.DynamicBlockTableRecord, OpenMode.ForRead) as BlockTableRecord;
+        //            bool visibility = true;
+        //            if (!string.IsNullOrWhiteSpace(info.BlockVisibilityName))
+        //            {
+        //                visibility = false;
+        //                foreach (DynamicBlockReferenceProperty p in br.DynamicBlockReferencePropertyCollection)
+        //                {
+        //                    if (p.PropertyTypeCode==5 && p.Value is string&&(string)p.Value==info.BlockVisibilityName)
+        //                    {
+        //                        visibility = true;
+        //                        break;
+        //                    }
+        //                }
+        //            }
+        //            return btr.Name == info.BlockName&& visibility;
+        //        }
+        //        else return br.Name == info.BlockName;
+        //    }
+        //    else return ent != null && ent.GetType().Name == info.EntityTypeName;
+
+        //}
+        //private bool HitLayerFilter(ObjectId oid, Transaction tr)
+        //{
+        //    if (info.LayerName == null) return true;
+        //    Entity ent = tr.GetObject(oid, OpenMode.ForRead, false, true) as Entity;
+        //    return ent != null && ent.Layer == info.LayerName;
+
+        //}
+        //private bool HitDataFilter(ObjectId oid, Transaction tr)
+        //{
+        //    if (info.Data == null) return true;
+        //    bool dataFlag = true;
+        //    if (info.Data.Any())
+        //    {
+        //        dataFlag = false;
+        //        var obj = tr.GetObject(oid, OpenMode.ForRead);
+        //        if (obj != null)
+        //        {
+        //            if (!obj.ExtensionDictionary.IsNull && obj.ExtensionDictionary.IsValid)
+        //            {
+        //                using (DBDictionary dbextdic = tr.GetObject(obj.ExtensionDictionary, OpenMode.ForRead) as DBDictionary)
+        //                {
+        //                    dataFlag = info.Data.All(kv => IfEntityContainsKeyValue(dbextdic, kv, tr));
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return dataFlag;
+        //}
+        //private bool IfEntityContainsKeyValue(DBDictionary dbextdic, KeyValuePair<string, string> kv, Transaction tr)
+        //{
+        //    var r = false;
+        //    if (dbextdic.Contains(kv.Key))
+        //    {
+        //        if (string.IsNullOrWhiteSpace(kv.Value) || kv.Value == "*") return true;
+        //        else
+        //        {
+        //            var one = dbextdic.GetAt(kv.Key);
+        //            using (var xRec = tr.GetObject(one, OpenMode.ForRead) as Xrecord)
+        //            {
+        //                if (xRec != null && xRec.Data != null)
+        //                {
+        //                    var array = xRec.Data.AsArray();
+        //                    if (array.Any())
+        //                    {
+        //                        var value = array[0].Value.ToString();
+        //                        return value == kv.Value;
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return r;
+        //}
 
         #endregion
     }

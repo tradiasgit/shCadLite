@@ -33,9 +33,12 @@ namespace sh.Cad
         {
             return GetEntityies()?[0];
         }
+        public T GetEntity<T>()where T:EntityInfo
+        {
+            return GetEntity() as T;
+        }
 
-
-        List<EntityInfo> _entitys;
+            List<EntityInfo> _entitys;
         public List<EntityInfo> GetEntityies()
         {
             if (_entitys == null && ObjectIds.Count > 0)
@@ -47,7 +50,7 @@ namespace sh.Cad
                 {
                     foreach (var oid in ObjectIds)
                     {
-                        var ent = EntityInfo.Get(tr.GetObject(oid, OpenMode.ForRead) as Entity);
+                        var ent = EntityInfo.Get(oid, tr);// tr.GetObject(oid, OpenMode.ForRead) as Entity);
                         _entitys.Add(ent);
                     }
                 }

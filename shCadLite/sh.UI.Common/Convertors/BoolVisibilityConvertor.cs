@@ -16,10 +16,10 @@ namespace sh.UI.Common
             if (result) return Visibility.Visible;
             else
             {
-                if (parameter != null && parameter.ToString() == "Collapsed")
-                    return Visibility.Collapsed;
-                else
+                if ((string)parameter== "Hidden")
                     return Visibility.Hidden;
+                else
+                    return Visibility.Collapsed;
             }
         }
 

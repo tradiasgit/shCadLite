@@ -24,7 +24,8 @@ namespace sh.Cad
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show(System.Environment.NewLine + "【监听事件异常】" + ex.Message + System.Environment.NewLine);
+                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument?.Editor.WriteMessage(System.Environment.NewLine + "【监听事件异常】" + ex.Message + System.Environment.NewLine);
+                //System.Windows.MessageBox.Show(System.Environment.NewLine + "【监听事件异常】" + ex.Message + System.Environment.NewLine);
             }
 
         }
@@ -68,28 +69,22 @@ namespace sh.Cad
 
         private static void Doc_ImpliedSelectionChanged(object sender, EventArgs e)
         {
-            if (IsListening)
+            var doc = (Document)sender;
+            if (doc == null) return;
+            if (!IsListening) return;
+            if (_listeners == null || _listeners.Count <= 0) return;
+
+
+            EntitySelection selection = new EntitySelection(doc.Editor.SelectImplied());
+            foreach (var l in _listeners)
             {
                 try
                 {
-                    var doc = (Document)sender;
-                    EntitySelection selection = null;
-                    if (doc != null)
-                    {
-                        selection = new EntitySelection(doc.Editor.SelectImplied());
-                    }
-
-                    if (_listeners.Count > 0)
-                    {
-                        foreach (var l in _listeners)
-                        {
-                            l.OnSelectionChanged(selection);
-                        }
-                    }
+                    l.OnSelectionChanged(selection);
                 }
                 catch (Exception ex)
                 {
-                    System.Windows.MessageBox.Show(System.Environment.NewLine + "【选择集监听异常1】" + ex.Message + System.Environment.NewLine);
+                    doc.Editor.WriteMessage(System.Environment.NewLine + "【选择集监听异常】" + ex.Message + System.Environment.NewLine);
                 }
             }
         }

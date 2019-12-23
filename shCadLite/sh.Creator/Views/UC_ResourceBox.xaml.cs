@@ -46,6 +46,7 @@ namespace sh.Creator.Views
         private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             SelectedItem = e.NewValue;
+            
         }
     }
 }

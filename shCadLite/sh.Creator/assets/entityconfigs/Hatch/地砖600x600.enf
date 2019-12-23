@@ -1,0 +1,13 @@
+{
+    "PatternScale": 600.0,
+    "PatternAngle": 0.0,
+    "PatternName": "_USER",
+    "HatchStyle": "Normal",
+    "Associative": false,
+    "PatternType": "UserDefined",
+    "PatternSpace": 600.0,
+    "PatternDouble": true,
+    "EntityTypeName": "Hatch",
+    "ColorIndex": 256,
+    "LayerName": "3-3 地坪填充"
+}

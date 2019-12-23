@@ -19,15 +19,13 @@ namespace sh.Creator.ViewModels
         }
         public FileInfo File { get; set; }
 
-        public ICommand Commands
+        public ICommand Cmd_ImportCadPart
         {
             get
             {
                 return CommandFactory.RegisterCommand(p =>
                 {
-                    var node = new sh.XmlResourcesParsing.Models.CopyAllEntity(null);
-                    node.SourceFileName = File.Name;
-                    node.Execute();
+                    sh.Cad.DatabaseManager.CopyAllEntity(File);
                 });
             }
         }

@@ -15,24 +15,8 @@ namespace sh.Cad
 {
     public class EntityConfig
     {
-        public string EntityTypeName { get; protected set; }
+        public string EntityType { get;  set; }
 
-        public int ColorIndex { get; set; } = 256;
-
-        public string LayerName { get; set; }
-
-        public Dictionary<string, string> Data { get; protected set; }
-
-        public HacthInfo Hatch { get; protected set; }
-
-        public string BlockName { get; protected set; }
-
-
-       
-
-
-        
-
-
+        public Dictionary<string,EntityInfo> Prefabs { get; set; }
     }
 }

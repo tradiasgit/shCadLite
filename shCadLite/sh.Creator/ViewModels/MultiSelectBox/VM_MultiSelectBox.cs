@@ -58,7 +58,7 @@ namespace sh.Creator.ViewModels
                     var doc = Application.DocumentManager.MdiActiveDocument;
                     var ed = Application.DocumentManager.MdiActiveDocument.Editor;
                     var db_source = HostApplicationServices.WorkingDatabase;
-                    var dir = new FileInfo(db_source.Filename).Directory;
+                    var dir = new FileInfo(db_source.OriginalFileName).Directory;
 
 
                     dir = new DirectoryInfo($@"{dir.FullName}\support");

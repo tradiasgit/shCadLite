@@ -10,29 +10,32 @@ namespace sh.Cad
 {
     public class DataManager
     {
-
-
-        public Dictionary<string, string> ReadDictionary(Entity ent)
+        public Dictionary<string, string> ReadDictionary(Entity ent, Transaction tr)
         {
             if (ent == null) throw new Exception("读取数据字典失败，ent为null");
             Dictionary<string, string> result = new Dictionary<string, string>();
             if (ent.ExtensionDictionary.IsNull) return result;
-            using (var tr = ent.Database.TransactionManager.StartTransaction())
+            DBDictionary dbextdic = tr.GetObject(ent.ExtensionDictionary, OpenMode.ForRead) as DBDictionary;
+            foreach (var one in dbextdic)
             {
-                DBDictionary dbextdic = tr.GetObject(ent.ExtensionDictionary, OpenMode.ForRead) as DBDictionary;
-                foreach (var one in dbextdic)
+                var dbext = tr.GetObject(one.Value, OpenMode.ForRead);
+                Xrecord xRec = dbext as Xrecord;
+                if (dbext == null) continue;//throw new EntityDictionaryException(this,"没有找到扩展属性记录");
+                else if (xRec != null)
                 {
-                    var dbext = tr.GetObject(one.Value, OpenMode.ForRead);
-                    Xrecord xRec = dbext as Xrecord;
-                    if (dbext == null) continue;//throw new EntityDictionaryException(this,"没有找到扩展属性记录");
-                    else if (xRec != null)
-                    {
-                        var value = xRec.Data.AsArray()[0].Value.ToString();
-                        result.Add(one.Key, value);
-                    }
+                    var value = xRec.Data.AsArray()[0].Value.ToString();
+                    result.Add(one.Key, value);
                 }
             }
             return result;
+        }
+
+        public Dictionary<string, string> ReadDictionary(Entity ent)
+        {
+            using (var tr = ent.Database.TransactionManager.StartTransaction())
+            {
+                return ReadDictionary(ent, tr);
+            }
         }
         public static void WriteDictionary(string handle, Dictionary<string, string> data)
         {
@@ -101,12 +104,30 @@ namespace sh.Cad
                 }
             }
         }
+        public static void WriteDictionary(Entity ent, Dictionary<string, string> data, Transaction tr)
+        {
+            if (!ent.ExtensionDictionary.IsValid)
+            {
+                //创建扩展字典
+                ent.CreateExtensionDictionary();
+            }
+            using (var objdict = (DBDictionary)tr.GetObject(ent.ExtensionDictionary, OpenMode.ForWrite, false))
+            {
+                foreach (var kv in data)
+                {
+                    Xrecord xrecord = new Xrecord() { Data = new ResultBuffer(new TypedValue((int)DxfCode.Text, kv.Value)) };
+                    objdict.SetAt(kv.Key, xrecord);
+                    tr.AddNewlyCreatedDBObject(xrecord, true);
+                    xrecord.Dispose();
+                }
+            }
+        }
 
         public static void RemoveKey(string handle, string key)
         {
             var oid = DatabaseManager.GetObjectIdByHandle(handle);
             if (oid != ObjectId.Null)
-                RemoveKey(oid,key);
+                RemoveKey(oid, key);
         }
 
         public static void RemoveKey(ObjectId oid, string key)

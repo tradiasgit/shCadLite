@@ -23,7 +23,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel  Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
-            <Button Margin="5,0,0,0" Command="{Binding }">提交产品
+            <Button Margin="5,0,0,0" Command="{Binding }">预算表
             </Button>
             <Button Margin="5,0,0,0" Command="{Binding Cmd_Refresh}">
                 <sh:FontIcon Icon="Refresh" ></sh:FontIcon>
@@ -46,52 +46,73 @@
                 </TreeView>
             </Border>
         </Expander>
-        <Expander DataContext="{Binding ElementName=tree,Path=SelectedItem}"  Header="{Binding Text}" IsExpanded="True"  Grid.Row="2">
+
+        <Expander   Header="{Binding Text}" DataContext="{Binding ElementName=tree,Path=SelectedItem}" IsExpanded="True"  Grid.Row="2">
             <StackPanel>
-                <sh:LabelContentControl Header="类型"  HeaderBorderBrush="Gray">
-                    <Grid>
-                        <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.EntityTypeName,Converter={StaticResource EntityTypeConvertor}}" ></TextBlock>
-                        <Button Width="30" HorizontalAlignment="Right"  Command="{Binding Cmd_Brush}" Content="Brush"></Button>
-                    </Grid>
-                </sh:LabelContentControl>
-                <sh:LabelContentControl Header="颜色"  HeaderBorderBrush="Gray">
-                    <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.ColorIndex}" ></TextBlock>
-                </sh:LabelContentControl>
-                <sh:LabelContentControl Header="块名"  HeaderBorderBrush="Gray" Visibility="{Binding Model.BlockName ,Converter={StaticResource NullVisibilityContertor},ConverterParameter=Collapsed}">
-                    <Grid>
-                        <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.BlockName}" ></TextBlock>
-                        <Button Width="30" HorizontalAlignment="Right"  Command="{Binding Cmd_PutBlock}" Content="Put"></Button>
-                    </Grid>
-                </sh:LabelContentControl>
-                <sh:LabelContentControl Header="图层"  HeaderBorderBrush="Gray">
-                    <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.LayerName}" ></TextBlock>
-                </sh:LabelContentControl>
-                <sh:LabelContentControl Header="图案"  HeaderBorderBrush="Gray" Visibility="{Binding Model.Hatch,Converter={StaticResource NullVisibilityContertor},ConverterParameter=Collapsed}">
-                    <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.Hatch}" ></TextBlock>
-                </sh:LabelContentControl>
-                <ItemsControl ItemsSource="{Binding Model.Data}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel></StackPanel>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <sh:LabelContentControl Header="{Binding Key}" HeaderBorderBrush="Yellow">
-                                <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Value}" ></TextBlock>
-                            </sh:LabelContentControl>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <sh:LabelContentControl Header="数量" HeaderBorderBrush="Orange">
-                    <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding CountText}" ></TextBlock>
-                </sh:LabelContentControl>
-                <sh:LabelContentControl Header="总长度" HeaderBorderBrush="Orange">
-                    <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding LengthText}" ></TextBlock>
-                </sh:LabelContentControl>
-                <sh:LabelContentControl Header="总面积" HeaderBorderBrush="Orange">
-                    <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding AreaText}" ></TextBlock>
-                </sh:LabelContentControl>
+                <StackPanel Orientation="Horizontal">
+                    <sh:IconButton Icon="Refresh" Command="{Binding CmdRefreshQuery}" HorizontalAlignment="Right"></sh:IconButton></StackPanel>
+                <StackPanel Visibility="{Binding Converter={StaticResource TypeVisibilityContertor},ConverterParameter=VM_TreeCadPart}">
+                    <sh:LabelContentControl Header="团组"  HeaderBorderBrush="Gray" >
+                        <Button Width="30" HorizontalAlignment="Right"  Command="{Binding Cmd_ImportCadPart}" Content="Put"></Button>
+                    </sh:LabelContentControl>
+                </StackPanel>
+                <StackPanel Visibility="{Binding Converter={StaticResource TypeVisibilityContertor},ConverterParameter=VM_TreeBlockInfo}">
+                    <sh:LabelContentControl Header="块名"  HeaderBorderBrush="Gray">
+                        <Grid>
+                            <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.BlockName}" ></TextBlock>
+                            <Button Width="30" HorizontalAlignment="Right"  Command="{Binding Cmd_PutBlock}" Content="Put"></Button>
+                        </Grid>
+                    </sh:LabelContentControl>
+                    <sh:LabelContentControl Header="数量" HeaderBorderBrush="Orange" Visibility="{Binding Model, Converter={StaticResource NullVisibilityContertor}}">
+                        <Grid>
+                            <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding CountText}" ></TextBlock>
+                            <Button Width="30" HorizontalAlignment="Right"  Command="{Binding Cmd_Select}" Content="Sel"></Button>
+                        </Grid>
+                    </sh:LabelContentControl>
+                </StackPanel>
+                <StackPanel  Visibility="{Binding Converter={StaticResource TypeVisibilityContertor},ConverterParameter=VM_TreeEntityInfo}">
+                    <sh:LabelContentControl Header="类型"  HeaderBorderBrush="Gray">
+                        <Grid>
+                            <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.EntityTypeName,Converter={StaticResource EntityTypeConvertor}}" ></TextBlock>
+                            <Button Width="30" HorizontalAlignment="Right"  Command="{Binding Cmd_Brush}" Content="Brush"></Button>
+                        </Grid>
+                    </sh:LabelContentControl>
+                    <sh:LabelContentControl Header="颜色"  HeaderBorderBrush="Gray">
+                        <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.ColorIndex}" ></TextBlock>
+                    </sh:LabelContentControl>
+                  
+                    <sh:LabelContentControl Header="图层"  HeaderBorderBrush="Gray" >
+                        <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.LayerName}" ></TextBlock>
+                    </sh:LabelContentControl>
+                    <sh:LabelContentControl Header="图案"  HeaderBorderBrush="Gray" Visibility="{Binding Model.Hatch,Converter={StaticResource NullVisibilityContertor}}">
+                        <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.Hatch}" ></TextBlock>
+                    </sh:LabelContentControl>
+                    <ItemsControl ItemsSource="{Binding Model.Data}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <sh:LabelContentControl Header="{Binding Key}" HeaderBorderBrush="Yellow">
+                                    <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Value}" ></TextBlock>
+                                </sh:LabelContentControl>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <sh:LabelContentControl Header="总长度" HeaderBorderBrush="Orange" >
+                        <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding LengthText}" ></TextBlock>
+                    </sh:LabelContentControl>
+                    <sh:LabelContentControl Header="总面积" HeaderBorderBrush="Orange">
+                        <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding AreaText}" ></TextBlock>
+                    </sh:LabelContentControl>
+                </StackPanel>
+                <StackPanel Visibility="{Binding Converter={StaticResource TypeVisibilityContertor},ConverterParameter=VM_TreeFolder}">
+                    <TextBlock>asdad</TextBlock>
+                </StackPanel>
+              
+               
             </StackPanel>
         </Expander>
     </Grid>
