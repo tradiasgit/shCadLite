@@ -155,10 +155,11 @@ namespace sh.Creator.ViewModels.BudgetSheet
                 }
             }
             budgetVars.Add(budgetVar);
-            BudgetVar.SaveAll(budgetVars);
-
-            Message = "操作成功";
-            Name = Value = "";
+            if(BudgetVar.SaveAll(budgetVars))
+            {
+                Message = "操作成功";
+                Name = Value = "";
+            }
         }
 
         private void Edit()
@@ -200,10 +201,11 @@ namespace sh.Creator.ViewModels.BudgetSheet
                 }
             }
             budgetVars.Insert(index,budgetVar);
-            BudgetVar.SaveAll(budgetVars);
-
-            Message = "操作成功";
-            _oldName = Name;
+            if(BudgetVar.SaveAll(budgetVars))
+            {
+                Message = "操作成功";
+                _oldName = Name;
+            }
         }
     }
 }
