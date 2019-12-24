@@ -66,12 +66,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
 
         private void Initialize()
         {
-            MethodList = new ObservableCollection<string>();
-            MethodList.Add("Value");
-            MethodList.Add("Count");
-            MethodList.Add("Length");
-            MethodList.Add("Area");
-
+            MethodList = new ObservableCollection<string>(BudgetVar.GetMethodList());
             SelMethod = "Value";
             Name = Value = "";
         }

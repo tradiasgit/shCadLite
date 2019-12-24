@@ -85,10 +85,14 @@
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-            <Button Content="添加变量" Width="78" Height="38" FontSize="14" Margin="5,0,0,0"
+            <Button Content="刷新变量" Width="78" Height="38" FontSize="14" Margin="5,0,0,0"
+                    Command="{Binding Cmd_RefreshBudgetVar}"></Button>
+            <Button Content="添加变量" Width="78" Height="38" FontSize="14" Margin="10,0,0,0"
                     Command="{Binding Cmd_AddBudgetVar}"></Button>
             <Button Content="编辑变量" Width="78" Height="38" FontSize="14" Margin="10,0,0,0"
                     Command="{Binding Cmd_EditBudgetVar}"></Button>
+            <Button Content="删除变量" Width="78" Height="38" FontSize="14" Margin="10,0,0,0"
+                    Command="{Binding Cmd_RemoveBudgetVar}"></Button>
         </StackPanel>
 
         <DataGrid x:Name="dgMain" Grid.Row="1" Style="{StaticResource DataGridStyle}" 
