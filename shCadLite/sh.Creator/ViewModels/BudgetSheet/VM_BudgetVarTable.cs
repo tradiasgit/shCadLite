@@ -53,9 +53,11 @@ namespace sh.Creator.ViewModels.BudgetSheet
             {
                 return CommandFactory.RegisterCommand(p =>
                 {
-                    var vm = new VM_EditBudgetVar();
+                    var vm = new VM_AddBudgetVar((v) => 
+                    { 
+                        BudgetVars.Add(v); 
+                    });
                     vm.Show();
-                    Refresh();
                 });
             }
         }

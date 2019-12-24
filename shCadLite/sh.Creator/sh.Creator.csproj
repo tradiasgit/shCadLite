@@ -87,6 +87,7 @@
     </Compile>
     <Compile Include="ViewModels\BudgetSheet\BaseModel\VM_BudgetVar.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_AddBudget.cs" />
+    <Compile Include="ViewModels\BudgetSheet\VM_AddBudgetVar.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_AddGroup.cs" />
     <Compile Include="ViewModels\BudgetSheet\BaseModel\VM_BudgetGroup.cs" />
     <Compile Include="ViewModels\BudgetSheet\BaseModel\VM_BudgetItem.cs" />
