@@ -141,17 +141,17 @@ namespace sh.Creator.ViewModels.BudgetSheet
             }
             else
             {
-                var query = new sh.Cad.EntityQuery(JsonConvert.DeserializeObject<EntityInfo>(bv.GetValue()));
+                var query =  sh.Cad.EntityQuery.Compute(JsonConvert.DeserializeObject<EntityInfo>(bv.GetValue()));
                 switch (bv.Method)
                 {
                     case "Count":
-                        v = query.Count().ToString();
+                        v = query.Count.ToString();
                         break;
                     case "Length":
-                        v = query.SumLength().ToString();
+                        v = query.SumLength.ToString();
                         break;
                     case "Area":
-                        v = query.SumArea().ToString();
+                        v = query.SumArea.ToString();
                         break;
                 }
             }
