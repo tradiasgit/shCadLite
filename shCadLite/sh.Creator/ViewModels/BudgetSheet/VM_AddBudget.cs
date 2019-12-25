@@ -80,6 +80,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
                         Message = "没有分组信息";
                         return;
                     }
+                    ModelNew.GroupName = BudgetGroups[SelGroupIndex].Name;
                     if (BudgetGroups[SelGroupIndex].BudgetItems == null)
                         BudgetGroups[SelGroupIndex].BudgetItems = new List<BudgetItem>();
                     if (string.IsNullOrEmpty(ModelNew.Name))
