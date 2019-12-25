@@ -7,6 +7,7 @@ using sh.XmlResourcesParsing.Fields;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -35,28 +36,44 @@ namespace sh.Creator.ViewModels.BudgetSheet
             Initialize();
         }
 
-        public void Show()
-        {
-            var win = new Window { Content = new UC_BudgetSheet(), DataContext = this };
-            win.Show();
-        }
-
-
+        private ICollectionView collectionView;
         private void Initialize()
         {
+            // 所有预算和所有变量
             var list = BudgetGroup.GetAll();
+            var budgetVars = BudgetVar.GetAll();
+
             BudgetItems = new ObservableCollection<VM_BudgetItem>();
+
             foreach (var itemGroup in list)
             {
                 if (itemGroup.BudgetItems == null) continue;
                 foreach (var item in itemGroup.BudgetItems)
                 {
-                    BudgetItems.Add(new VM_BudgetItem(item) { GroupName = itemGroup.Name });
+                    var vb = new VM_BudgetItem(item) { GroupName = itemGroup.Name };
+                    BudgetItems.Add(vb);
+
+                    var expression = item.Expression;
+                    budgetVars.ForEach(bv =>
+                    {
+                        if (expression.Contains(bv.Name))
+                            expression = expression.Replace(bv.Name, bv.GetQuantities());
+                    });
+                    try
+                    {
+                        var gcl = new System.Data.DataTable().Compute(expression, null).ToString();
+                        if(gcl!="False")
+                            vb.QuantitieString = gcl;
+                    }
+                    catch 
+                    {
+
+                    }
                 }
             }
 
-            var vw = CollectionViewSource.GetDefaultView(BudgetItems);
-            vw.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
+            collectionView = CollectionViewSource.GetDefaultView(BudgetItems);
+            collectionView.GroupDescriptions.Add(new PropertyGroupDescription("GroupName"));
         }
 
 
@@ -99,67 +116,23 @@ namespace sh.Creator.ViewModels.BudgetSheet
             {
                 return CommandFactory.RegisterCommand(p =>
                 {
-                    var vm = new VM_AddBudget();
+                    var vm = new VM_AddBudget(m=> {
+                        BudgetItems.Add(m);
+                    });
                     vm.Show();
-                    Initialize();
                 });
             }
         }
 
-        public ICommand Cmd_Calculate
+        public ICommand Cmd_Refresh
         {
             get
             {
                 return CommandFactory.RegisterCommand(p =>
                 {
-                    var budgetVars = BudgetVar.GetAll();
-
-                    foreach (var item in BudgetItems)
-                    {
-                        var expression = item.Expression;
-                        foreach (var bv in budgetVars)
-                        {
-                            if (expression.Contains(bv.Name))
-                            {
-                                string v = Getbiaodashizhi(bv);
-                                expression = expression.Replace(bv.Name, v);
-                            }
-                        }
-                        if(double.TryParse(new System.Data.DataTable().Compute(expression, null).ToString(), out var cr))
-                        {
-                            item.QuantitieString = Math.Round(cr, 2, MidpointRounding.AwayFromZero).ToString();
-                        }
-                    }
+                    Initialize();
                 });
             }
-        }
-
-
-        private static string Getbiaodashizhi(BudgetVar bv)
-        {
-            var v = string.Empty;
-            if (bv.Method == "Value")
-            {
-                v = bv.GetValue();
-            }
-            else
-            {
-                var query = sh.Cad.EntityQuery.Compute(JsonConvert.DeserializeObject<EntityInfo>(bv.GetValue()));
-                switch (bv.Method)
-                {
-                    case "Count":
-                        v = query.Count.ToString();
-                        break;
-                    case "Length":
-                        v = query.SumLength.ToString();
-                        break;
-                    case "Area":
-                        v = query.SumArea.ToString();
-                        break;
-                }
-            }
-
-            return v;
         }
     }
 }

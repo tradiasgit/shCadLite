@@ -1,5 +1,6 @@
 ﻿using Autodesk.AutoCAD.DatabaseServices;
 using Newtonsoft.Json;
+using sh.Cad;
 using sh.UI.Common.MVVM;
 using System;
 using System.Collections.Generic;
@@ -53,6 +54,34 @@ namespace sh.Creator.ViewModels.BudgetSheet
         public abstract string GetValue();
 
         public abstract void SetValue(string value);
+
+        /// <summary>
+        /// 获取工程量，可能读取图纸
+        /// </summary>
+        /// <returns></returns>
+        public string GetQuantities()
+        {
+            var gcl = string.Empty;
+            if (Method == "Value")
+                gcl = GetValue();
+            else
+            {
+                var query = sh.Cad.EntityQuery.Compute(JsonConvert.DeserializeObject<EntityInfo>(GetValue()));
+                switch (Method)
+                {
+                    case "Count":
+                        gcl = query.Count.ToString();
+                        break;
+                    case "Length":
+                        gcl = query.SumLength.ToString("f2");
+                        break;
+                    case "Area":
+                        gcl = query.SumArea.ToString("f2");
+                        break;
+                }
+            }
+            return gcl;
+        }
 
         public static List<string> GetMethodList()
         {
