@@ -69,6 +69,44 @@ namespace sh.Creator.ViewModels.BudgetSheet
         {
             Model = model;
         }
+
+
+        public ICommand Cmd_EditExpression
+        {
+            get
+            {
+                return CommandFactory.RegisterCommand(p =>
+                {
+                    var editVMm = new VM_EditExpression(Expression);
+                    if(editVMm.ShowWindow())
+                    {
+                        // 保存
+                        var budgetGroups = BudgetGroup.GetAll();
+                        var thisModel = budgetGroups.FirstOrDefault(g => g.Name == GroupName).BudgetItems.FirstOrDefault(i => i.ID == ID);
+                        thisModel.Expression = editVMm.ExpressionString;
+                        BudgetGroup.SaveAll(budgetGroups);
+
+                        Expression = editVMm.ExpressionString;
+                        QuantitieString = editVMm.QuantityString;
+                    }
+
+                });
+            }
+        }
+
+        public ICommand Cmd_EditName
+        {
+            get
+            {
+                return CommandFactory.RegisterCommand(p =>
+                {
+                    var budgetGroups = BudgetGroup.GetAll();
+                    var thisModel = budgetGroups.FirstOrDefault(g => g.Name == GroupName).BudgetItems.FirstOrDefault(i => i.ID == ID);
+                    thisModel.Name = Name;
+                    BudgetGroup.SaveAll(budgetGroups);
+                });
+            }
+        }
     }
 
     public class BudgetItem

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:local="clr-namespace:sh.Creator.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -17,7 +18,7 @@
             <Setter Property="CanUserAddRows" Value="False"></Setter>
             <!--禁止在尾行手动添加数据-->
             <Setter Property="AutoGenerateColumns" Value="False"></Setter>
-            <Setter Property="IsReadOnly" Value="True"></Setter>
+            <!--<Setter Property="IsReadOnly" Value="True"></Setter>-->
         </Style>
 
         <Style x:Key="ColumnHeaderStyle" TargetType="DataGridColumnHeader">
@@ -90,13 +91,13 @@
                     Command="{Binding Cmd_EditGroup}"></Button>
             <Button Content="添加预算" Width="78" Height="38" FontSize="14" Margin="10,0,0,0"
                     Command="{Binding Cmd_AddBudget}"></Button>
-            
+
             <Button Content="刷新" Width="78" Height="38" FontSize="14" Margin="10,0,0,0"
                     Command="{Binding Cmd_Refresh}"></Button>
         </StackPanel>
         
         <DataGrid x:Name="dgMain" Grid.Row="1" Style="{StaticResource DataGridStyle}" 
-                  ItemsSource="{Binding BudgetItems}">
+                  ItemsSource="{Binding BudgetItems}" >
             <DataGrid.GroupStyle>
                 <GroupStyle ContainerStyle="{StaticResource GroupHeaderStyle}" >
                     <GroupStyle.Panel>
@@ -110,9 +111,20 @@
                 <DataGridTemplateColumn Header="名称" Width="150">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding Name}" ></TextBox>
+                            <TextBox IsReadOnly="True"  BorderThickness="0" Text="{Binding Name}" ></TextBox>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <TextBox  Text="{Binding Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="LostFocus">
+                                        <i:InvokeCommandAction Command="{Binding Cmd_EditName}"></i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="工程量" Width="150">
                     <DataGridTemplateColumn.CellTemplate>
@@ -121,6 +133,22 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="表达式" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox IsReadOnly="True"  BorderThickness="0" Text="{Binding Expression}" ></TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBox IsReadOnly="True" VerticalAlignment="Center"  BorderThickness="0" Text="{Binding Expression}" ></TextBox>
+                                <Button Content="编辑" Command="{Binding Cmd_EditExpression}"></Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+                
                 <DataGridTemplateColumn Header="配置" Width="150">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

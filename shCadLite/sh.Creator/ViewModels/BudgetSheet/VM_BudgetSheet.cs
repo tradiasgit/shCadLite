@@ -134,5 +134,17 @@ namespace sh.Creator.ViewModels.BudgetSheet
                 });
             }
         }
+
+        public ICommand Cmd_Open
+        {
+            get
+            {
+                return CommandFactory.RegisterCommand(p =>
+                {
+                    var vm =new VM_EditExpression("X1+C2");
+                    vm.ShowWindow();
+                });
+            }
+        }
     }
 }
