@@ -115,11 +115,11 @@ namespace sh.Creator.ViewModels.BudgetSheet
                         return;
                     }
 
-                    if (string.IsNullOrEmpty(ModelNew.Configuration))
-                    {
-                        Message = "配置没有填写";
-                        return;
-                    }
+                    //if (string.IsNullOrEmpty(ModelNew.Configuration))
+                    //{
+                    //    Message = "配置没有填写";
+                    //    return;
+                    //}
                     #endregion
 
                     BudgetGroups[SelGroupIndex].BudgetItems.Add(ModelNew.Model);

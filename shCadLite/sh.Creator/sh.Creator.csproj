@@ -91,6 +91,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\BudgetSheet\BaseModel\VM_BudgetItemConfiguration.cs" />
     <Compile Include="ViewModels\BudgetSheet\BaseModel\VM_BudgetVar.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_AddBudget.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_AddBudgetVar.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="ViewModels\BudgetSheet\VM_BudgetSheet.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_BudgetVarTable.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_EditBudgetVar.cs" />
+    <Compile Include="ViewModels\BudgetSheet\VM_EditConfigurationProduct.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_EditExpression.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_EditGroup.cs" />
     <Compile Include="ViewModels\ResourceBox\VM_TreeBlockInfo.cs" />
@@ -120,6 +122,9 @@
     <Compile Include="ViewModels\ResourceBox\VM_ResourceBox.cs" />
     <Compile Include="ViewModels\VM_Main.cs" />
     <Compile Include="ViewModels\VM_shTagEditor.cs" />
+    <Compile Include="Views\BudgetSheet\Win_EditConfigurationProduct.xaml.cs">
+      <DependentUpon>Win_EditConfigurationProduct.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BudgetSheet\Win_EditExpression.xaml.cs">
       <DependentUpon>Win_EditExpression.xaml</DependentUpon>
     </Compile>
@@ -209,6 +214,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BudgetSheet\Win_EditBudgetVar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BudgetSheet\Win_EditConfigurationProduct.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

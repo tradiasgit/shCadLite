@@ -77,6 +77,19 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="HyperlinkStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Blue" />
+            <Setter Property="TextDecorations" Value="Underline" />
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Cursor" Value="Hand"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -143,7 +156,7 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" >
                                 <TextBox IsReadOnly="True" VerticalAlignment="Center"  BorderThickness="0" Text="{Binding Expression}" ></TextBox>
-                                <Button Content="编辑" Command="{Binding Cmd_EditExpression}"></Button>
+                                <Button Content="编辑" Margin="5,0,0,0" Command="{Binding Cmd_EditExpression}"></Button>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellEditingTemplate>
@@ -152,10 +165,30 @@
                 <DataGridTemplateColumn Header="配置" Width="150">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox IsReadOnly="True" BorderThickness="0" TextWrapping="Wrap" Text="{Binding Configuration}" Margin="0,2,0,2"></TextBox>
+                            <TextBlock Style="{StaticResource HyperlinkStyle}" Text="{Binding Configuration.Name}"  Tag="{Binding Configuration.Url}"
+                                       MouseLeftButtonUp="TextBlock_MouseLeftButtonUp">
+                                <TextBlock.ToolTip>
+                                    <ToolTip Content="{Binding Configuration.Price}" ContentStringFormat="价格：{0}"></ToolTip>
+                                </TextBlock.ToolTip>
+                            </TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Style="{StaticResource HyperlinkStyle}" Text="{Binding Configuration.Name}"  Tag="{Binding Configuration.Url}"
+                                       MouseLeftButtonUp="TextBlock_MouseLeftButtonUp">
+                                    <TextBlock.ToolTip>
+                                        <ToolTip Content="{Binding Configuration.Price}" ContentStringFormat="价格：{0}"></ToolTip>
+                                    </TextBlock.ToolTip>
+                                </TextBlock>
+                                <Button Content="编辑" Margin="5,0,0,0" Command="{Binding Cmd_EditConfiguration}"></Button>
+                            </StackPanel>
+                            
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
+
             </DataGrid.Columns>
         </DataGrid>    
     </Grid>
