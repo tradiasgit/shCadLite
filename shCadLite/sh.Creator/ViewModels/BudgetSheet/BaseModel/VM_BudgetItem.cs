@@ -15,7 +15,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
         /// </summary>
         public Guid ID
         {
-            get{ return Model.ID; }
+            get { return Model.ID; }
         }
 
         /// <summary>
@@ -50,18 +50,18 @@ namespace sh.Creator.ViewModels.BudgetSheet
         /// <summary>
         /// 配置
         /// </summary>
-        public string Configuration
+        public BudgetItemConfiguration Configuration
         {
             get { return Model.Configuration; }
             set { Model.Configuration = value; RaisePropertyChanged(); }
         }
 
-        private string  _groupName;
+        private string _groupName;
 
         public string GroupName
         {
             get { return _groupName; }
-            set { _groupName = value;RaisePropertyChanged(); }
+            set { _groupName = value; RaisePropertyChanged(); }
         }
 
 
@@ -69,6 +69,70 @@ namespace sh.Creator.ViewModels.BudgetSheet
         {
             Model = model;
         }
+
+
+        public ICommand Cmd_EditExpression
+        {
+            get
+            {
+                return CommandFactory.RegisterCommand(p =>
+                {
+                    var editVMm = new VM_EditExpression(Expression);
+                    if (editVMm.ShowWindow())
+                    {
+                        // 保存
+                        var budgetGroups = BudgetGroup.GetAll();
+                        var thisModel = budgetGroups.FirstOrDefault(g => g.Name == GroupName).BudgetItems.FirstOrDefault(i => i.ID == ID);
+                        thisModel.Expression = editVMm.ExpressionString;
+                        BudgetGroup.SaveAll(budgetGroups);
+
+                        Expression = editVMm.ExpressionString;
+                        QuantitieString = editVMm.QuantityString;
+                    }
+
+                });
+            }
+        }
+
+        public ICommand Cmd_EditName
+        {
+            get
+            {
+                return CommandFactory.RegisterCommand(p =>
+                {
+                    var budgetGroups = BudgetGroup.GetAll();
+                    var thisModel = budgetGroups.FirstOrDefault(g => g.Name == GroupName).BudgetItems.FirstOrDefault(i => i.ID == ID);
+                    thisModel.Name = Name;
+                    BudgetGroup.SaveAll(budgetGroups);
+                });
+            }
+        }
+
+        /// <summary>
+        /// 编辑配置
+        /// </summary>
+        public ICommand Cmd_EditConfiguration
+        {
+            get
+            {
+                return CommandFactory.RegisterCommand(p =>
+                {
+                    var editVMm = new VM_EditConfigurationProduct(Configuration);
+                    if (editVMm.ShowWindow())
+                    {
+                        // 保存
+                        var budgetGroups = BudgetGroup.GetAll();
+                        var thisModel = budgetGroups.FirstOrDefault(g => g.Name == GroupName).BudgetItems.FirstOrDefault(i => i.ID == ID);
+                        thisModel.Configuration = editVMm.BudgetItemConfiguration.Model ;
+                        BudgetGroup.SaveAll(budgetGroups);
+
+                        Configuration = editVMm.BudgetItemConfiguration.Model;
+                    }
+                });
+            }
+        }
+
+
     }
 
     public class BudgetItem
@@ -85,7 +149,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
         /// <summary>
         /// 配置
         /// </summary>
-        public string Configuration { get; set; }
+        public BudgetItemConfiguration Configuration { get; set; }
 
 
         // 计算

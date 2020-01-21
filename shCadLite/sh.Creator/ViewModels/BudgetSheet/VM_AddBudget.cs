@@ -29,7 +29,6 @@ namespace sh.Creator.ViewModels.BudgetSheet
         }
 
 
-
         private VM_BudgetItem _modelNew;
         /// <summary>
         /// 新预算
@@ -51,14 +50,15 @@ namespace sh.Creator.ViewModels.BudgetSheet
         }
 
 
+        private Action<VM_BudgetItem> _updateAction;
 
-        public VM_AddBudget()
+        public VM_AddBudget(Action<VM_BudgetItem> action=null)
         {
             ModelNew = new VM_BudgetItem(new BudgetItem());
             BudgetGroups = BudgetGroup.GetAll();
-
             _budgetVars = BudgetVar.GetAll();
 
+            _updateAction = action;
         }
 
         public void Show()
@@ -74,12 +74,13 @@ namespace sh.Creator.ViewModels.BudgetSheet
             {
                 return CommandFactory.RegisterCommand(p =>
                 {
-                    if(BudgetGroups.Count==0)
+                    #region 验证
+                    if (BudgetGroups.Count == 0)
                     {
                         Message = "没有分组信息";
                         return;
                     }
-
+                    ModelNew.GroupName = BudgetGroups[SelGroupIndex].Name;
                     if (BudgetGroups[SelGroupIndex].BudgetItems == null)
                         BudgetGroups[SelGroupIndex].BudgetItems = new List<BudgetItem>();
                     if (string.IsNullOrEmpty(ModelNew.Name))
@@ -87,7 +88,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
                         Message = "名称没有填写";
                         return;
                     }
-                    if(BudgetGroups[SelGroupIndex].BudgetItems.Exists(b => b.Name == ModelNew.Name))
+                    if (BudgetGroups[SelGroupIndex].BudgetItems.Exists(b => b.Name == ModelNew.Name))
                     {
                         Message = "名称重复";
                         return;
@@ -99,27 +100,32 @@ namespace sh.Creator.ViewModels.BudgetSheet
                     var expression = ModelNew.Expression;
                     foreach (var bv in _budgetVars)
                     {
-                        if(expression.Contains(bv.Name))
-                        {
-                            string v = Getbiaodashizhi(bv);
-                            expression = expression.Replace(bv.Name, v);
-                        }
+                        if (expression.Contains(bv.Name))
+                            expression = expression.Replace(bv.Name, bv.GetQuantities());
                     }
                     // 试算
-                    var calculationResult = new System.Data.DataTable().Compute(expression, null).ToString();
-                    if (calculationResult=="False")
+                    try
+                    {
+                        if (new System.Data.DataTable().Compute(expression, null).ToString() == "False")
+                            throw new Exception();
+                    }
+                    catch
                     {
                         Message = "表达式不正确，请检查";
                         return;
                     }
-                    if(string.IsNullOrEmpty(ModelNew.Configuration))
-                    {
-                        Message = "配置没有填写";
-                        return;
-                    }
+
+                    //if (string.IsNullOrEmpty(ModelNew.Configuration))
+                    //{
+                    //    Message = "配置没有填写";
+                    //    return;
+                    //}
+                    #endregion
+
                     BudgetGroups[SelGroupIndex].BudgetItems.Add(ModelNew.Model);
                     if (BudgetGroup.SaveAll(BudgetGroups))
                     {
+                        _updateAction?.Invoke(ModelNew);
                         ModelNew = new VM_BudgetItem(new BudgetItem());
                         SelGroupIndex = 0;
                         Message = "操作成功";
@@ -130,33 +136,6 @@ namespace sh.Creator.ViewModels.BudgetSheet
                     }
                 });
             }
-        }
-
-        private static string Getbiaodashizhi(BudgetVar bv)
-        {
-            var v = string.Empty;
-            if (bv.Method == "Value")
-            {
-                v = bv.GetValue();
-            }
-            else
-            {
-                var query =  sh.Cad.EntityQuery.Compute(JsonConvert.DeserializeObject<EntityInfo>(bv.GetValue()));
-                switch (bv.Method)
-                {
-                    case "Count":
-                        v = query.Count.ToString();
-                        break;
-                    case "Length":
-                        v = query.SumLength.ToString();
-                        break;
-                    case "Area":
-                        v = query.SumArea.ToString();
-                        break;
-                }
-            }
-
-            return v;
         }
     }
 }

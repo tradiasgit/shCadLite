@@ -49,11 +49,17 @@
       <HintPath>C:\Program Files\Autodesk\AutoCAD 2016\acmgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -86,6 +92,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\BudgetSheet\BaseModel\VM_BudgetItemConfiguration.cs" />
     <Compile Include="ViewModels\BudgetSheet\BaseModel\VM_BudgetVar.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_AddBudget.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_AddBudgetVar.cs" />
@@ -96,6 +103,8 @@
     <Compile Include="ViewModels\BudgetSheet\VM_BudgetSheet.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_BudgetVarTable.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_EditBudgetVar.cs" />
+    <Compile Include="ViewModels\BudgetSheet\VM_EditConfigurationProduct.cs" />
+    <Compile Include="ViewModels\BudgetSheet\VM_EditExpression.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_EditGroup.cs" />
     <Compile Include="ViewModels\ResourceBox\VM_ResourceRepository.cs" />
     <Compile Include="ViewModels\ResourceBox\VM_TreeBlockInfo.cs" />
@@ -118,6 +127,12 @@
     <Compile Include="ViewModels\ResourceBox\VM_ResourceBox.cs" />
     <Compile Include="ViewModels\VM_Main.cs" />
     <Compile Include="ViewModels\VM_shTagEditor.cs" />
+    <Compile Include="Views\BudgetSheet\Win_EditConfigurationProduct.xaml.cs">
+      <DependentUpon>Win_EditConfigurationProduct.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BudgetSheet\Win_EditExpression.xaml.cs">
+      <DependentUpon>Win_EditExpression.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Convertors\DoubleValueConvertor.cs" />
     <Compile Include="Views\Convertors\EntityTypeConvertor.cs" />
     <Compile Include="Views\Main.xaml.cs">
@@ -228,6 +243,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BudgetSheet\Win_EditBudgetVar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BudgetSheet\Win_EditConfigurationProduct.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BudgetSheet\Win_EditExpression.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
