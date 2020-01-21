@@ -67,10 +67,12 @@
     <Compile Include="Controls\IconButton.cs" />
     <Compile Include="Controls\DataPager.cs" />
     <Compile Include="Controls\PropertyRenderer.cs" />
+    <Compile Include="Controls\SmartPanel.cs" />
     <Compile Include="Controls\WaterMarkTextBox.cs" />
     <Compile Include="Convertors\BoolInverseConvertor.cs" />
     <Compile Include="Convertors\BoolInverseVisibilityConvertor.cs" />
     <Compile Include="Convertors\IsNullOrEmptyBoolConvertor.cs" />
+    <Compile Include="Convertors\StatusVisiblityConverter.cs" />
     <Compile Include="Convertors\TypeVisibilityContertor.cs" />
     <Compile Include="Convertors\PageIndexConvertor.cs" />
     <Compile Include="Convertors\PercentConvertor.cs" />
@@ -159,6 +161,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Controls\SearchControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\SmartPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

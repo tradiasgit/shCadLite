@@ -34,6 +34,8 @@ namespace sh.Creator.ViewModels
 
         public ObservableCollection<VM_EntityProperty> EntityProperties { get { return GetValue<ObservableCollection<VM_EntityProperty>>(); } set { SetValue(value); } }
 
+        public ObservableCollection<VM_PropertyGroup> PropertyGroups { get { return GetValue<ObservableCollection<VM_PropertyGroup>>(); } set { SetValue(value); } }
+
         public void OnSelectionChanged(EntitySelection selection)
         {
             IsVisible = false;
@@ -58,12 +60,13 @@ namespace sh.Creator.ViewModels
                     EntityProperties = new ObservableCollection<VM_EntityProperty>();
                     LoadEntityProperies("Entity");
                     LoadEntityProperies(Model.EntityTypeName);
-
+                    LoadPropertyGroups();
                     RaiseAllPropertyChanged();
                     IsVisible = true;
                 }
             }
         }
+
 
 
 
@@ -81,6 +84,14 @@ namespace sh.Creator.ViewModels
                     else EntityProperties.Add(new VM_EntityProperty(p, Model));
                 }
             }
+            
+
+        }
+
+        private void LoadPropertyGroups()
+        {
+            PropertyGroups = new ObservableCollection<VM_PropertyGroup>();
+            PropertyGroups.Add(new VM_PropertyGroup { Title = "默认", EntityProperties = EntityProperties });
         }
 
         protected override void RaiseAllPropertyChanged()
@@ -222,5 +233,12 @@ namespace sh.Creator.ViewModels
                 });
             }
         }
+    }
+
+    public class VM_PropertyGroup : ViewModelBase
+    {
+        public string Title { get { return GetValue<string>(); } set { SetValue(value); } }
+
+        public ObservableCollection<VM_EntityProperty> EntityProperties { get { return GetValue<ObservableCollection<VM_EntityProperty>>(); } set { SetValue(value); } }
     }
 }

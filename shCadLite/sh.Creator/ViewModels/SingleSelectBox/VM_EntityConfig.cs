@@ -21,7 +21,7 @@ namespace sh.Creator.ViewModels.SingleSelectBox
                 if (file.Extension.ToLower() == ".enf")
                 {
                     var info = EntityInfo.Get(file);
-                    Prefabs.Add(new VM_EntityPrefab() { Model = info, Key = file.Name });
+                    Prefabs.Add(new VM_EntityPrefab() { Model = info as EntityInfo, Key = file.Name });
                 }
             }
         }

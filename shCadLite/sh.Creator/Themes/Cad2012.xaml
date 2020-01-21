@@ -10,11 +10,12 @@
         <ResourceDictionary Source="pack://application:,,,/sh.UI.Common;component/Themes/AutoCAD/Style_HeaderedContentControl.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/sh.UI.Common;component/Themes/Styles/ToggleButton_Switch.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-    <sh:NullVisibilityContertor x:Key="NullVisibilityContertor"></sh:NullVisibilityContertor>
-    <sh:BoolVisibilityConvertor  x:Key="BoolVisibilityConvertor"></sh:BoolVisibilityConvertor>
-    <sh:BoolInverseVisibilityConvertor  x:Key="BoolInverseVisibilityConvertor"></sh:BoolInverseVisibilityConvertor>
-    <sh:BoolInverseConvertor  x:Key="BoolInverseConvertor"></sh:BoolInverseConvertor>
+    <sh:NullVisibilityContertor x:Key="NullVisibilityContertor"/>
+    <sh:BoolVisibilityConvertor  x:Key="BoolVisibilityConvertor"/>
+    <sh:BoolInverseVisibilityConvertor  x:Key="BoolInverseVisibilityConvertor"/>
+    <sh:BoolInverseConvertor  x:Key="BoolInverseConvertor"/>
     <sh:TypeVisibilityContertor x:Key="TypeVisibilityContertor"/>
+    <sh:StatusVisiblityConverter x:Key="StatusVisiblityConverter"/>
     <Style TargetType="TreeView" BasedOn="{StaticResource CAD风格TreeView}"/>
     <Style TargetType="Expander" BasedOn="{StaticResource CAD特性面板风格}"/>
     <Style TargetType="ScrollBar" BasedOn="{StaticResource DefaultScrollBar}"/>
@@ -23,7 +24,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
     <Style TargetType="ComboBox">
-        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderThickness" Value="1"/>
     </Style>
     <Style TargetType="TextBlock" x:Key="txtFieldHeader">
         <Setter Property="Margin" Value="5,0,0,0"/>

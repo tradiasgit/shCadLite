@@ -84,7 +84,7 @@ namespace sh.Cad
             var op_file = new PromptSaveFileOptions("选择目标文件" + Environment.NewLine);
             op_file.InitialDirectory = $@"{dir.FullName}";
 
-            if (IsBlock) op_file.InitialFileName = $"{BlockName}.enf";
+            op_file.InitialFileName = $"{BlockName}.enf";
             op_file.Filter = "图形配置文件-json格式 (*.enf)|*.enf";
 
             var result_file = ed.GetFileNameForSave(op_file);

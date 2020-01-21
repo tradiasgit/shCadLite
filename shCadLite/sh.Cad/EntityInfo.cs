@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace sh.Cad
 {
-    public class EntityInfo
+    public class EntityInfo : Json.IEntityInfo
     {
         public EntityInfo() { }
         public EntityInfo(Entity ent, Transaction tr)
@@ -65,20 +65,26 @@ namespace sh.Cad
         public Dictionary<string, string> Data { get; set; }
 
 
-        public static EntityInfo Get(ObjectId oid, Transaction tr)
+        public static EntityInfo Get(ObjectId objectid, Transaction tran)
         {
-            var ent = tr.GetObject(oid, OpenMode.ForRead) as Entity;
-            if (ent == null) return null;
-            else if (ent is BlockReference) return new BlockInfo(ent as BlockReference, tr);
-            else if (ent is Hatch) return new HatchInfo(ent as Hatch, tr);
-            else return new EntityInfo(ent, tr);
+            return EntityCache.Get(objectid, tran, (oid, tr) =>
+            {
+                var ent = tr.GetObject(oid, OpenMode.ForRead) as Entity;
+                if (ent == null) return null;
+                else if (ent is BlockReference) return new BlockInfo(ent as BlockReference, tr);
+                else if (ent is Hatch) return new HatchInfo(ent as Hatch, tr);
+                else if (ent is Polyline) return new PolylineInfo(ent as Polyline, tr);
+                else return new EntityInfo(ent, tr);
+            });
         }
 
-        public static EntityInfo Get(FileInfo file)
+
+
+        public static Json.IEntityInfo Get(FileInfo file)
         {
             if (file == null || !file.Exists || file.Extension.ToLower() != ".enf") return null;
             var text = File.ReadAllText(file.FullName);
-            var info = JsonConvert.DeserializeObject<EntityInfo>(text, new Json.JsonDemoConverter());
+            var info = JsonConvert.DeserializeObject<Json.IEntityInfo>(text, new Json.EntityInfoJsonConverter());
             return info;
         }
 
@@ -91,50 +97,15 @@ namespace sh.Cad
         [JsonIgnore]
         public double? Length { get; private set; }
 
-        [JsonIgnore]
-        public bool IsHatch { get { return EntityTypeName == "Hatch"; } }
 
 
-        [JsonIgnore]
-        public bool IsBlock { get { return EntityTypeName == "BlockReference"; } }
-
-        [JsonIgnore]
-        public BlockInfo AsBlock { get { if (IsBlock) return new BlockInfo(); else return null; } }
-
-     
-
-
-
-
-
-
-
-
-
-
-
-
-        protected void OnExection(Exception ex)
-        {
-            Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage($"执行失败，{ex.Message}{Environment.NewLine}");
-
-        }
-
-
-
+        #region Brush
 
         public void Brush()
         {
-            try
-            {
-                while (DoBrush()) ;
-            }
-            catch (Exception ex)
-            {
-                OnExection(ex);
-            }
+            while (DoBrush()) ;
         }
-        private string BlockTableRecordName { get; set; } = "*MODEL_SPACE";
+        //private string BlockTableRecordName { get; set; } = "*MODEL_SPACE";
 
 
         protected void BrushEntity_Base(Entity ent, Transaction tr)
@@ -185,49 +156,40 @@ namespace sh.Cad
 
         private bool DoBrush()
         {
-            try
+            var oid = ObjectId.Null;
+            var doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            var db = HostApplicationServices.WorkingDatabase;
+            var ed = doc.Editor;
+            using (var l = doc.LockDocument())
             {
-                var oid = ObjectId.Null;
-                var doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-                var db = HostApplicationServices.WorkingDatabase;
-                var ed = doc.Editor;
-                using (var l = doc.LockDocument())
+                PromptEntityResult r;
+
+                r = ed.DoPrompt(new PromptEntityOptions("选择目标对象或[设置(S)]", "s") { AllowObjectOnLockedLayer = true }) as PromptEntityResult;
+                if (r.Status == PromptStatus.OK)
                 {
-                    PromptEntityResult r;
-
-                    r = ed.DoPrompt(new PromptEntityOptions("选择目标对象或[设置(S)]", "s") { AllowObjectOnLockedLayer = true }) as PromptEntityResult;
-                    if (r.Status == PromptStatus.OK)
+                    oid = r.ObjectId;
+                    using (var tr = db.TransactionManager.StartTransaction())
                     {
-                        oid = r.ObjectId;
-                        using (var tr = db.TransactionManager.StartTransaction())
-                        {
-                            Entity ent = tr.GetObject(r.ObjectId, OpenMode.ForWrite) as Entity;
-                            BrushEntity_Base(ent, tr);
-                            BrushEntity_Property(ent, tr);
-                            BrushEntity_Data(ent, tr);
-                            tr.Commit();
-                        }
-                        ed.WriteMessage(Environment.NewLine);
-                        return true;
+                        Entity ent = tr.GetObject(r.ObjectId, OpenMode.ForWrite) as Entity;
+                        BrushEntity_Base(ent, tr);
+                        BrushEntity_Property(ent, tr);
+                        BrushEntity_Data(ent, tr);
+                        tr.Commit();
                     }
-                    else if (r.Status == PromptStatus.Keyword)
-                    {
-                        return true;
-                    }
+                    ed.WriteMessage(Environment.NewLine);
+                    return true;
                 }
-
-            }
-            catch (Exception ex)
-            {
-                OnExection(ex);
+                else if (r.Status == PromptStatus.Keyword)
+                {
+                    return true;
+                }
             }
             return false;
         }
 
 
 
-
-
+        #endregion
 
 
         public virtual void SaveAs()

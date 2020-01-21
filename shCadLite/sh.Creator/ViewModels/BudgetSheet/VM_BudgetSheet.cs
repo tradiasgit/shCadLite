@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using sh.Cad;
 using sh.Creator.Views;
 using sh.UI.Common.MVVM;
-using sh.XmlResourcesParsing.Fields;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

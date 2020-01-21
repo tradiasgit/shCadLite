@@ -77,6 +77,7 @@
     <Compile Include="CadApplication.cs" />
     <Compile Include="CadCommands.cs" />
     <Compile Include="Models\EntityConfig.cs" />
+    <Compile Include="Models\ResouceBoxInfo.cs" />
     <Compile Include="Models\shQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -105,8 +106,12 @@
     <Compile Include="ViewModels\BudgetSheet\VM_EditConfigurationProduct.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_EditExpression.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_EditGroup.cs" />
+    <Compile Include="ViewModels\ResourceBox\VM_ResourceRepository.cs" />
     <Compile Include="ViewModels\ResourceBox\VM_TreeBlockInfo.cs" />
     <Compile Include="ViewModels\ResourceBox\VM_TreeCadPart.cs" />
+    <Compile Include="ViewModels\ResourceBox\VM_TreePolylineInfo.cs" />
+    <Compile Include="ViewModels\ResourceBox\VM_TreeHatchInfo.cs" />
+    <Compile Include="ViewModels\ResourceBox\VM_TreeLayoutInfo.cs" />
     <Compile Include="ViewModels\ResourceBox\VM_TreeEntityInfo.cs" />
     <Compile Include="ViewModels\ResourceBox\VM_TreeFolder.cs" />
     <Compile Include="ViewModels\ResourceBox\VM_TreeItem.cs" />
@@ -144,13 +149,31 @@
     <Compile Include="Views\BudgetSheet\Win_EditBudgetVar.xaml.cs">
       <DependentUpon>Win_EditBudgetVar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ResourceBox\UC_BlockInfo.xaml.cs">
+      <DependentUpon>UC_BlockInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceBox\UC_PolylineInfo.xaml.cs">
+      <DependentUpon>UC_PolylineInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceBox\UC_EntityInfo.xaml.cs">
+      <DependentUpon>UC_EntityInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceBox\UC_Folder.xaml.cs">
+      <DependentUpon>UC_Folder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceBox\UC_HatchInfo.xaml.cs">
+      <DependentUpon>UC_HatchInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceBox\UC_LayoutInfo.xaml.cs">
+      <DependentUpon>UC_LayoutInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SingleSelectBox\PropertiesBox_Block.xaml.cs">
       <DependentUpon>PropertiesBox_Block.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SingleSelectBox\WD_RenameBlock.xaml.cs">
       <DependentUpon>WD_RenameBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UC_ResourceBox.xaml.cs">
+    <Compile Include="Views\ResourceBox\UC_ResourceBox.xaml.cs">
       <DependentUpon>UC_ResourceBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\shTagEditor.xaml.cs">
@@ -187,6 +210,9 @@
     <None Include="configs\BlockReference.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="configs\Polyline.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="configs\Line.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -201,6 +227,9 @@
     </None>
     <None Include="assets\entityconfigs\Hatch\地砖600x600.enf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="repositories.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -234,6 +263,30 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ResourceBox\UC_BlockInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ResourceBox\UC_PolylineInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceBox\UC_EntityInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ResourceBox\UC_Folder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ResourceBox\UC_HatchInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ResourceBox\UC_LayoutInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SingleSelectBox\PropertiesBox_Block.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -242,7 +295,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\UC_ResourceBox.xaml">
+    <Page Include="Views\ResourceBox\UC_ResourceBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -287,6 +340,10 @@
     <ProjectReference Include="..\sh.Cad\sh.Cad.csproj">
       <Project>{941599e3-cca7-4024-b144-7c1cb7ce8e3d}</Project>
       <Name>sh.Cad</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\sh.Repository\sh.Repository.csproj">
+      <Project>{6c15b008-7bb7-4eae-8c49-7d0effa013d9}</Project>
+      <Name>sh.Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\sh.UI.Common\sh.UI.Common.csproj">
       <Project>{9974a335-1464-47f2-8eaa-04128ec95922}</Project>

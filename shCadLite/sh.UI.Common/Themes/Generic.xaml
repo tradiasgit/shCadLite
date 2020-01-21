@@ -14,6 +14,7 @@
         <ResourceDictionary Source="pack://application:,,,/sh.UI.Common;component/Themes/Controls/WaterMarkTextBox.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/sh.UI.Common;component/Themes/Controls/DataPager.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/sh.UI.Common;component/Themes/Controls/SearchControl.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/sh.UI.Common;component/Themes/Controls/SmartPanel.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type sh:PropertyRenderer}">

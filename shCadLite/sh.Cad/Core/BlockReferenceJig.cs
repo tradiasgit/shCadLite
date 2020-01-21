@@ -27,10 +27,10 @@ namespace sh.Cad.Jig
             var opts = new JigPromptPointOptions($"\n选择插入点():" + Environment.NewLine);
             opts.UserInputControls = UserInputControls.NullResponseAccepted;
             opts.BasePoint = Point3d.Origin;
-            opts.Keywords.Add("a", "a", "左旋转90°(A)");
-            opts.Keywords.Add("d", "d", "右旋转90°(D)");
-            opts.Keywords.Add("q", "q", "垂直翻转(Q)");
-            opts.Keywords.Add("e", "e", "水平翻转(E)");
+            //opts.Keywords.Add("a", "a", "左旋转90°(A)");
+            //opts.Keywords.Add("d", "d", "右旋转90°(D)");
+            //opts.Keywords.Add("q", "q", "垂直翻转(Q)");
+            //opts.Keywords.Add("e", "e", "水平翻转(E)");
 
             var ppr = prompts.AcquirePoint(opts);
 

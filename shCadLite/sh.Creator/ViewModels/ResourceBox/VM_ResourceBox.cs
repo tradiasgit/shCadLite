@@ -14,6 +14,8 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using System.Xml;
 using Newtonsoft.Json;
+using System.Reflection;
+using System.Diagnostics;
 
 namespace sh.Creator.ViewModels
 {
@@ -22,68 +24,40 @@ namespace sh.Creator.ViewModels
 
         public VM_ResourceBox()
         {
+            Load();
             IsVisible = true;
         }
 
         public bool IsVisible { get { return GetValue<bool>(); } set { SetValue(value); } }
-        public ObservableCollection<VM_TreeItem> ResourceTree { get { return GetValue<ObservableCollection<VM_TreeItem>>(); } set { SetValue(value); } }
 
+        public ObservableCollection<VM_ResourceRepository> Repositories { get { return GetValue<ObservableCollection<VM_ResourceRepository>>(); } set { SetValue(value); } }
+
+
+        public VM_ResourceRepository SelectedRepo { get { return GetValue<VM_ResourceRepository>(); } set { SetValue(value); } }
+
+        public VM_TreeItem SelectedItem { get { return GetValue<VM_TreeItem>(); } set { SetValue(value); } }
 
 
         private void Load()
         {
-            var db_source = HostApplicationServices.WorkingDatabase;
-            var dir = new FileInfo(db_source.OriginalFileName).Directory;
-            dir = new DirectoryInfo($@"{dir.FullName}\support");
-            ResourceTree = new ObservableCollection<VM_TreeItem>(LoadFromDir(dir));
-        }
-
-        private IEnumerable<VM_TreeItem> LoadFromDir(DirectoryInfo dir)
-        {
-            var result = new List<VM_TreeItem>();
-            if (dir.Exists)
+            var repos = sh.ResourceRepository.RepositoryConfig.GetRepositories();
+            if (repos != null && repos.Count > 0)
             {
-                foreach (var cd in dir.GetDirectories())
-                {
-                    var vmcd = new VM_TreeFolder() { Text = cd.Name };
-                    vmcd.Children = new ObservableCollection<VM_TreeItem>(LoadFromDir(cd));
-                    vmcd.IsExpanded = vmcd.Children.Count > 0;
-                    result.Add(vmcd);
-                }
-                foreach (var cf in dir.GetFiles())
-                {
-                    if (cf.Extension.ToLower() == ".enf")
-                    {
-                        var info = EntityInfo.Get(cf);
-                        if (info != null)
-                        {
-                            if (info.IsBlock)
-                            {
-                                result.Add(new VM_TreeBlockInfo(cf, info));
-                            }
-                            else
-                            {
-                                result.Add(new VM_TreeEntityInfo(cf, info));
-                            }
-                        }
-                    }
-                    else if (cf.Extension.ToLower() == ".dwg" && !cf.Name.ToLower().EndsWith("_recover.dwg") && !cf.Name.ToLower().EndsWith("_block.dwg"))
-                    {
-                        var vmcf = new VM_TreeCadPart(cf);
-                        result.Add(vmcf);
-                    }
-                }
+                Repositories = new ObservableCollection<VM_ResourceRepository>(repos.Select(r => new VM_ResourceRepository(r)));
+                SelectedRepo = Repositories[0];
             }
-            return result;
         }
-
 
         public void OnSelectionChanged(EntitySelection selection)
         {
-            IsVisible = false;
+
             if (selection == null || selection.Count == 0)
             {
                 IsVisible = true;
+            }
+            else
+            {
+                IsVisible = false;
             }
         }
 
@@ -97,8 +71,17 @@ namespace sh.Creator.ViewModels
                 });
             }
         }
-        
-       
+        public ICommand Cmd_OpenRepoConfig
+        {
+            get
+            {
+                return CommandFactory.RegisterCommand(p =>
+                {
+                    Process.Start(sh.ResourceRepository.RepositoryConfig.RepoConfigFile.FullName);
+                });
+            }
+        }
+
 
     }
 }

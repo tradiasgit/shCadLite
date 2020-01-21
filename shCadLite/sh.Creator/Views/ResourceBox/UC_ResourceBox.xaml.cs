@@ -23,30 +23,20 @@ namespace sh.Creator.Views
         public UC_ResourceBox()
         {
             InitializeComponent();
-            var vm =new ViewModels.VM_ResourceBox();
-            sh.Cad.EventManager.RegisterSelectionListener(vm);
-            DataContext = vm;
+            VM = new ViewModels.VM_ResourceBox();
+            sh.Cad.EventManager.RegisterSelectionListener(VM);
+            DataContext = VM;
         }
 
-   
-
-
-
-
-        public object SelectedItem
-        {
-            get { return (object)GetValue(SelectedItemProperty); }
-            set { SetValue(SelectedItemProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for SelectedItem.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SelectedItemProperty =
-            DependencyProperty.Register("SelectedItem", typeof(object), typeof(UC_ResourceBox), new PropertyMetadata(null));
+        ViewModels.VM_ResourceBox VM;
 
         private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            SelectedItem = e.NewValue;
-            
+            var item = e.NewValue as ViewModels.VM_TreeItem;
+            if (item != null)
+                VM.SelectedItem = item;
+            else VM.SelectedItem = null;
+
         }
     }
 }

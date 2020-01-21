@@ -4,13 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:sh.Creator.Views"
-             xmlns:sh="clr-namespace:sh.UI.Common;assembly=sh.UI.Common"
              xmlns:vm="clr-namespace:sh.Creator.ViewModels"
+             xmlns:sh="clr-namespace:sh.UI.Common;assembly=sh.UI.Common"
              mc:Ignorable="d"   Background="#fff0f0f0" Padding="10"
              d:DesignHeight="640" d:DesignWidth="320">
-    <StackPanel>
-        <local:UC_SingleSelectBox/>
-        <local:UC_MultiSelectBox />
-        <local:UC_ResourceBox/>
-    </StackPanel>
+    <UserControl.Resources>
+        <sh:BoolVisibilityConvertor  x:Key="BoolVisibilityConvertor"/>
+    </UserControl.Resources>
+    <Grid>
+        <local:UC_MultiSelectBox   Visibility="{Binding IsVisible,Converter={StaticResource BoolVisibilityConvertor}}"/>
+        <local:UC_ResourceBox  Visibility="{Binding IsVisible,Converter={StaticResource BoolVisibilityConvertor}}"/>
+        <local:UC_SingleSelectBox  Visibility="{Binding IsVisible,Converter={StaticResource BoolVisibilityConvertor}}"/>
+    </Grid>
 </UserControl>

@@ -16,141 +16,172 @@
             <local:DoubleValueConverter x:Key="DoubleValueConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
-    <StackPanel Visibility="{Binding IsVisible,Converter={StaticResource BoolVisibilityConvertor},ConverterParameter=Collapsed}">
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <sh:IconButton Icon="Brush" Command="{Binding Cmd_Brush}"/>
-            <sh:IconButton Icon="Copy" Command="{Binding Cmd_PutBlock}" Visibility="{Binding Model.BlockName ,Converter={StaticResource NullVisibilityContertor},ConverterParameter=Collapsed}"/>
-            <sh:IconButton Icon="FaFloppyO" Command="{Binding Cmd_SaveAs}"/>
-        </StackPanel>
-        <Expander Header="{Binding EntityTypeText}" IsExpanded="True">
-            <ItemsControl ItemsSource="{Binding EntityProperties}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <sh:LabelContentControl Header="{Binding Title}"  HeaderBorderBrush="Gray">
-                            <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Value}" ></TextBlock>
-                        </sh:LabelContentControl>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel></StackPanel>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </Expander>
-        <Expander Header="{Binding EntityTypeText}" IsExpanded="True">
-            <StackPanel>
-                <sh:LabelContentControl Header="类型"  HeaderBorderBrush="Gray">
-                    <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.EntityTypeName,Converter={StaticResource EntityTypeConvertor}}" ></TextBlock>
-                </sh:LabelContentControl>
-                <sh:LabelContentControl Header="块名"  HeaderBorderBrush="Brown" Visibility="{Binding Model.BlockName ,Converter={StaticResource NullVisibilityContertor},ConverterParameter=Collapsed}">
-                    <Grid>
-                        <TextBlock  Style="{StaticResource txtFieldHeader}" Text="{Binding Model.BlockName}" Margin="0,0,45,0"></TextBlock>
-                        <Button Width="15" HorizontalAlignment="Right"  Command="{Binding Cmd_RenameBlock}" Content="R"></Button>
-                        <Button Width="15" HorizontalAlignment="Right"  Command="{Binding Cmd_PutBlockTo0}" Content="0" Margin="0,0,15,0"></Button>
-                        <Button Width="15" HorizontalAlignment="Right"  Command="{Binding Cmd_SetBasePoint}" Content="P" Margin="0,0,30,0"></Button>
-                    </Grid>
-                </sh:LabelContentControl>
-                <sh:LabelContentControl Header="颜色"  HeaderBorderBrush="Blue">
-                    <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.ColorIndex}" ></TextBlock>
-                </sh:LabelContentControl>
-                <sh:LabelContentControl Header="图层"  HeaderBorderBrush="Blue">
-                    <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.LayerName}" ></TextBlock>
-                </sh:LabelContentControl>
-                <sh:LabelContentControl Header="图案"  HeaderBorderBrush="Purple" Visibility="{Binding Model.Hatch,Converter={StaticResource NullVisibilityContertor}}">
-                    <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.Hatch}" ></TextBlock>
-                </sh:LabelContentControl>
-                <sh:LabelContentControl Header="长度" HeaderBorderBrush="Orange" Visibility="{Binding Model.Length,Converter={StaticResource NullVisibilityContertor}}">
-                    <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.Length,Converter={StaticResource DoubleValueConverter},ConverterParameter=米}" ></TextBlock>
-                </sh:LabelContentControl>
-                <sh:LabelContentControl Header="面积" HeaderBorderBrush="Orange" Visibility="{Binding Model.Area,Converter={StaticResource NullVisibilityContertor}}">
-                    <TextBlock Style="{StaticResource txtFieldHeader}"     Text="{Binding Model.Area,Converter={StaticResource DoubleValueConverter},ConverterParameter=平米}" ></TextBlock>
-                </sh:LabelContentControl>
-            </StackPanel>
-        </Expander>
-        <Expander Header="数据" IsExpanded="True" Padding="0" Visibility="{Binding Data,Converter={StaticResource NullVisibilityContertor},ConverterParameter=Collapsed}">
-            <Border  BorderThickness="1,0" BorderBrush="#ff888888" Height="100"  Background="#fff0f0f0" Padding="0">
-                <DockPanel>
-                    <Border  DockPanel.Dock="Top" Height="20" BorderThickness="0,0,0,1" BorderBrush="#ff888888">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="200"/>
+        </Grid.RowDefinitions>
+        <Menu>
+            <MenuItem Header="格式刷" Command="{Binding Cmd_Brush}"/>
+            <MenuItem Header="摆放块" Command="{Binding Cmd_PutBlock}" Visibility="{Binding Model.BlockName ,Converter={StaticResource NullVisibilityContertor},ConverterParameter=Collapsed}"/>
+            <MenuItem Header="保存" Command="{Binding Cmd_SaveAs}"  />
+        </Menu>
+        <sh:LabelContentControl Grid.Row="1" Header="配置" Content="{Binding ConfigName}"/>
+        <sh:LabelContentControl Grid.Row="2" Header="类型" Content="{Binding Model.EntityTypeName}"/>
+        <Border Grid.Row="3">
+            <ScrollViewer  >
+                <ItemsControl ItemsSource="{Binding PropertyGroups}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Expander Header="{Binding Title}" IsExpanded="True">
+                                <ItemsControl ItemsSource="{Binding EntityProperties}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <sh:LabelContentControl Header="{Binding Title}"  HeaderBorderBrush="Gray">
+                                                <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Value}" ></TextBlock>
+                                            </sh:LabelContentControl>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel></StackPanel>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </Expander>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+      
+
+        <StackPanel  Visibility="Collapsed">
+            
+            <Expander Header="{Binding EntityTypeText}" IsExpanded="True">
+                <StackPanel>
+                    <sh:LabelContentControl Header="类型"  HeaderBorderBrush="Gray">
+                        <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.EntityTypeName,Converter={StaticResource EntityTypeConvertor}}" ></TextBlock>
+                    </sh:LabelContentControl>
+                    <sh:LabelContentControl Header="块名"  HeaderBorderBrush="Brown" Visibility="{Binding Model.BlockName ,Converter={StaticResource NullVisibilityContertor},ConverterParameter=Collapsed}">
                         <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100"/>
-                                <ColumnDefinition Width="1"/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition Width="10"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox  Grid.Column="0" Text="{Binding NewData.Key}"/>
-                            <Border  Grid.Column="1" BorderThickness="1" BorderBrush="#ff888888"/>
-                            <TextBox  Grid.Column="2" Text="{Binding NewData.Value}"/>
-                            <Button  HorizontalAlignment="Right" Style="{StaticResource icon_Button_noBorder}"
+                            <TextBlock  Style="{StaticResource txtFieldHeader}" Text="{Binding Model.BlockName}" Margin="0,0,45,0"></TextBlock>
+                            <Button Width="15" HorizontalAlignment="Right"  Command="{Binding Cmd_RenameBlock}" Content="R"></Button>
+                            <Button Width="15" HorizontalAlignment="Right"  Command="{Binding Cmd_PutBlockTo0}" Content="0" Margin="0,0,15,0"></Button>
+                            <Button Width="15" HorizontalAlignment="Right"  Command="{Binding Cmd_SetBasePoint}" Content="P" Margin="0,0,30,0"></Button>
+                        </Grid>
+                    </sh:LabelContentControl>
+                    <sh:LabelContentControl Header="颜色"  HeaderBorderBrush="Blue">
+                        <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.ColorIndex}" ></TextBlock>
+                    </sh:LabelContentControl>
+                    <sh:LabelContentControl Header="图层"  HeaderBorderBrush="Blue">
+                        <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.LayerName}" ></TextBlock>
+                    </sh:LabelContentControl>
+                    <sh:LabelContentControl Header="图案"  HeaderBorderBrush="Purple" Visibility="{Binding Model.Hatch,Converter={StaticResource NullVisibilityContertor}}">
+                        <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.Hatch}" ></TextBlock>
+                    </sh:LabelContentControl>
+                    <sh:LabelContentControl Header="长度" HeaderBorderBrush="Orange" Visibility="{Binding Model.Length,Converter={StaticResource NullVisibilityContertor}}">
+                        <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.Length,Converter={StaticResource DoubleValueConverter},ConverterParameter=米}" ></TextBlock>
+                    </sh:LabelContentControl>
+                    <sh:LabelContentControl Header="面积" HeaderBorderBrush="Orange" Visibility="{Binding Model.Area,Converter={StaticResource NullVisibilityContertor}}">
+                        <TextBlock Style="{StaticResource txtFieldHeader}"     Text="{Binding Model.Area,Converter={StaticResource DoubleValueConverter},ConverterParameter=平米}" ></TextBlock>
+                    </sh:LabelContentControl>
+                </StackPanel>
+            </Expander>
+            <Expander Header="数据" IsExpanded="True" Padding="0" Visibility="{Binding Data,Converter={StaticResource NullVisibilityContertor},ConverterParameter=Collapsed}">
+                <Border  BorderThickness="1,0" BorderBrush="#ff888888" Height="100"  Background="#fff0f0f0" Padding="0">
+                    <DockPanel>
+                        <Border  DockPanel.Dock="Top" Height="20" BorderThickness="0,0,0,1" BorderBrush="#ff888888">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="1"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="10"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox  Grid.Column="0" Text="{Binding NewData.Key}"/>
+                                <Border  Grid.Column="1" BorderThickness="1" BorderBrush="#ff888888"/>
+                                <TextBox  Grid.Column="2" Text="{Binding NewData.Value}"/>
+                                <Button  HorizontalAlignment="Right" Style="{StaticResource icon_Button_noBorder}"
                                      Height="18" Width="18" 
                                      Command="{Binding Cmd_AddData}"
                                      Grid.Column="3">
-                                <sh:FontIcon  Height="16" Width="16" Icon="Plus"></sh:FontIcon>
-                            </Button>
-                        </Grid>
-                        <!--<sh:WaterMarkTextBox WaterMark="输入新增的标签（:分隔标签名）"  BorderThickness="0">
+                                    <sh:FontIcon  Height="16" Width="16" Icon="Plus"></sh:FontIcon>
+                                </Button>
+                            </Grid>
+                            <!--<sh:WaterMarkTextBox WaterMark="输入新增的标签（:分隔标签名）"  BorderThickness="0">
                             <sh:WaterMarkTextBox.Attach>
                                 <sh:FontIcon Icon="Plus"></sh:FontIcon>
                             </sh:WaterMarkTextBox.Attach>
                         </sh:WaterMarkTextBox>-->
-                    </Border>
-                    <ListBox x:Name="root"
+                        </Border>
+                        <ListBox x:Name="root"
                          BorderThickness="0,0,0,1" BorderBrush="#ff888888"                          
                          Margin="0"  Padding="0"                          
                          ScrollViewer.VerticalScrollBarVisibility="Visible" 
                          ScrollViewer.HorizontalScrollBarVisibility="Hidden" 
                          ItemContainerStyle="{StaticResource listitem1}"
                          ItemsSource="{Binding Data}"  >
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border x:Name="container" BorderThickness="1" BorderBrush="Transparent">
-                                    <Grid HorizontalAlignment="Stretch">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100"></ColumnDefinition>
-                                            <ColumnDefinition Width="80"></ColumnDefinition>
-                                            <ColumnDefinition Width="20" ></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock HorizontalAlignment="Left" Margin="10,0" Text ="{Binding Key}"></TextBlock>
-                                        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,0" Text ="{Binding Value}" TextTrimming="CharacterEllipsis"></TextBlock>
-                                        <Button Grid.Column="2"  Style="{StaticResource icon_Button_noBorder}"
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border x:Name="container" BorderThickness="1" BorderBrush="Transparent">
+                                        <Grid HorizontalAlignment="Stretch">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                                <ColumnDefinition Width="80"></ColumnDefinition>
+                                                <ColumnDefinition Width="20" ></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock HorizontalAlignment="Left" Margin="10,0" Text ="{Binding Key}"></TextBlock>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,0" Text ="{Binding Value}" TextTrimming="CharacterEllipsis"></TextBlock>
+                                            <Button Grid.Column="2"  Style="{StaticResource icon_Button_noBorder}"
                                             Height="18" Width="18"  Command="{Binding ElementName=root, Path=DataContext.Cmd_RemoveData}"
                                             CommandParameter="{Binding}">
-                                            <sh:FontIcon  Height="16" Width="16"  Icon="Times"></sh:FontIcon>
-                                        </Button>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ListBox>
-                </DockPanel>
-            </Border>
-        </Expander>
-        <Expander Header="{Binding Header}" IsExpanded="True" DataContext="{Binding EntityConfig}" Visibility="{Binding Converter={StaticResource NullVisibilityContertor}}">
-            <ItemsControl ItemsSource="{Binding Prefabs}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel></StackPanel>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <sh:LabelContentControl Header="{Binding Key}" HeaderBorderBrush="Red">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Button Grid.Column="0"  Command="{Binding Cmd_Draw}" Content="Draw"></Button>
-                                <Button Grid.Column="1"  Command="{Binding Cmd_Brush}" Content="Brush"></Button>
-                            </Grid>
+                                                <sh:FontIcon  Height="16" Width="16"  Icon="Times"></sh:FontIcon>
+                                            </Button>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
+                </Border>
+            </Expander>
+            <Expander Header="{Binding Header}" IsExpanded="True" DataContext="{Binding EntityConfig}" Visibility="{Binding Converter={StaticResource NullVisibilityContertor}}">
+                <ItemsControl ItemsSource="{Binding Prefabs}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel></StackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <sh:LabelContentControl Header="{Binding Key}" HeaderBorderBrush="Red">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0"  Command="{Binding Cmd_Draw}" Content="Draw"></Button>
+                                    <Button Grid.Column="1"  Command="{Binding Cmd_Brush}" Content="Brush"></Button>
+                                </Grid>
 
-                        </sh:LabelContentControl>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </Expander>
-    </StackPanel>
+                            </sh:LabelContentControl>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Expander>
+        </StackPanel>
+    </Grid>
+   
 </UserControl>

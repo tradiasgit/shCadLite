@@ -8,7 +8,11 @@ using System.Threading.Tasks;
 
 namespace sh.Cad.Json
 {
-    public abstract class JsonCreationConverter<T> : JsonConverter
+    public interface IEntityInfo
+    {
+        string EntityTypeName { get; set; }
+    }
+    internal abstract class JsonCreationConverter<T> : JsonConverter
     {
         protected abstract T Create(Type objectType, JObject jsonObject);
         public override bool CanConvert(Type objectType)
@@ -30,17 +34,18 @@ namespace sh.Cad.Json
         }
     }
 
-    public class JsonDemoConverter : JsonCreationConverter<EntityInfo>
+    internal class EntityInfoJsonConverter : JsonCreationConverter<IEntityInfo>
     {
-        protected override EntityInfo Create(Type objectType, JObject jsonObject)
+        protected override IEntityInfo Create(Type objectType, JObject jsonObject)
         {
             var typeName = jsonObject["EntityTypeName"].ToString();
             switch (typeName)
             {
-                case "BlockReference":
-                    return new BlockInfo();
-                case "Hatch":
-                    return new HatchInfo();
+                case "BlockReference": return new BlockInfo();
+                case "Hatch": return new HatchInfo();
+                case "Polyline": return new HatchInfo();
+                case "Layout": return new LayoutInfo();
+                case "EntityGroup": return new EntityGroupInfo();
                 default: return new EntityInfo();
             }
         }
