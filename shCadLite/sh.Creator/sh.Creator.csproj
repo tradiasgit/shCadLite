@@ -122,6 +122,11 @@
     <Compile Include="ViewModels\ResourceBox\VM_ResourceBox.cs" />
     <Compile Include="ViewModels\VM_Main.cs" />
     <Compile Include="ViewModels\VM_shTagEditor.cs" />
+    <Compile Include="Views\BudgetSheet\ValidationRules\DoubleEmptyValidationRule.cs" />
+    <Compile Include="Views\BudgetSheet\ValidationRules\DoubleValidationRule.cs" />
+    <Compile Include="Views\BudgetSheet\ValidationRules\EmptyValidationRule.cs" />
+    <Compile Include="Views\BudgetSheet\ValidationRules\UrlValidationRule.cs" />
+    <Compile Include="Views\BudgetSheet\ValidationRules\ValidationRuleHelper.cs" />
     <Compile Include="Views\BudgetSheet\Win_EditConfigurationProduct.xaml.cs">
       <DependentUpon>Win_EditConfigurationProduct.xaml</DependentUpon>
     </Compile>

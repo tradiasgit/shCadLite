@@ -19,9 +19,18 @@ namespace sh.Creator.Views
     /// </summary>
     public partial class Win_EditConfigurationProduct : Window
     {
-        public Win_EditConfigurationProduct()
+        public Win_EditConfigurationProduct(Action<bool> action=null)
         {
             InitializeComponent();
+            _action = action;
+        }
+
+        private Action<bool> _action;
+
+        private void Grid_Error(object sender, ValidationErrorEventArgs e)
+        {
+            if(e.Error.BindingInError is BindingExpression be)
+                _action?.Invoke(be.HasError);
         }
     }
 }

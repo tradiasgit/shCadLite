@@ -19,6 +19,14 @@ namespace sh.Creator.ViewModels.BudgetSheet
     {
         private Window _win;
 
+        private bool _hasError;
+
+        public bool HasError
+        {
+            get { return _hasError; }
+            set { _hasError = value; RaisePropertyChanged(); }
+        }
+
         private string _message;
 
         public string Message
@@ -36,6 +44,8 @@ namespace sh.Creator.ViewModels.BudgetSheet
         }
 
 
+
+
         public VM_EditConfigurationProduct(BudgetItemConfiguration budgetItemConfiguration)
         {
             BudgetItemConfiguration = new VM_BudgetItemConfiguration { Model = budgetItemConfiguration };
@@ -44,7 +54,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
         public bool ShowWindow()
         {
             if (_win == null)
-                _win = new Win_EditConfigurationProduct { DataContext = this };
+                _win = new Win_EditConfigurationProduct(e=> { HasError = e; }) { DataContext = this };
             return _win.ShowDialog().Value;
         }
 
@@ -83,22 +93,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
             {
                 return CommandFactory.RegisterCommand(p =>
                 {
-                    if(!IsURL(BudgetItemConfiguration.Url))
-                    {
-                        Message = "URL格式无效";
-                        return;
-                    }
-                    if(string.IsNullOrEmpty(BudgetItemConfiguration.Name))
-                    {
-                        Message = "商品名称没有填写";
-                        return;
-                    }
-                    if(string.IsNullOrEmpty(BudgetItemConfiguration.Price.ToString()))
-                    {
-                        Message = "商品价格没有填写";
-                        return;
-                    }
-
+                    if (HasError) return;
                     _win.DialogResult = true;
                 });
             }
