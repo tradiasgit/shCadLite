@@ -33,6 +33,12 @@ namespace sh.Creator.Models
         public string Title { get; set; }
         public string ProperyName { get; set; }
 
+        public string ValueFormat { get; set; } = "{0:f2}";
+
+        public double ValueRatio { get; set; } = 1;
+
         public string ViewModelName { get; set; }
+
+
     }
 }

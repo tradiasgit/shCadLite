@@ -7,7 +7,6 @@
               xmlns:sh="clr-namespace:sh.UI.Common;assembly=sh.UI.Common"
              mc:Ignorable="d"   Background="#fff0f0f0"
              d:DesignHeight="450" d:DesignWidth="320" >
-    <!--Visibility="{Binding IsVisible,Converter={StaticResource BoolVisibilityConvertor},ConverterParameter=Collapsed}"-->
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -16,7 +15,7 @@
             <local:EntityTypeConvertor x:Key="EntityTypeConvertor"/>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Expander Header="选择集" IsExpanded="True" Visibility="{Binding IsVisible,Converter={StaticResource BoolVisibilityConvertor},ConverterParameter=Collapsed}">
+    <Expander Header="选择集" IsExpanded="True">
         <StackPanel>
             <sh:LabelContentControl Header="数量">
                 <Grid>

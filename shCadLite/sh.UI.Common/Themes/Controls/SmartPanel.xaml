@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:sh.UI.Common">
+     <!--<Style TargetType="{x:Type local:SmartPanel}">
+       <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border>
+                        <ScrollViewer>
+                            <ContentPresenter/>
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
+</ResourceDictionary>

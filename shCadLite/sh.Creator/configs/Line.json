@@ -3,7 +3,9 @@
   "PropertyConfigs": [
     {
       "ProperyName": "Length",
-      "Title": "长度"
+      "Title": "长度",
+      "ValueFormat": "{0:f2}米",
+      "ValueRatio": 0.001
     }
   ]
 }

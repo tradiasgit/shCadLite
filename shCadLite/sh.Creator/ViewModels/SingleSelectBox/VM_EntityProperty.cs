@@ -17,12 +17,25 @@ namespace sh.Creator.ViewModels.SingleSelectBox
             _config = config;
             _info = info;
             Title = _config.Title;
-            Value = _info.GetType().GetProperty(_config.ProperyName)?.GetValue(_info)?.ToString();
+            var p = _info.GetType().GetProperty(_config.ProperyName);
+            if (p != null)
+            {
+                var v = p.GetValue(_info);
+                if (v != null)
+                {
+                    if(p.PropertyType== typeof(double)||p.PropertyType==typeof(double?)) Value = string.Format(_config.ValueFormat, (double)v * _config.ValueRatio); 
+                    else Value = v.ToString();
+                }
+            }
+           
         }
 
         public string Title { get { return GetValue<string>(); } set { SetValue(value); } }
 
         public string Value { get { return GetValue<string>(); } set { SetValue(value); } }
+
+       
+
     }
 
     public class VM_EntityProperty_BlockName : VM_EntityProperty

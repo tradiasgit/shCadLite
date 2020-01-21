@@ -10,26 +10,25 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml;
 using sh.Cad;
+using System.Diagnostics;
+using sh.Cad.Json;
 
 namespace sh.Creator.ViewModels
 {
-    public class VM_TreeEntityInfo : VM_TreeItem
+    public class VM_TreeEntityInfo : VM_TreeEntityInfo<EntityInfo> { public VM_TreeEntityInfo(FileInfo file, EntityInfo info) : base(file,info) { } }
+
+    public class VM_TreeEntityInfo<T> : VM_TreeItem where T: EntityInfo
     {
-       protected  FileInfo File;
-        public VM_TreeEntityInfo(FileInfo file,EntityInfo info)
+        public VM_TreeEntityInfo(FileInfo file, T info):base(file)
         {
             Model = info;
-            Text = file.Name;
-           
-            File = file;
-
             var query = EntityQuery.Compute(info);
             CountText = query.Count.ToString();
-            LengthText =string.Format("{0:f2}米", query.SumLength*0.001);
+            LengthText = string.Format("{0:f2}米", query.SumLength * 0.001);
             AreaText = string.Format("{0:f2}平米", query.SumArea * 0.000001);
         }
 
-        public new EntityInfo Model { get { return GetValue<EntityInfo>(); } set { SetValue(value); } }
+        public T Model { get { return GetValue<T>(); } set { SetValue(value); } }
 
 
         public string CountText { get { return GetValue<string>(); }set { SetValue(value); } }
@@ -39,7 +38,7 @@ namespace sh.Creator.ViewModels
         public ICommand Cmd_Brush
         {
             get {
-                return CommandFactory.RegisterCommand(p=>
+                return RegisterCommand(p=>
                 {
                     Model?.Brush();
                 });
@@ -49,7 +48,7 @@ namespace sh.Creator.ViewModels
         public ICommand CmdRefreshQuery
         {
             get {
-                return CommandFactory.RegisterCommand(p=>
+                return RegisterCommand(p=>
                 {
                     var query =EntityQuery.Compute(Model);
                     CountText = query.Count.ToString();

@@ -394,7 +394,6 @@ namespace sh.Cad
 
         public static void DrawHatch(HatchInfo info)
         {
-            if (!info.IsHatch) return;
             var doc = Application.DocumentManager.MdiActiveDocument;
             var db = HostApplicationServices.WorkingDatabase;
             var ed = doc.Editor;
@@ -445,8 +444,9 @@ namespace sh.Cad
         }
 
 
-        public static void CopyAllEntity(FileInfo file)
+        public static Point3d? CopyAllEntity(FileInfo file, Point3d basepoint)
         {
+            Point3d? result = null;
             if (!file.Exists) throw new FileNotFoundException("找不到文件", file.FullName);
             var db = HostApplicationServices.WorkingDatabase;
             var doc = Application.DocumentManager.MdiActiveDocument;
@@ -454,6 +454,7 @@ namespace sh.Cad
             {
                 var blockName = Guid.NewGuid().ToString();
                 var importObjectIds = new ObjectIdCollection();
+                var layoutIds = new ObjectIdCollection();
                 using (var sourceDb = new Database(false, true))
                 {
                     if (file.Extension.ToLower() == ".dwg")
@@ -466,6 +467,7 @@ namespace sh.Cad
                         //读取源数据库
                         using (var bt = (BlockTable)tran.GetObject(sourceDb.BlockTableId, OpenMode.ForRead, false))
                         {
+
                             BlockTableRecord btr = (BlockTableRecord)tran.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForRead, false);
                             foreach (ObjectId id in btr)
                             {
@@ -479,13 +481,24 @@ namespace sh.Cad
                     {
                         using (var bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForWrite, false))
                         {
-                            var btr = new BlockTableRecord();
-                            btr.Name = blockName;
-                            btr.Explodable = true;
-                            bt.Add(btr);
-                            tr.AddNewlyCreatedDBObject(btr, true);
-                            tr.Commit();
-                            sourceDb.WblockCloneObjects(importObjectIds, btr.Id, new IdMapping(), DuplicateRecordCloning.Replace, false);
+                            using (var btr = new BlockTableRecord())
+                            {
+                                btr.Name = blockName;
+                                btr.Explodable = true;
+                                bt.Add(btr);
+                                tr.AddNewlyCreatedDBObject(btr, true);                                
+                                sourceDb.WblockCloneObjects(importObjectIds, btr.Id, new IdMapping(), DuplicateRecordCloning.Replace, false);
+                                foreach (var oid in btr)
+                                {
+                                    var ent = tr.GetObject(oid, OpenMode.ForWrite) as Entity;
+                                    if (ent != null)
+                                    {
+                                        var mtx = Matrix3d.Displacement(Point3d.Origin- basepoint);
+                                        ent.TransformBy(mtx);
+                                    }
+                                }
+                                tr.Commit();
+                            }
                         }
                     }
                 }
@@ -494,25 +507,56 @@ namespace sh.Cad
                     BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
                     using (var ent = new BlockReference(Point3d.Origin, bt[blockName]))
                     {
-                        var space = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite);
+                        var space = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
                         space.AppendEntity(ent);
                         tr.AddNewlyCreatedDBObject(ent, true);
                         var jig = new Jig.BlockReferenceJig(ent);
                         if (jig.Run())
                         {
-                            //Explod
                             ent.ExplodeToOwnerSpace();
                             var e = tr.GetObject(ent.Id, OpenMode.ForWrite);
                             ent.Erase();
-                            //DeleteBlock
                             var b = tr.GetObject(bt[blockName], OpenMode.ForWrite);
                             b.Erase();
                             tr.Commit();
+                            result = ent.Position;
                         }
                     }
                 }
 
             }
+            return result;
         }
+
+        public static List<string> GetLayoutNames(FileInfo file)
+        {
+            var result = new List<string>();
+            if (file == null && !file.Exists || file.Extension.ToLower() != ".dwg") return result;
+            Database sourceDb = new Database(false, true);
+            sourceDb.ReadDwgFile(file.FullName, FileOpenMode.OpenForReadAndAllShare, true, "");
+            using (Transaction tr = sourceDb.TransactionManager.StartTransaction())
+            {
+                DBDictionary lays = tr.GetObject(sourceDb.LayoutDictionaryId, OpenMode.ForRead) as DBDictionary;
+                foreach (DBDictionaryEntry item in lays)
+                {
+                    result.Add(item.Key);
+                }
+                tr.Abort();
+            }
+            return result;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

@@ -66,34 +66,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockInfo.cs" />
-    <Compile Include="DatabaseManager.cs" />
-    <Compile Include="DataManager.cs" />
+    <Compile Include="Core\CadViewModelBase.cs" />
+    <Compile Include="Core\DatabaseManager.cs" />
+    <Compile Include="Core\DataManager.cs" />
+    <Compile Include="EntityGroupInfo.cs" />
+    <Compile Include="Core\EntityCache.cs" />
+    <Compile Include="PolylineInfo.cs" />
     <Compile Include="EntityInfo.cs" />
-    <Compile Include="EntityInfoFactory.cs" />
     <Compile Include="EntityQuery.cs" />
-    <Compile Include="EntitySelection.cs" />
-    <Compile Include="EventManager.cs" />
-    <Compile Include="Extensions\EntityExtensioncs.cs" />
+    <Compile Include="Core\EntitySelection.cs" />
+    <Compile Include="Core\EventManager.cs" />
+    <Compile Include="Core\DatabaseExtensions.cs" />
+    <Compile Include="Core\EntityExtensioncs.cs" />
+    <Compile Include="Core\LayoutExtension.cs" />
     <Compile Include="HatchInfo.cs" />
-    <Compile Include="IEntitySelectionListener.cs" />
-    <Compile Include="Jig\BlockReferenceJig.cs" />
-    <Compile Include="Json\JsonConvert.cs" />
-    <Compile Include="LayerManager.cs" />
-    <Compile Include="LayerStatesLocker.cs" />
-    <Compile Include="NewFolder1\ActionNode.cs" />
-    <Compile Include="NewFolder1\BrushAction.cs" />
-    <Compile Include="NewFolder1\CadEntityActionBase.cs" />
-    <Compile Include="NewFolder1\CadEntityFactoryAction.cs" />
-    <Compile Include="NewFolder1\CopyAllEntity.cs" />
-    <Compile Include="NewFolder1\DrawBlockReference.cs" />
-    <Compile Include="EntityConfig.cs" />
-    <Compile Include="NewFolder1\Field.cs" />
-    <Compile Include="NewFolder1\INode.cs" />
-    <Compile Include="NewFolder1\NodeBase.cs" />
-    <Compile Include="NewFolder1\QueryField.cs" />
-    <Compile Include="NewFolder1\TreeNode.cs" />
-    <Compile Include="NewFolder1\XmlElementNode.cs" />
-    <Compile Include="PaletteSetManager.cs" />
+    <Compile Include="Core\IEntitySelectionListener.cs" />
+    <Compile Include="Core\BlockReferenceJig.cs" />
+    <Compile Include="Core\JsonConvert.cs" />
+    <Compile Include="Core\LayerManager.cs" />
+    <Compile Include="Core\LayerStatesLocker.cs" />
+    <Compile Include="LayoutInfo.cs" />
+    <Compile Include="Core\EntityConfig.cs" />
+    <Compile Include="Core\PaletteSetManager.cs" />
+    <Compile Include="PointInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
