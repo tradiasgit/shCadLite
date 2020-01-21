@@ -10,8 +10,10 @@ using System.Windows.Input;
 
 namespace sh.Creator.ViewModels.BudgetSheet
 {
-    class VM_EditBudgetVar: ViewModelBase
+    class VM_AddBudgetVar : ViewModelBase
     {
+
+
         private ObservableCollection<string> _methodList;
         /// <summary>
         /// 集合
@@ -54,16 +56,19 @@ namespace sh.Creator.ViewModels.BudgetSheet
         }
         #endregion
 
-        private VM_BudgetVar _vM_BudgetVar;
+        private Action<VM_BudgetVar> _updateAction;
 
-        public VM_EditBudgetVar(VM_BudgetVar vM_BudgetVar)
+        public VM_AddBudgetVar(Action<VM_BudgetVar> action=null)
+        {
+            Initialize();
+            _updateAction = action;
+        }
+
+        private void Initialize()
         {
             MethodList = new ObservableCollection<string>(BudgetVar.GetMethodList());
-
-            _vM_BudgetVar = vM_BudgetVar;
-            Name = vM_BudgetVar.Name;
-            Value = vM_BudgetVar.Value;
-            SelMethod = vM_BudgetVar.Method;
+            SelMethod = "Value";
+            Name = Value = "";
         }
 
         public void Show()
@@ -85,7 +90,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
                         return;
                     }
                     var budgetVars = BudgetVar.GetAll();
-                    if (budgetVars.Exists(b => b.Name == Name&&b.Name!= _vM_BudgetVar.Name))
+                    if (budgetVars.Exists(b => b.Name == Name))
                     {
                         Message = "变量名称重复";
                         return;
@@ -100,21 +105,19 @@ namespace sh.Creator.ViewModels.BudgetSheet
                         Message = "方法没有选择";
                         return;
                     }
-
                     #endregion
-
-                    var index = budgetVars.FindIndex(b => b.Name == _vM_BudgetVar.Name);
+                    BudgetVar budgetVar;
                     try
                     {
                         if (SelMethod == "Value")
                         {
                             var varDouble = Double.Parse(Value);
-                            budgetVars[index] = new BudgetVarDouble { Name = Name, Constant = varDouble, Method = SelMethod };
+                            budgetVar = new BudgetVarDouble { Name = Name, Constant = varDouble, Method = SelMethod };
                         }
                         else
                         {
                             var jsonObject = JObject.Parse(Value);
-                            budgetVars[index] = new BudgetVarString { Name = Name, EcjJsonString = Value, Method = SelMethod };
+                            budgetVar = new BudgetVarString { Name = Name, EcjJsonString = Value, Method = SelMethod };
                         }
                     }
                     catch
@@ -122,12 +125,12 @@ namespace sh.Creator.ViewModels.BudgetSheet
                         Message = "变量值格式不正确";
                         return;
                     }
+                    budgetVars.Add(budgetVar);
                     if (BudgetVar.SaveAll(budgetVars))
                     {
                         Message = "操作成功";
-                        _vM_BudgetVar.Name = Name;
-                        _vM_BudgetVar.Value = Value;
-                        _vM_BudgetVar.Method = SelMethod;
+                        Initialize();
+                        _updateAction?.Invoke(new VM_BudgetVar { Model = budgetVar });
                     }
                 });
             }

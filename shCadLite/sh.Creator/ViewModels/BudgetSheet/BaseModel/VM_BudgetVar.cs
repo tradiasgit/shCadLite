@@ -54,6 +54,11 @@ namespace sh.Creator.ViewModels.BudgetSheet
 
         public abstract void SetValue(string value);
 
+        public static List<string> GetMethodList()
+        {
+            return new List<string> { "Value", "Count", "Length", "Area" };
+        }
+
         public static List<BudgetVar> GetAll(string path = "")
         {
             var list = new List<BudgetVar>();

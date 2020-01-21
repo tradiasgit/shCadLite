@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace sh.Creator.ViewModels.BudgetSheet
@@ -35,14 +36,9 @@ namespace sh.Creator.ViewModels.BudgetSheet
 
         public VM_BudgetVarTable()
         {
-            Refresh();
+            Cmd_RefreshBudgetVar.Execute(null);
         }
 
-        private void Refresh()
-        {
-            var budgetVarList = BudgetVar.GetAll();
-            BudgetVars = new ObservableCollection<VM_BudgetVar>(budgetVarList.Select(b => new VM_BudgetVar { Model = b }));
-        }
 
         /// <summary>
         /// 
@@ -53,9 +49,11 @@ namespace sh.Creator.ViewModels.BudgetSheet
             {
                 return CommandFactory.RegisterCommand(p =>
                 {
-                    var vm = new VM_EditBudgetVar();
+                    var vm = new VM_AddBudgetVar((v) => 
+                    { 
+                        BudgetVars.Add(v); 
+                    });
                     vm.Show();
-                    Refresh();
                 });
             }
         }
@@ -70,9 +68,33 @@ namespace sh.Creator.ViewModels.BudgetSheet
                 return CommandFactory.RegisterCommand(p =>
                 {
                     if (SelBudgetVar == null) return;
-                    var vm = new VM_EditBudgetVar(SelBudgetVar.Name, SelBudgetVar.Value,SelBudgetVar.Method);
+                    var vm = new VM_EditBudgetVar(SelBudgetVar);
                     vm.Show();
-                    Refresh();
+                });
+            }
+        }
+
+        public ICommand Cmd_RemoveBudgetVar
+        {
+            get
+            {
+                return CommandFactory.RegisterCommand(p =>
+                {
+                    if (SelBudgetVar == null) return;
+                    if (MessageBox.Show("此操作不可逆，确定删除变量吗？", "", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel) return;
+                    BudgetVars.Remove(SelBudgetVar);
+                    BudgetVar.SaveAll(BudgetVars.Select(b => b.Model).ToList());
+                });
+            }
+        }
+        public ICommand Cmd_RefreshBudgetVar
+        {
+            get
+            {
+                return CommandFactory.RegisterCommand(p =>
+                {
+                    var budgetVarList = BudgetVar.GetAll();
+                    BudgetVars = new ObservableCollection<VM_BudgetVar>(budgetVarList.Select(b => new VM_BudgetVar { Model = b }));
                 });
             }
         }
