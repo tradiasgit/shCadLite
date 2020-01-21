@@ -25,7 +25,10 @@
             <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.PatternType}" ></TextBlock>
         </sh:LabelContentControl>
         <sh:LabelContentControl Header="图案"  HeaderBorderBrush="Gray" >
-            <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.PatternName}" ></TextBlock>
+            <Grid>
+                <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.PatternName}" ></TextBlock>
+                <Button Width="30" HorizontalAlignment="Right"  Command="{Binding Cmd_Brush}" Content="Brush"></Button>
+            </Grid>
         </sh:LabelContentControl>
         <sh:LabelContentControl Header="比例"  HeaderBorderBrush="Gray" >
             <TextBlock Style="{StaticResource txtFieldHeader}"   Text="{Binding Model.PatternScale}" ></TextBlock>
