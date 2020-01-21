@@ -27,6 +27,8 @@ namespace sh.Creator.ViewModels.BudgetSheet
             set { Model.Name = value; RaisePropertyChanged(); }
         }
 
+        
+
         private string _quantitieString;
         /// <summary>
         /// 工程量
@@ -64,6 +66,25 @@ namespace sh.Creator.ViewModels.BudgetSheet
             set { _groupName = value; RaisePropertyChanged(); }
         }
 
+        /// <summary>
+        /// 表达式
+        /// </summary>
+        public double Ration
+        {
+            get { return Model.Ratio; }
+            set { Model.Ratio = value; RaisePropertyChanged(); }
+        }
+
+        /// <summary>
+        /// 表达式
+        /// </summary>
+        public string Format
+        {
+            get { return Model.Format; }
+            set { Model.Format = value; RaisePropertyChanged(); }
+        }
+
+
 
         public VM_BudgetItem(BudgetItem model)
         {
@@ -77,7 +98,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
             {
                 return CommandFactory.RegisterCommand(p =>
                 {
-                    var editVMm = new VM_EditExpression(Expression);
+                    var editVMm = new VM_EditExpression(Expression, Ration, Format);
                     if (editVMm.ShowWindow())
                     {
                         // 保存
@@ -151,8 +172,15 @@ namespace sh.Creator.ViewModels.BudgetSheet
         /// </summary>
         public BudgetItemConfiguration Configuration { get; set; }
 
+        /// <summary>
+        /// 0.000001
+        /// </summary>
+        public double Ratio { get; set; } = 1;
 
-        // 计算
+        /// <summary>
+        /// {0:f2}平米
+        /// </summary>
+        public string Format { get; set; }
 
     }
 }

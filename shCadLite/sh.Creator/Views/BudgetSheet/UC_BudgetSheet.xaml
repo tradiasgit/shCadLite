@@ -142,7 +142,9 @@
                 <DataGridTemplateColumn Header="工程量" Width="150">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding QuantitieString}" ></TextBox>
+                            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding QuantitieString}" >
+                                
+                            </TextBox>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

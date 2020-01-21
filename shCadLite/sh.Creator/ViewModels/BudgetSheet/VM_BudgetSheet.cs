@@ -60,13 +60,11 @@ namespace sh.Creator.ViewModels.BudgetSheet
                     });
                     try
                     {
-                        var gcl = new System.Data.DataTable().Compute(expression, null).ToString();
-                        if(gcl!="False")
-                            vb.QuantitieString = gcl;
+                        vb.QuantitieString = string.Format(item.Format, Convert.ToDouble(new System.Data.DataTable().Compute(expression, null)) * item.Ratio);
                     }
-                    catch 
+                    catch (Exception ex)
                     {
-
+                        vb.QuantitieString = "计算出错";
                     }
                 }
             }
@@ -130,18 +128,6 @@ namespace sh.Creator.ViewModels.BudgetSheet
                 return CommandFactory.RegisterCommand(p =>
                 {
                     Initialize();
-                });
-            }
-        }
-
-        public ICommand Cmd_Open
-        {
-            get
-            {
-                return CommandFactory.RegisterCommand(p =>
-                {
-                    var vm =new VM_EditExpression("X1+C2");
-                    vm.ShowWindow();
                 });
             }
         }

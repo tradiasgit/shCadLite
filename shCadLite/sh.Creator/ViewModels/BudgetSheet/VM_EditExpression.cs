@@ -13,6 +13,10 @@ namespace sh.Creator.ViewModels.BudgetSheet
 {
     class VM_EditExpression:ViewModelBase
     {
+        private double _ratio;
+
+        private string _format;
+
         private Window _win;
 
         private ObservableCollection<BudgetVar> _budgetVars;
@@ -51,9 +55,11 @@ namespace sh.Creator.ViewModels.BudgetSheet
 
         
 
-        public VM_EditExpression(string exp)
+        public VM_EditExpression(string exp,double ration,string format)
         {
             ExpressionString = exp;
+            _ratio = ration;
+            _format = format;
             BudgetVars = new ObservableCollection<BudgetVar>(BudgetVar.GetAll());
         }
 
@@ -110,9 +116,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
             // 试算
             try
             {
-                quantity = new System.Data.DataTable().Compute(expression, null).ToString();
-                if (quantity == "False")
-                    throw new Exception();
+                quantity = string.Format(_format, Convert.ToDouble(new System.Data.DataTable().Compute(expression, null)) * _ratio);
             }
             catch
             {
