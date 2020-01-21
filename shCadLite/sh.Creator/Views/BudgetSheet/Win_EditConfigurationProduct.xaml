@@ -6,8 +6,7 @@
         xmlns:vr="clr-namespace:sh.Creator.Views.BudgetSheet.ValidationRules"
         xmlns:local="clr-namespace:sh.Creator.Views"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize"
-        Title="" Height="380" Width="520">
+        ResizeMode="NoResize" Title="" Height="380" Width="520">
     <Window.Resources>
 
         <ControlTemplate x:Key="ErrorTemplate">
@@ -36,7 +35,7 @@
 
         <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" 
                    Text="URL" FontSize="16"></TextBlock>
-        
+
         <TextBox Grid.Row="2" Grid.Column="1" VerticalContentAlignment="Center" 
                  FontSize="14" Height="38" Width="300" Margin="5,6,0,0"
                  HorizontalAlignment="Left" VerticalAlignment="Top"
@@ -49,12 +48,12 @@
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
-            
+
         </TextBox>
 
         <TextBlock Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"  
                    Text="名称" FontSize="16" ></TextBlock>
-        
+
         <TextBox Grid.Row="4" Grid.Column="1" VerticalContentAlignment="Center" 
                  FontSize="14" Height="38" Width="300" Margin="5,6,0,0"
                  VerticalAlignment="Top" HorizontalAlignment="Left"
@@ -66,12 +65,12 @@
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
-            
+
         </TextBox>
 
         <TextBlock Grid.Row="5" Grid.Column="1" VerticalAlignment="Center"  
                    Text="价格" FontSize="16"></TextBlock>
-        
+
         <TextBox Grid.Row="6" Grid.Column="1" VerticalContentAlignment="Center" 
                  FontSize="14" Height="38" Width="300" Margin="5,6,0,0"
                  VerticalAlignment="Top" HorizontalAlignment="Left"
@@ -84,7 +83,7 @@
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
-            
+
         </TextBox>
 
         <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal" Margin="10" >
@@ -95,4 +94,5 @@
             <TextBlock VerticalAlignment="Center" FontSize="14" Foreground="Red" Margin="10,0,0,0" Text="{Binding Message}"></TextBlock>
         </StackPanel>
     </Grid>
+
 </Window>
