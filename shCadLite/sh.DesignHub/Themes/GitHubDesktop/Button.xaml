@@ -6,9 +6,14 @@
         <ResourceDictionary Source="Colors.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type Button}" x:Key="btn_Icon">
+    <Style TargetType="{x:Type Button}" x:Key="btn_icon">
         <Setter Property="Background" Value="{StaticResource TitleBarBackground}" />
         <Setter Property="Foreground" Value="{StaticResource CloseButtonForeground}" />
+        <Setter Property="local:Attach.MouseOverBackground" Value="{StaticResource TitleBarMouseOverBackground}" />
+        <Setter Property="local:Attach.MouseOverForeground" Value="{StaticResource TitleBarMouseOverForeground}" />
+        <Setter Property="local:Attach.PressedBackground" Value="{StaticResource TitleBarPressedBackground}" />
+        <Setter Property="local:Attach.PressedForeground" Value="{StaticResource TitleBarPressedForeground}" />
+        <Setter Property="local:FIcon.AllowsAnimation" Value="True" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Width" Value="100" />
         <Setter Property="Height" Value="30" />
@@ -47,18 +52,76 @@
                     <ControlTemplate.Triggers>
                         <!--设置鼠标进入时的背景、前景样式-->
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{StaticResource CloseButtonMouseOverBackground}"/>
-                            <Setter Property="Foreground" Value="{StaticResource CloseButtonMouseOverForeground}"/>
+                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self},Path=(local:Attach.MouseOverBackground)}"/>
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Self},Path=(local:Attach.MouseOverForeground)}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="{StaticResource CloseButtonPressedBackground}"/>
-                            <Setter Property="Foreground" Value="{StaticResource CloseButtonPressedForeground}"/>
+                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self},Path=(local:Attach.PressedBackground)}"/>
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Self},Path=(local:Attach.PressedForeground)}"/>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard >
+                                    <Storyboard>
+                                        <DoubleAnimation RepeatBehavior="Forever" Storyboard.TargetName="transIcon" 
+                                     Storyboard.TargetProperty="Angle" To="360" Duration="0:0:2.5"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation RepeatBehavior="Forever" Storyboard.TargetName="transIcon" 
+                                     Storyboard.TargetProperty="Angle" To="0" Duration="0"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
                         </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="true"></Condition>
+                                <Condition Property="local:FIcon.AllowsAnimation" Value="true"></Condition>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard >
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="transIcon" Storyboard.TargetProperty="Angle" To="180" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="transIcon" Storyboard.TargetProperty="Angle" To="0" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
+
+    <Style TargetType="{x:Type Button}" x:Key="btn_close" BasedOn="{StaticResource btn_icon}">
+        <Setter Property="Background" Value="{StaticResource TitleBarBackground}" />
+        <Setter Property="Foreground" Value="{StaticResource CloseButtonForeground}" />
+        <Setter Property="local:Attach.MouseOverBackground" Value="{StaticResource CloseButtonMouseOverBackground}" />
+        <Setter Property="local:Attach.MouseOverForeground" Value="{StaticResource CloseButtonMouseOverForeground}" />
+        <Setter Property="local:Attach.PressedBackground" Value="{StaticResource CloseButtonPressedBackground}" />
+        <Setter Property="local:Attach.PressedForeground" Value="{StaticResource CloseButtonPressedForeground}" />
+        <Setter Property="Width" Value="45"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="btn_sync" BasedOn="{StaticResource btn_icon}">
+        <Setter Property="Background" Value="{StaticResource TitleBarBackground}" />
+        <Setter Property="Foreground" Value="{StaticResource TitleBarForeground}" />
+        <Setter Property="Width" Value="230"/>
+        <Setter Property="Height" Value="Auto"/>
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+    </Style>
   
 </ResourceDictionary>

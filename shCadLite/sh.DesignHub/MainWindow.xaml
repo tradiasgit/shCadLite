@@ -15,6 +15,10 @@
             </ResourceDictionary.MergedDictionaries>            
         </ResourceDictionary>
     </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Close" Executed="WindowClose_Executed"/>
+        <CommandBinding Command="Help"/>
+    </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -37,7 +41,7 @@
                 <MenuItem Header="仓库(R)"/>
                 <MenuItem Header="分支(B)"/>
             </Menu>
-            <Button Grid.Column="2" HorizontalAlignment="Right" local:FIcon.FIcon="&#xf00d;" Width="45" Style="{StaticResource btn_Icon}"/>
+            <Button Grid.Column="2" HorizontalAlignment="Right" local:FIcon.FIcon="&#xf00d;" Width="45" Style="{StaticResource btn_close}" Command="{x:Static ApplicationCommands.Close}" />
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -74,7 +78,7 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Border BorderBrush="Black" BorderThickness="0,1,1,0" Background="{StaticResource TitleBarBackground}">
-                        <Label>asd</Label>
+                        <Button Style="{StaticResource btn_sync}" local:FIcon.FIcon="&#xf2f1;">Upload</Button>
                     </Border>
                 </Grid>
             </Grid>

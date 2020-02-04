@@ -4,18 +4,26 @@
     <ResourceDictionary.MergedDictionaries>
     </ResourceDictionary.MergedDictionaries>
 
+    
+
+    <SolidColorBrush x:Key="TitleBarBackground" Color="#ff24292e"/>
+    <SolidColorBrush x:Key="TitleBarForeground" Color="White"/>
+    <SolidColorBrush x:Key="TitleBarMouseOverBackground" Color="#ff2f363d"/>
+    <SolidColorBrush x:Key="TitleBarMouseOverForeground" Color="White"/>
+    <SolidColorBrush x:Key="TitleBarPressedBackground" Color="#ff2f363d"/>
+    <SolidColorBrush x:Key="TitleBarPressedForeground" Color="White"/>
+
+
     <SolidColorBrush x:Key="CloseButtonForeground" Color="#ffcccccc"/>
     <SolidColorBrush x:Key="CloseButtonMouseOverForeground" Color="White"/>
     <SolidColorBrush x:Key="CloseButtonMouseOverBackground" Color="#ffe81123"/>
     <SolidColorBrush x:Key="CloseButtonPressedBackground" Color="#ffbf0f1d"/>
     <SolidColorBrush x:Key="CloseButtonPressedForeground" Color="White"/>
 
-    <SolidColorBrush x:Key="TitleBarBackground" Color="#ff242924"/>
-    <SolidColorBrush x:Key="TitleBarForeground" Color="White"/>    
-    <SolidColorBrush x:Key="ComboBoxClosedBackground" Color="#ff242924"/>
+    <SolidColorBrush x:Key="ComboBoxClosedBackground" Color="#ff24292e"/>
     <SolidColorBrush x:Key="ComboBoxClosedForeground" Color="White"/>
     <SolidColorBrush x:Key="ComboBoxOpenedBackground" Color="White"/>
-    <SolidColorBrush x:Key="ComboBoxOpenedForeground" Color="#ff242924"/>
+    <SolidColorBrush x:Key="ComboBoxOpenedForeground" Color="#ff24292e"/>
     <SolidColorBrush x:Key="ComboBoxMouseOverBackground" Color="#ff2f363d"/>
     <SolidColorBrush x:Key="ComboBoxMouseOverForeground" Color="White"/>
     <SolidColorBrush x:Key="ComboBoxLabelForeground" Color="Gray"/>

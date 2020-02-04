@@ -5,23 +5,9 @@
         <ResourceDictionary Source="../FontIcon.xaml"/>
         <ResourceDictionary Source="Colors.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-    <SolidColorBrush x:Key="TitleBarBackground" Color="#ff242924"/>
-    <SolidColorBrush x:Key="TitleBarForeground" Color="White"/>
-    
-
-    <SolidColorBrush x:Key="ComboBoxClosedBackground" Color="#ff242924"/>
-    <SolidColorBrush x:Key="ComboBoxClosedForeground" Color="White"/>
-    <SolidColorBrush x:Key="ComboBoxOpenedBackground" Color="White"/>
-    <SolidColorBrush x:Key="ComboBoxOpenedForeground" Color="#ff242924"/>
-    <SolidColorBrush x:Key="ComboBoxMouseOverBackground" Color="#ff2f363d"/>
-    <SolidColorBrush x:Key="ComboBoxMouseOverForeground" Color="White"/>
-    <SolidColorBrush x:Key="ComboBoxLabelForeground" Color="Gray"/>
     
 
 
-    <SolidColorBrush x:Key="ItemSelectedBackground" Color="#ff0366d6"/>
-    <SolidColorBrush x:Key="ItemSelectedForeground" Color="White"/>
-    <SolidColorBrush x:Key="ItemMouseOverBackground" Color="#fff6f8fa"/>
     <Style TargetType="{x:Type ComboBoxItem}" x:Key="cbi_Repos">
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>

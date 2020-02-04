@@ -35,5 +35,10 @@ namespace sh.DesignHub
                 this.DragMove();
             }
         }
+
+        private void WindowClose_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

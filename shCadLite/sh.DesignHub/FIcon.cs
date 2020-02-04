@@ -74,20 +74,21 @@ namespace sh.DesignHub
         #region AllowsAnimation
 
 
-        //[AttachedPropertyBrowsableForType(typeof(TextBlock))]
-        //public static bool GetAllowsAnimation(DependencyObject obj)
-        //{
-        //    return (bool)obj.GetValue(AllowsAnimationProperty);
-        //}
+        [AttachedPropertyBrowsableForType(typeof(TextBlock))]
+        [AttachedPropertyBrowsableForType(typeof(Button))]
+        public static bool GetAllowsAnimation(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(AllowsAnimationProperty);
+        }
 
-        //public static void SetAllowsAnimation(DependencyObject obj, bool value)
-        //{
-        //    obj.SetValue(AllowsAnimationProperty, value);
-        //}
+        public static void SetAllowsAnimation(DependencyObject obj, bool value)
+        {
+            obj.SetValue(AllowsAnimationProperty, value);
+        }
 
-        //// Using a DependencyProperty as the backing store for AllowsAnimation.  This enables animation, styling, binding, etc...
-        //public static readonly DependencyProperty AllowsAnimationProperty =
-        //    DependencyProperty.RegisterAttached("AllowsAnimation", typeof(bool), typeof(FIcon), new PropertyMetadata(true));
+        // Using a DependencyProperty as the backing store for AllowsAnimation.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AllowsAnimationProperty =
+            DependencyProperty.RegisterAttached("AllowsAnimation", typeof(bool), typeof(FIcon), new PropertyMetadata(true));
 
 
         #endregion

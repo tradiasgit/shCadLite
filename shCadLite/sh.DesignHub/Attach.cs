@@ -99,5 +99,41 @@ namespace sh.DesignHub
 
 
 
+
+
+        public static Brush GetPressedBackground(DependencyObject obj)
+        {
+            return (Brush)obj.GetValue(PressedBackgroundProperty);
+        }
+
+        public static void SetPressedBackground(DependencyObject obj, Brush value)
+        {
+            obj.SetValue(PressedBackgroundProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for PressedBackground.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PressedBackgroundProperty =
+            DependencyProperty.RegisterAttached("PressedBackground", typeof(Brush), typeof(Attach), new PropertyMetadata());
+
+
+
+
+        public static Brush GetPressedForeground(DependencyObject obj)
+        {
+            return (Brush)obj.GetValue(PressedForegroundProperty);
+        }
+
+        public static void SetPressedForeground(DependencyObject obj, Brush value)
+        {
+            obj.SetValue(PressedForegroundProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for PressedForeground.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PressedForegroundProperty =
+            DependencyProperty.RegisterAttached("PressedForeground", typeof(Brush), typeof(Attach), new PropertyMetadata());
+
+
+
+
     }
 }
