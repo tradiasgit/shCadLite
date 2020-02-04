@@ -1,12 +1,84 @@
-﻿<Window x:Class="sh.DesignHub.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:sh.DesignHub"
-        mc:Ignorable="d"
+        x:Class="sh.DesignHub.MainWindow"
+        mc:Ignorable="d" 
+        WindowStyle="None"  AllowsTransparency="True"  WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/GitHubDesktop/Main.xaml"/>
+            </ResourceDictionary.MergedDictionaries>            
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Grid  MouseLeftButtonDown="Window_MouseLeftButtonDown" Background="{StaticResource TitleBarBackground}" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Menu Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+                  Background="{StaticResource TitleBarBackground}" Foreground="{StaticResource TitleBarForeground}">
+                <MenuItem Header="文件(F)">
+                    <MenuItem Header="新建仓库(E)"/>
+                </MenuItem>
+                <MenuItem Header="编辑(E)"/>
+                <MenuItem Header="视图(V)"/>
+                <MenuItem Header="仓库(R)"/>
+                <MenuItem Header="分支(B)"/>
+            </Menu>
+            <Button Grid.Column="2" HorizontalAlignment="Right" local:FIcon.FIcon="&#xf00d;" Width="45" Style="{StaticResource btn_Icon}"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="1"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Border BorderBrush="Black" BorderThickness="0,1,1,0">
+                    <ComboBox x:Name="cb_repo"
+                        Style="{StaticResource cb_Repos}" ItemsSource="{Binding Repositories}" SelectedItem="{Binding SelectedRepo}" DisplayMemberPath="Model.Name">
+                    </ComboBox>
+                </Border>
+                <TreeView Grid.Row="1" ItemsSource="{Binding ElementName=cb_repo, Path=SelectedItem.ResourceTree}" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                            <StackPanel Orientation="Horizontal">
+                                <!--<sh:FontIcon Icon="{Binding Icon}" Foreground="{Binding IconBrush}"/>-->
+                                <Label Content="{Binding Name}"/>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </Grid>
+            <GridSplitter Width="1" Grid.Column="1"  HorizontalAlignment="Stretch"/>
+            <Grid Grid.Column="2" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Border BorderBrush="Black" BorderThickness="0,1,1,0" Background="{StaticResource TitleBarBackground}">
+                        <Label>asd</Label>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Grid>
+        <StatusBar Grid.Row="2"/>
     </Grid>
 </Window>

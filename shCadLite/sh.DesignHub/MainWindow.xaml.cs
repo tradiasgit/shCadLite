@@ -23,6 +23,17 @@ namespace sh.DesignHub
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = new ViewModels.VM_Main();
+        }
+
+        
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
         }
     }
 }
