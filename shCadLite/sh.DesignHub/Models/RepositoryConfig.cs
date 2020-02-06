@@ -18,10 +18,10 @@ namespace sh.DesignHub.Models
             get
             {
                 var assfile = new FileInfo(Assembly.GetExecutingAssembly().Location);
-                var result= new FileInfo($@"{assfile.DirectoryName}\repositories.json");
+                var result = new FileInfo($@"{assfile.DirectoryName}\repositories.json");
                 if (!result.Exists)
                 {
-                    File.WriteAllText(result.FullName, "[]");   
+                    File.WriteAllText(result.FullName, "[]");
                 }
                 return result;
             }
@@ -47,6 +47,23 @@ namespace sh.DesignHub.Models
         public string email { get; set; }
 
         public string authorname { get; set; }
+
+
+        public TreeChanges GetChangeAsync()
+        {
+
+            using (var repo = new Repository(Local))
+            {
+                //Tree commitTree = repo.Head.Tip.Tree; // Main Tree
+                //Tree parentCommitTree = repo.Head.Tip.Parents.Single().Tree; // Secondary Tree
+                //var patch = repo.Diff.Compare<Patch>(parentCommitTree, commitTree); // Difference
+                return repo.Diff.Compare<TreeChanges>();
+            }
+        }
+
+
+
+
 
         public async Task CreateAsync()
         {

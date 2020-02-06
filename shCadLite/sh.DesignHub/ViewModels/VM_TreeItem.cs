@@ -13,11 +13,13 @@ namespace sh.DesignHub.ViewModels
 {
     public class VM_TreeItem:ViewModelBase
     {
+        public virtual string ItemType=> GetType().Name;
 
 
         public VM_TreeItem(FileSystemInfo info)
         {
             Name = info.Name;
+            if (info.Attributes.HasFlag(FileAttributes.Hidden)) IsHidden = true;
         }
         public string Name { get { return GetValue<string>(); } set { SetValue(value); } }
 
@@ -37,6 +39,6 @@ namespace sh.DesignHub.ViewModels
         //    }
         //}
 
-
+        public bool IsHidden { get { return GetValue<bool>(); } set { SetValue(value); } }
     }
 }

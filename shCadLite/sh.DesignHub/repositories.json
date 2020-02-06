@@ -38,5 +38,15 @@
     "authorname": "tradiasgit",
     "email": "51795432@qq.com",
     "password": "jb88f-wt2q3"
+  },
+  {
+    "name": "代码仓库",
+    "provider": "git",
+    "local": "C:\\Workspaces\\GitHub\\tradiasgit\\shCadLite",
+    "url": "https://github.com/tradiasgit/shCadLite.git",
+    "username": "tradiasgit",
+    "authorname": "tradiasgit",
+    "email": "51795432@qq.com",
+    "password": "jb88f-wt2q3"
   }
 ]

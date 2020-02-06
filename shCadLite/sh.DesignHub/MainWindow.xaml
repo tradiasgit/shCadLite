@@ -12,7 +12,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/GitHubDesktop/Main.xaml"/>
-            </ResourceDictionary.MergedDictionaries>            
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
     <Window.CommandBindings>
@@ -22,6 +22,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
+            <RowDefinition Height="50"/>
             <RowDefinition/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
@@ -43,46 +44,58 @@
             </Menu>
             <Button Grid.Column="2" HorizontalAlignment="Right" local:FIcon.FIcon="&#xf00d;" Width="45" Style="{StaticResource btn_close}" Command="{x:Static ApplicationCommands.Close}" />
         </Grid>
-        <Grid Grid.Row="1">
+        <Border  Grid.Row="1" BorderBrush="Black" BorderThickness="0,1,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Background="{StaticResource TitleBarBackground}">
+                <Border BorderBrush="Black" BorderThickness="0,0,1,0" Background="{StaticResource TitleBarBackground}">
+                    <ComboBox x:Name="cb_repo" Width="200"
+                        Style="{StaticResource cb_Repos}" ItemsSource="{Binding Repositories}" SelectedItem="{Binding SelectedRepo}" DisplayMemberPath="Model.Name">
+                    </ComboBox>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="0,0,1,0" Background="{StaticResource TitleBarBackground}">
+                    <Button Style="{StaticResource btn_sync}" local:FIcon.FIcon="&#xf2f1;" local:Attach.Label="{Binding SyncTitle}" Command="{Binding Cmd_Sync}" local:Attach.IsBusy="{Binding IsSyncing, Mode=TwoWay}" Content="{Binding SyncMessage}"/>
+                </Border>
+            </StackPanel>
+        </Border>
+        <Grid  Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="1"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Border BorderBrush="Black" BorderThickness="0,1,1,0">
-                    <ComboBox x:Name="cb_repo"
-                        Style="{StaticResource cb_Repos}" ItemsSource="{Binding Repositories}" SelectedItem="{Binding SelectedRepo}" DisplayMemberPath="Model.Name">
-                    </ComboBox>
-                </Border>
-                <TreeView Grid.Row="1" ItemsSource="{Binding ElementName=cb_repo, Path=SelectedItem.ResourceTree}" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-                    <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                            <StackPanel Orientation="Horizontal">
-                                <!--<sh:FontIcon Icon="{Binding Icon}" Foreground="{Binding IconBrush}"/>-->
-                                <Label Content="{Binding Name}"/>
-                            </StackPanel>
-                        </HierarchicalDataTemplate>
-                    </TreeView.ItemTemplate>
-                </TreeView>
-            </Grid>
-            <GridSplitter Width="1" Grid.Column="1"  HorizontalAlignment="Stretch"/>
-            <Grid Grid.Column="2" >
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="50"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Border BorderBrush="Black" BorderThickness="0,1,1,0" Background="{StaticResource TitleBarBackground}">
-                        <Button Style="{StaticResource btn_sync}" local:FIcon.FIcon="&#xf2f1;">Upload</Button>
-                    </Border>
-                </Grid>
-            </Grid>
+            <TreeView ItemsSource="{Binding ElementName=cb_repo, Path=SelectedItem.ResourceTree}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Style="{StaticResource tv}">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                        <StackPanel Orientation="Horizontal">
+                            <!--<TextBlock FontSize="16" FontFamily="/sh.DesignHub;component/Resources/#iconfont" Text="&#xe600;"/>-->
+                            <TextBlock x:Name="icon" Style="{StaticResource FIcon_Font_Awesome_5_Free_Solid}"  Grid.Column="1" 
+                                                                    DockPanel.Dock="Right" 
+                                                               Text="&#xf15c;" FontSize="16" Margin=" 2,0" />
+                            <Label Content="{Binding Name}"/>
+                        </StackPanel>
+                        <HierarchicalDataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding ItemType}" Value="Folder">
+                                <Setter TargetName="icon" Property="Foreground" Value="Red"/>
+                                <Setter TargetName="icon" Property="Text" Value="&#xf49e;"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ItemType}" Value="Repo">
+                                <Setter TargetName="icon" Property="Foreground" Value="#fff1d04c"/>
+                                <Setter TargetName="icon" Property="Text" Value="&#xf07b;"/>
+                            </DataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Path=IsExpanded,RelativeSource={RelativeSource AncestorType=TreeViewItem}}" Value="True"/>
+                                    <Condition Binding="{Binding ItemType}" Value="Folder"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="icon" Property="Text" Value="&#xf07c;"/>
+                            </MultiDataTrigger>
+                        </HierarchicalDataTemplate.Triggers>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+            <GridSplitter HorizontalAlignment="Stretch" Grid.Column="1" Width="1"/>
         </Grid>
-        <StatusBar Grid.Row="2"/>
+
+
+        <StatusBar Grid.Row="3"/>
     </Grid>
 </Window>

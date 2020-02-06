@@ -65,13 +65,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\Icon.cs" />
     <Compile Include="Core\MVVM.cs" />
+    <Compile Include="Icon.cs" />
     <Compile Include="Models\RepositoryConfig.cs" />
     <Compile Include="ViewModels\VM_Main.cs" />
     <Compile Include="ViewModels\VM_ResourceRepository.cs" />
     <Compile Include="ViewModels\VM_TreeFolder.cs" />
     <Compile Include="ViewModels\VM_TreeFile.cs" />
     <Compile Include="ViewModels\VM_TreeItem.cs" />
+    <Compile Include="ViewModels\VM_TreeRepository.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -86,11 +89,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Themes\Controls\Icon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\FontIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\GitHubDesktop\Button.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\GitHubDesktop\TreeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -141,6 +152,7 @@
     <None Include="repositories.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Resource Include="Resources\iconfont.ttf" />
     <Resource Include="Resources\Font Awesome 5 Free-Solid-900.otf" />
   </ItemGroup>
   <ItemGroup>

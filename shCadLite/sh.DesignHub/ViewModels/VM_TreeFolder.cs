@@ -15,6 +15,8 @@ namespace sh.DesignHub.ViewModels
 {
     public class VM_TreeFolder : VM_TreeItem
     {
+        public override string ItemType => "Folder";
+
         DirectoryInfo info;
         public VM_TreeFolder(DirectoryInfo dir):base(dir)
         {
@@ -36,6 +38,7 @@ namespace sh.DesignHub.ViewModels
         public bool IsExpanded { get { return GetValue<bool>(); } set { SetValue(value); } }
 
         
+        //public string Icon { get { return "\xf07c"; } }
 
     }
 }

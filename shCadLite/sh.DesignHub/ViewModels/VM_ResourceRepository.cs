@@ -27,7 +27,7 @@ namespace sh.DesignHub.ViewModels
         private void LoadTree()
         {
             var root = VM_TreeItem.New_VM_TreeItem(new DirectoryInfo(Model.Local)) as VM_TreeFolder;
-            ResourceTree = root.Children;
+            ResourceTree = new ObservableCollection<VM_TreeItem>(new List<VM_TreeItem> { root });
         }
 
         private void LoadStatus()

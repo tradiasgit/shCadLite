@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 
 namespace sh.DesignHub
 {
-   
+
     public class Attach : Control
     {
         static Attach()
@@ -131,6 +131,44 @@ namespace sh.DesignHub
         // Using a DependencyProperty as the backing store for PressedForeground.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PressedForegroundProperty =
             DependencyProperty.RegisterAttached("PressedForeground", typeof(Brush), typeof(Attach), new PropertyMetadata());
+
+
+
+
+
+
+
+
+
+        [AttachedPropertyBrowsableForType(typeof(Button))]
+        public static bool GetIsBusy(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(IsBusyProperty);
+        }
+
+        public static void SetIsBusy(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsBusyProperty, value);
+        }
+
+        private static void IsBusyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            
+            //Update((FrameworkElement)d);
+        }
+
+
+        // Using a DependencyProperty as the backing store for IsBusy.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsBusyProperty =
+            DependencyProperty.RegisterAttached("IsBusy", typeof(bool), typeof(Attach), new PropertyMetadata(false, IsBusyChanged));
+
+
+
+
+
+
+
+
 
 
 

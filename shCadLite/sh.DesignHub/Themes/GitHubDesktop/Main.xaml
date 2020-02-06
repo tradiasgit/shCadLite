@@ -7,6 +7,7 @@
         <ResourceDictionary Source="Button.xaml"/>
         <ResourceDictionary Source="ComboBox.xaml"/>
         <ResourceDictionary Source="ScrollBar.xaml"/>
+        <ResourceDictionary Source="TreeView.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     <Style TargetType="ScrollBar" BasedOn="{StaticResource DefaultScrollBar}"/>
 

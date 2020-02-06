@@ -91,7 +91,7 @@ namespace sh.ResourceRepository
         }
 
 
-        public void Push()
+        public async Task Push()
         {
             var content = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
@@ -99,6 +99,7 @@ namespace sh.ResourceRepository
             {
                 // Stage the file
                 Commands.Stage(repo, "*");
+                
                 // Create the committer's signature and commit
                 var author = new Signature(authorname, email, DateTime.Now);
                 var committer = author;
