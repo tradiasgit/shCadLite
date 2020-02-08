@@ -33,7 +33,6 @@ namespace sh.DesignHub.Models
             return JsonConvert.DeserializeObject<List<RepositoryConfig>>(File.ReadAllText(repofile.FullName));
         }
 
-
         public string Name { get; set; }
 
         public string url { get; set; }
@@ -49,15 +48,15 @@ namespace sh.DesignHub.Models
         public string authorname { get; set; }
 
 
-        public TreeChanges GetChangeAsync()
+        public Patch GetChangeAsync()
         {
-
             using (var repo = new Repository(Local))
             {
-                //Tree commitTree = repo.Head.Tip.Tree; // Main Tree
+                Tree commitTree = repo.Head.Tip.Tree; // Main Tree
                 //Tree parentCommitTree = repo.Head.Tip.Parents.Single().Tree; // Secondary Tree
-                //var patch = repo.Diff.Compare<Patch>(parentCommitTree, commitTree); // Difference
-                return repo.Diff.Compare<TreeChanges>();
+                var patch = repo.Diff.Compare<Patch>(commitTree, DiffTargets.WorkingDirectory); // Difference
+                //return repo.Diff.Compare<TreeChanges>();
+                return patch;
             }
         }
 
@@ -110,18 +109,8 @@ namespace sh.DesignHub.Models
 
         public void Push()
         {
-            var content = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
             using (var repo = new Repository(Local))
             {
-                // Stage the file
-                Commands.Stage(repo, "*");
-                // Create the committer's signature and commit
-                var author = new Signature(authorname, email, DateTime.Now);
-                var committer = author;
-                // Commit to the repository
-                var commit = repo.Commit(content, author, committer);
-                // git push
                 var options = new PushOptions
                 {
                     CredentialsProvider = new CredentialsHandler((url, usernameFromUrl, types) =>
@@ -138,7 +127,21 @@ namespace sh.DesignHub.Models
             }
         }
 
+        public void Commit()
+        {
+            var content = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
+            using (var repo = new Repository(Local))
+            {
+                // Stage the file
+                Commands.Stage(repo, "*");
+                // Create the committer's signature and commit
+                var author = new Signature(authorname, email, DateTime.Now);
+                var committer = author;
+                // Commit to the repository
+                //var commit = repo.Commit(content, author, committer);
+            }
+        }
 
 
         public IProcessHandler ProcessHandler { get; set; } = new DefaultProcessHandler();

@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sh.WindowsClient.UnitTest",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sh.Repository", "sh.Repository\sh.Repository.csproj", "{6C15B008-7BB7-4EAE-8C49-7D0EFFA013D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cadreg", "cadreg\cadreg.csproj", "{F5203243-A6A7-4A11-9D07-3DC42CBA9336}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{6C15B008-7BB7-4EAE-8C49-7D0EFFA013D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C15B008-7BB7-4EAE-8C49-7D0EFFA013D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C15B008-7BB7-4EAE-8C49-7D0EFFA013D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5203243-A6A7-4A11-9D07-3DC42CBA9336}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5203243-A6A7-4A11-9D07-3DC42CBA9336}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5203243-A6A7-4A11-9D07-3DC42CBA9336}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5203243-A6A7-4A11-9D07-3DC42CBA9336}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

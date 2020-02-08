@@ -48,21 +48,27 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Background="{StaticResource TitleBarBackground}">
                 <Border BorderBrush="Black" BorderThickness="0,0,1,0" Background="{StaticResource TitleBarBackground}">
                     <ComboBox x:Name="cb_repo" Width="200"
-                        Style="{StaticResource cb_Repos}" ItemsSource="{Binding Repositories}" SelectedItem="{Binding SelectedRepo}" DisplayMemberPath="Model.Name">
+                        Style="{StaticResource cb_Repos}" ItemsSource="{Binding Repositories}" SelectedItem="{Binding SelectedRepo}" DisplayMemberPath="Name">
                     </ComboBox>
                 </Border>
-                <Border BorderBrush="Black" BorderThickness="0,0,1,0" Background="{StaticResource TitleBarBackground}">
-                    <Button Style="{StaticResource btn_sync}" local:FIcon.FIcon="&#xf2f1;" local:Attach.Label="{Binding SyncTitle}" Command="{Binding Cmd_Sync}" local:Attach.IsBusy="{Binding IsSyncing, Mode=TwoWay}" Content="{Binding SyncMessage}"/>
+                <Border BorderBrush="Black" BorderThickness="0,0,1,0" Background="{StaticResource TitleBarBackground}" DataContext="{Binding ElementName=cb_repo, Path=SelectedItem.ButtonCommit}">
+                    <Button Style="{StaticResource btn_sync}" local:FIcon.FIcon="&#xf2f1;" local:Attach.Label="{Binding Title}" Command="{Binding Cmd}" local:Attach.IsBusy="{Binding IsBusy, Mode=TwoWay}" Content="{Binding Message}"/>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="0,0,1,0" Background="{StaticResource TitleBarBackground}" DataContext="{Binding ElementName=cb_repo, Path=SelectedItem.ButtonSync}">
+                    <Button Style="{StaticResource btn_sync}" local:FIcon.FIcon="&#xf2f1;" local:Attach.Label="{Binding Title}" Command="{Binding Cmd}" local:Attach.IsBusy="{Binding IsBusy, Mode=TwoWay}" Content="{Binding Message}"/>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="0,0,1,0" Background="{StaticResource TitleBarBackground}" DataContext="{Binding ElementName=cb_repo, Path=SelectedItem.ButtonSync}">
+                    <Button Style="{StaticResource btn_sync}" local:FIcon.FIcon="&#xf2f1;" local:Attach.Label="{Binding Title}" Command="{Binding Cmd}" local:Attach.IsBusy="{Binding IsBusy, Mode=TwoWay}" Content="{Binding Message}"/>
                 </Border>
             </StackPanel>
         </Border>
-        <Grid  Grid.Row="2">
+        <Grid  Grid.Row="2"  DataContext="{Binding ElementName=cb_repo, Path=SelectedItem}" Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="1"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <TreeView ItemsSource="{Binding ElementName=cb_repo, Path=SelectedItem.ResourceTree}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Style="{StaticResource tv}">
+            <TreeView ItemsSource="{Binding ResourceTree}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Style="{StaticResource tv}">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                         <StackPanel Orientation="Horizontal">

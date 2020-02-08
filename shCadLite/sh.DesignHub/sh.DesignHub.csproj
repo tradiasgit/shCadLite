@@ -24,7 +24,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>D:\DesignHub\dim\shdesignhub\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -69,6 +69,8 @@
     <Compile Include="Core\MVVM.cs" />
     <Compile Include="Icon.cs" />
     <Compile Include="Models\RepositoryConfig.cs" />
+    <Compile Include="ViewModels\VM_ButtonCommit.cs" />
+    <Compile Include="ViewModels\VM_ButtonSync.cs" />
     <Compile Include="ViewModels\VM_Main.cs" />
     <Compile Include="ViewModels\VM_ResourceRepository.cs" />
     <Compile Include="ViewModels\VM_TreeFolder.cs" />

@@ -12,7 +12,7 @@ namespace sh.DesignHub
     public class ViewModelBase : INotifyPropertyChanged
     {
         #region Busy
-        public bool IsBusy { get { return GetValue<bool>(); } private set { SetValue(value); } }
+        public bool IsBusy { get { return GetValue<bool>(); }  set { SetValue(value); } }
 
         public string BusyMessage { get { return GetValue<string>(); } set { SetValue(value); } }
 
