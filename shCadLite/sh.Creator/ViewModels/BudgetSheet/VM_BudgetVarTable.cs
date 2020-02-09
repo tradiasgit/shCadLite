@@ -24,16 +24,6 @@ namespace sh.Creator.ViewModels.BudgetSheet
             set { _budgetVars = value;RaisePropertyChanged(); }
         }
 
-        private VM_BudgetVar _selBudgetVar;
-        /// <summary>
-        /// 选择
-        /// </summary>
-        public VM_BudgetVar SelBudgetVar
-        {
-            get { return _selBudgetVar; }
-            set { _selBudgetVar = value; RaisePropertyChanged(); }
-        }
-
         public VM_BudgetVarTable()
         {
             Cmd_RefreshBudgetVar.Execute(null);
@@ -41,7 +31,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
 
 
         /// <summary>
-        /// 
+        /// 添加
         /// </summary>
         public ICommand Cmd_AddBudgetVar
         {
@@ -59,34 +49,8 @@ namespace sh.Creator.ViewModels.BudgetSheet
         }
 
         /// <summary>
-        /// 
+        /// 刷新
         /// </summary>
-        public ICommand Cmd_EditBudgetVar
-        {
-            get
-            {
-                return CommandFactory.RegisterCommand(p =>
-                {
-                    if (SelBudgetVar == null) return;
-                    var vm = new VM_EditBudgetVar(SelBudgetVar);
-                    vm.Show();
-                });
-            }
-        }
-
-        public ICommand Cmd_RemoveBudgetVar
-        {
-            get
-            {
-                return CommandFactory.RegisterCommand(p =>
-                {
-                    if (SelBudgetVar == null) return;
-                    if (MessageBox.Show("此操作不可逆，确定删除变量吗？", "", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel) return;
-                    BudgetVars.Remove(SelBudgetVar);
-                    BudgetVar.SaveAll(BudgetVars.Select(b => b.Model).ToList());
-                });
-            }
-        }
         public ICommand Cmd_RefreshBudgetVar
         {
             get
@@ -98,5 +62,26 @@ namespace sh.Creator.ViewModels.BudgetSheet
                 });
             }
         }
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        public ICommand Cmd_RemoveBudgetVar
+        {
+            get
+            {
+                return CommandFactory.RegisterCommand(p =>
+                {
+                    if(p is VM_BudgetVar rModel)
+                    {
+                        if (MessageBox.Show("此操作不可逆，确定删除变量吗？", "", MessageBoxButton.OKCancel) == MessageBoxResult.Cancel) return;
+                        BudgetVars.Remove(rModel);
+                        BudgetVar.SaveAll(BudgetVars.Select(b => b.Model).ToList());
+                    }
+                });
+            }
+        }
+
+        
     }
 }

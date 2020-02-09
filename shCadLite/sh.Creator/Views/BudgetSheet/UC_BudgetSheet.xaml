@@ -11,6 +11,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Style/dataGridStyle.xaml" />
+                <ResourceDictionary Source="Style/ButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style x:Key="GroupHeaderStyle" TargetType="{x:Type GroupItem}">
@@ -51,14 +52,13 @@
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-            <Button Content="添加分组" Width="78" Height="38" FontSize="14" Margin="5,0,0,0"
+            <Button Content="添加分组" Margin="5,0,0,0"
                     Command="{Binding Cmd_AddGroup}"></Button>
-            <Button Content="编辑分组" Width="78" Height="38" FontSize="14" Margin="10,0,0,0"
+            <Button Content="编辑分组" Margin="10,0,0,0"
                     Command="{Binding Cmd_EditGroup}"></Button>
-            <Button Content="添加预算" Width="78" Height="38" FontSize="14" Margin="10,0,0,0"
+            <Button Content="添加预算" Margin="10,0,0,0"
                     Command="{Binding Cmd_AddBudget}"></Button>
-
-            <Button Content="刷新" Width="78" Height="38" FontSize="14" Margin="10,0,0,0"
+            <Button Content="刷新" Margin="10,0,0,0"
                     Command="{Binding Cmd_Refresh}"></Button>
         </StackPanel>
 
@@ -84,7 +84,7 @@
                     <DataGridTemplateColumn.CellEditingTemplate>
                         <DataTemplate>
                             <TextBox Text="{Binding Name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                     Width="200" Height="20" 
+                                     Width="150" Height="20" 
                                      HorizontalContentAlignment="Center"
                                      VerticalContentAlignment="Center">
                                 <i:Interaction.Triggers>

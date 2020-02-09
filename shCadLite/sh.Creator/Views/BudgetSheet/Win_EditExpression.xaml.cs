@@ -27,9 +27,33 @@ namespace sh.Creator.Views
 
         private void ListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if(sender is ListBox listBox)
+            if (sender is ListBox listBox)
                 if (listBox.SelectedItem is BudgetVar budgetVar)
-                    txtExpression.Text += budgetVar.Name;
+                    insertString(budgetVar.Name);
         }
+
+        private void insertString(string content)
+        {
+            var code = txtExpression.SelectionStart;
+            if (string.IsNullOrEmpty(txtExpression.Text))
+            {
+                txtExpression.Text = content;
+            }
+            else
+            {
+                txtExpression.Text = txtExpression.Text.Insert(code == 0 ? txtExpression.Text.Length : code, content);
+            }
+            
+            txtExpression.SelectionStart = code + content.Length;
+            txtExpression.Focus();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn)
+                insertString(btn.Tag.ToString());
+        }
+
+
     }
 }
