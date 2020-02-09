@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace sh.Creator.ViewModels.BudgetSheet
 {
@@ -31,6 +32,21 @@ namespace sh.Creator.ViewModels.BudgetSheet
             set { Model.Method = value; ; RaisePropertyChanged(); }
         }
 
+
+        /// <summary>
+        /// 编辑
+        /// </summary>
+        public ICommand Cmd_EditBudgetVar
+        {
+            get
+            {
+                return CommandFactory.RegisterCommand(p =>
+                {
+                    var vm = new VM_EditBudgetVar(this);
+                    vm.Show();
+                });
+            }
+        }
     }
 
     #region MyRegion

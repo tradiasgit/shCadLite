@@ -62,7 +62,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
                     {
                         vb.QuantitieString = string.Format(item.Format, Convert.ToDouble(new System.Data.DataTable().Compute(expression, null)) * item.Ratio);
                     }
-                    catch (Exception ex)
+                    catch 
                     {
                         vb.QuantitieString = "计算出错";
                     }
