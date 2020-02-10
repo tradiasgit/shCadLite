@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sh.Creator", "sh.Creator\sh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sh.UI.Common", "sh.UI.Common\sh.UI.Common.csproj", "{9974A335-1464-47F2-8EAA-04128EC95922}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfTest", "WpfTest\WpfTest.csproj", "{81004AC3-9257-483D-B496-CEA9DC984EA3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sh.DesignHub", "sh.DesignHub\sh.DesignHub.csproj", "{573C82A9-2AD6-46F1-AC89-6E7E99F3E76F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "update", "update\update.csproj", "{6237761D-BD2A-4991-9A3D-57D279D70929}"
@@ -22,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sh.Repository", "sh.Repository\sh.Repository.csproj", "{6C15B008-7BB7-4EAE-8C49-7D0EFFA013D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cadreg", "cadreg\cadreg.csproj", "{F5203243-A6A7-4A11-9D07-3DC42CBA9336}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{E40502FD-00D5-4B49-B2FD-19C0E9EAA57F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,6 @@ Global
 		{9974A335-1464-47F2-8EAA-04128EC95922}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9974A335-1464-47F2-8EAA-04128EC95922}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9974A335-1464-47F2-8EAA-04128EC95922}.Release|Any CPU.Build.0 = Release|Any CPU
-		{81004AC3-9257-483D-B496-CEA9DC984EA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{81004AC3-9257-483D-B496-CEA9DC984EA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{81004AC3-9257-483D-B496-CEA9DC984EA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{81004AC3-9257-483D-B496-CEA9DC984EA3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{573C82A9-2AD6-46F1-AC89-6E7E99F3E76F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{573C82A9-2AD6-46F1-AC89-6E7E99F3E76F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{573C82A9-2AD6-46F1-AC89-6E7E99F3E76F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -72,6 +68,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{573C82A9-2AD6-46F1-AC89-6E7E99F3E76F} = {E40502FD-00D5-4B49-B2FD-19C0E9EAA57F}
+		{6237761D-BD2A-4991-9A3D-57D279D70929} = {E40502FD-00D5-4B49-B2FD-19C0E9EAA57F}
+		{F5203243-A6A7-4A11-9D07-3DC42CBA9336} = {E40502FD-00D5-4B49-B2FD-19C0E9EAA57F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {798F9AE9-627F-4BBB-90FD-7B3BF998C714}

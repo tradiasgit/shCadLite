@@ -12,39 +12,55 @@ namespace sh.Cad
 
         private static List<IEntitySelectionListener> _listeners = new List<IEntitySelectionListener>();
         private static List<IntPtr> _docs = new List<IntPtr>();
+        private static bool _Started;
+        //private static object locker;
 
         public static void Start()
         {
+            if (_Started) return;
             try
             {
-                //Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentCreated += DocumentCreated;
-                //Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentBecameCurrent += DocumentBecameCurrent;
+                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentCreated -= DocumentCreated;
+                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentCreated += DocumentCreated;
+                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentBecameCurrent -= DocumentBecameCurrent;
+                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentBecameCurrent += DocumentBecameCurrent;
+                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentActivated -= DocumentActivated;
                 Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentActivated += DocumentActivated;
-                //Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentToBeDestroyed += DocumentToBeDestroyed;
+                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentToBeDestroyed -= DocumentToBeDestroyed;
+                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentToBeDestroyed += DocumentToBeDestroyed;
+                _Started = true;
             }
             catch (Exception ex)
             {
-                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument?.Editor.WriteMessage(System.Environment.NewLine + "【监听事件异常】" + ex.Message + System.Environment.NewLine);
+                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument?.Editor.WriteMessage(Environment.NewLine + "【监听事件异常】" + ex.Message + Environment.NewLine);
                 //System.Windows.MessageBox.Show(System.Environment.NewLine + "【监听事件异常】" + ex.Message + System.Environment.NewLine);
             }
-
         }
 
 
-
+        private static void Show(string message)
+        {
+            message = Environment.NewLine + message + Environment.NewLine;
+            var ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument?.Editor;
+            if(ed!=null)ed.WriteMessage(message);
+            else System.Windows.MessageBox.Show(message);
+        }
 
 
         private static void DocumentCreated(object sender, DocumentCollectionEventArgs e)
         {
-            ListenDocumentSelectionChanged(e.Document);
+            //Show("DocumentCreated");
+            //ListenDocumentSelectionChanged(e.Document);
         }
         private static void DocumentActivated(object sender, DocumentCollectionEventArgs e)
         {
+            //Show("DocumentActivated");
             ListenDocumentSelectionChanged(e.Document);
         }
         private static void DocumentBecameCurrent(object sender, DocumentCollectionEventArgs e)
         {
-            ListenDocumentSelectionChanged(e.Document);
+            //Show("DocumentBecameCurrent");
+            //ListenDocumentSelectionChanged(e.Document);
         }
         private static void DocumentToBeDestroyed(object sender, DocumentCollectionEventArgs e)
         {
@@ -69,6 +85,7 @@ namespace sh.Cad
 
         private static void Doc_ImpliedSelectionChanged(object sender, EventArgs e)
         {
+            //Show("Doc_ImpliedSelectionChanged");
             var doc = (Document)sender;
             if (doc == null) return;
             if (!IsListening) return;

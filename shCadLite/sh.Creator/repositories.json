@@ -1,42 +1,10 @@
 ﻿[
-  //{
-  //"name": "[仓库名称]",
-  //"provider": "git",
-  // "url": "[远程仓库地址]",
-  //"local": "[本地路径]",
-  //"username": "[用户名]",
-  //"authorname": "[作者名字]",
-  //"email": "[EMail]",
-  //"password": "[密码]"
-  //},
   {
-    "name": "标准仓库",
-    "provider": "git",
-    "url": "https://github.com/shanhesoftware/standard.git",
-    "local": "D:\\DesignHub\\standard",
-    "username": "tradiasgit",
-    "authorname": "tradiasgit",
-    "email": "51795432@qq.com",
-    "password": "jb88f-wt2q3"
+    "name": "当前图纸目录",
+    "local": ""
   },
   {
-    "name": "组件仓库",
-    "provider": "git",
-    "local": "D:\\DesignHub\\common",
-    "url": "https://github.com/shanhesoftware/common.git",
-    "username": "tradiasgit",
-    "authorname": "tradiasgit",
-    "email": "51795432@qq.com",
-    "password": "jb88f-wt2q3"
-  },
-  {
-    "name": "我的仓库",
-    "provider": "git",
-    "local": "D:\\DesignHub\\me",
-    "url": "https://github.com/tradiasgit/test.git",
-    "username": "tradiasgit",
-    "authorname": "tradiasgit",
-    "email": "51795432@qq.com",
-    "password": "jb88f-wt2q3"
+    "name": "90米标准家",
+    "local": "D:\\DesignHub\\standard90"
   }
 ]
