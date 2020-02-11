@@ -32,7 +32,7 @@ namespace sh.BudgetTableEditor
         {
             base.ConfigureViewModelLocator();
             ViewModelLocationProvider.Register<MainWindow, MainWindowViewModel>();
-
+            
         }
     }
 }
