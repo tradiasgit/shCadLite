@@ -1,0 +1,11 @@
+﻿<UserControl x:Class="sh.BudgetTableEditor.Views.UserControls.BudgetItemTable"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             Height="450" Width="600">
+    <Grid>
+        <TextBlock Text="预算表" FontSize="50" HorizontalAlignment="Center"></TextBlock>
+    </Grid>
+</UserControl>

@@ -1,9 +1,6 @@
-﻿using HandyControl.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -14,14 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace sh.BudgetTableEditor.Views
+namespace sh.BudgetTableEditor.Views.UserControls
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// BudgetVarTable.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : HandyControl.Controls.Window
+    public partial class BudgetVarTable : UserControl
     {
-        public MainWindow()
+        public BudgetVarTable()
         {
             InitializeComponent();
         }

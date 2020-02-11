@@ -8,8 +8,17 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/SkinDefault.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
+                <!-- Base -->
+                <ResourceDictionary Source="Resources/Style/Color.xaml"/>
+                <ResourceDictionary Source="Resources/Style/Brush.xaml"/>
+                <ResourceDictionary Source="Resources/Style/Geometry.xaml"/>
+                <ResourceDictionary Source="Resources/Style/Style/Style.xaml"/>
+                <!-- Theme -->
+                <ResourceDictionary Source="Resources/Style/Theme/BaseLight.xaml"/>
+                <!-- Primary -->
+                <ResourceDictionary Source="Resources/Style/Primary/Primary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
+            <FontFamily x:Key="IconFont">pack://application:,,,/Resources/#FontAwesome</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>
