@@ -14,6 +14,8 @@ namespace sh.BudgetTableEditor.ViewModels
 {
     class MainWindowViewModel: ViewModelBase
     {
+        private readonly Tools.BudgetTableFileHelper _budgetTableFileHelper;
+
         private ObservableCollection<LeftMenuItem> _leftMenuItems;
 
         public ObservableCollection<LeftMenuItem> LeftMenuItems
@@ -58,12 +60,14 @@ namespace sh.BudgetTableEditor.ViewModels
             this.Text = "Click Me！";
         }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(Tools.BudgetTableFileHelper budgetTableFileHelper)
         {
             this.Text = "Hello Prism!";
             LeftMenuItems = new ObservableCollection<LeftMenuItem>();
             LeftMenuItems.Add(new LeftMenuItem { Name = "预算",ImagePath= "\xf1ec" });
             LeftMenuItems.Add(new LeftMenuItem { Name = "变量", ImagePath = "\xf0ce" });
+
+            _budgetTableFileHelper = budgetTableFileHelper;
         }
 
 
