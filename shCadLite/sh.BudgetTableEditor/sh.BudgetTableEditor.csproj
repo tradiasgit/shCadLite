@@ -14,7 +14,8 @@
 
   <ItemGroup>
     <PackageReference Include="HandyControl" Version="2.3.0" />
-    <PackageReference Include="Prism.Unity" Version="7.2.0.1422" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
+    <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
   </ItemGroup>
 
   <ItemGroup>

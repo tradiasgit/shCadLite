@@ -1,23 +1,25 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
+﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using sh.BudgetTableEditor.Views.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using MessageBox = HandyControl.Controls.MessageBox;
 
 namespace sh.BudgetTableEditor.ViewModels
 {
-    class MainWindowViewModel: BindableBase
+    class MainWindowViewModel: ViewModelBase
     {
         private ObservableCollection<LeftMenuItem> _leftMenuItems;
 
         public ObservableCollection<LeftMenuItem> LeftMenuItems
         {
             get { return _leftMenuItems; }
-            set { SetProperty(ref _leftMenuItems, value); }
+            set { Set(ref _leftMenuItems, value); }
         }
 
         private object _subContent;
@@ -25,7 +27,7 @@ namespace sh.BudgetTableEditor.ViewModels
         public object SubContent
         {
             get { return _subContent; }
-            set { SetProperty(ref _subContent, value); }
+            set { Set(ref _subContent, value); }
         }
 
 
@@ -34,7 +36,7 @@ namespace sh.BudgetTableEditor.ViewModels
         public string ContentTitle
         {
             get { return _contentTitle; }
-            set { SetProperty(ref _contentTitle, value); }
+            set { Set(ref _contentTitle, value); }
         }
 
 
@@ -44,12 +46,12 @@ namespace sh.BudgetTableEditor.ViewModels
         public string Text
         {
             get { return _text; }
-            set { SetProperty(ref _text, value); }
+            set { Set(ref _text, value); }
         }
 
-        private DelegateCommand _clickCommnd;
-        public DelegateCommand ClickCommnd =>
-            _clickCommnd ?? (_clickCommnd = new DelegateCommand(ExecuteClickCommnd));
+        private RelayCommand _clickCommnd;
+        public RelayCommand ClickCommnd =>
+            _clickCommnd ?? (_clickCommnd = new RelayCommand(ExecuteClickCommnd));
 
         void ExecuteClickCommnd()
         {
@@ -67,11 +69,11 @@ namespace sh.BudgetTableEditor.ViewModels
 
 
 
-        public DelegateCommand<object> SwitchContent
+        public RelayCommand<object> SwitchContent
         {
             get
             {
-                return new DelegateCommand<object>(p => 
+                return new RelayCommand<object>(p => 
                 {
                     if(p is LeftMenuItem lmi)
                     {
@@ -89,6 +91,22 @@ namespace sh.BudgetTableEditor.ViewModels
 
                         //MessageBox.Show(lmi.Name, "标题", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     }
+                });
+            }
+        }
+
+        public RelayCommand<object> LoadFileBudget
+        {
+            get
+            {
+                return new RelayCommand<object>(async p => 
+                {
+                    await Task.Run(() =>
+                    {
+                        Thread.Sleep(10000);
+                        MessageBox.Show("degndai", "标题", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        
+                    });
                 });
             }
         }

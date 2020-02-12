@@ -4,10 +4,7 @@
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
            xmlns:hc="https://handyorg.github.io/handycontrol"
-           xmlns:prism="http://prismlibrary.com/"
-           xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-           prism:ViewModelLocator.AutoWireViewModel="True"
-           
+           xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors"
            mc:Ignorable="d"
            Title="预算表编辑器"
            ShowNonClientArea="True"
@@ -16,24 +13,8 @@
            Style="{StaticResource WindowWin10}"
            d:DesignHeight="800" 
            d:DesignWidth="1200" 
-           Icon="/sh.BudgetTableEditor;component/Resources/Img/money.ico">
-    <!--<Grid>
-        <Menu>
-            
-        </Menu>
-        
-        <StackPanel>
-            --><!--<TextBox Text="{Binding Text}" Margin="10" Height="100" FontSize="50" Foreground="Black" BorderBrush="Black"/>
-        <Button  Height="100" Width="300" Content="Click Me" FontSize="50" Command="{Binding ClickCommnd}"
-                 controls:BorderElement.CornerRadius="15"/>-->
-            <!--<Button Style="{StaticResource ButtonPrimary}" Content="这是一个按钮" Margin="10,10,0,0"/>--><!--
-            <TabControl Style="{StaticResource TabControlInLine}">
-                <TabItem Header="预算"></TabItem>
-                <TabItem Header="变量"></TabItem>
-            </TabControl>
-        </StackPanel>
-    </Grid>-->
-
+           Icon="/sh.BudgetTableEditor;component/Resources/Img/money.ico"
+           DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -42,7 +23,7 @@
 
         <StackPanel Orientation="Horizontal">
             <Button Margin="3" Content="打开文件" Style="{StaticResource ButtonPrimary}" 
-                    hc:BorderElement.CornerRadius="0" />
+                    hc:BorderElement.CornerRadius="0" Command="{Binding LoadFileBudget}"/>
             <!--<Button Margin="3" Content="BaseLight" Style="{StaticResource ButtonPrimary}" hc:BorderElement.CornerRadius="0"
                     />
             <Button Margin="3" Content="Color" Style="{StaticResource ButtonPrimary}" hc:BorderElement.CornerRadius="0" 
@@ -77,14 +58,12 @@
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SelectionChanged" >
-                        <prism:InvokeCommandAction Command="{Binding SwitchContent}"  CommandParameter="{Binding SelectedItem,ElementName=ListBoxDemo}"></prism:InvokeCommandAction>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                
+                <Behaviors:Interaction.Triggers>
+                    <Behaviors:EventTrigger EventName="SelectionChanged" >
+                        <Behaviors:InvokeCommandAction Command="{Binding SwitchContent}"  CommandParameter="{Binding SelectedItem,ElementName=ListBoxDemo}"></Behaviors:InvokeCommandAction>
+                    </Behaviors:EventTrigger>
+                </Behaviors:Interaction.Triggers>
             </ListBox>
-            
 
             <Border Grid.Column="1" Background="{DynamicResource MainContentForegroundDrawingBrush}">
                 <Grid Name="GridMain" MinHeight="300" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="16">
