@@ -69,8 +69,10 @@
     <Compile Include="Core\CadViewModelBase.cs" />
     <Compile Include="Core\DatabaseManager.cs" />
     <Compile Include="Core\DataManager.cs" />
+    <Compile Include="Core\IDocumentCollectionListener.cs" />
     <Compile Include="EntityGroupInfo.cs" />
     <Compile Include="Core\EntityCache.cs" />
+    <Compile Include="IEntityInfo.cs" />
     <Compile Include="PolylineInfo.cs" />
     <Compile Include="EntityInfo.cs" />
     <Compile Include="EntityQuery.cs" />

@@ -11,7 +11,7 @@ namespace sh.Cad
 {
     public class EntitySelection
     {
-        internal EntitySelection(PromptSelectionResult result)
+        public EntitySelection(PromptSelectionResult result)
         {
             if (result.Status == PromptStatus.OK && result.Value != null)
             {

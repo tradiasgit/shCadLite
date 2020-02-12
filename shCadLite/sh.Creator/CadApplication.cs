@@ -1,4 +1,5 @@
 ﻿using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.ApplicationServices;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,13 +25,13 @@ namespace sh.Creator
 
             try
             {
-                Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage($"【山河软件】创造者插件已加载({Assembly.GetExecutingAssembly().GetName().Version.ToString()},Location:{Assembly.GetExecutingAssembly().Location})" + Environment.NewLine);
+                Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage($"【山河软件】创造者插件已加载({Assembly.GetExecutingAssembly().GetName().Version.ToString()},Location:{Assembly.GetExecutingAssembly().Location})" + Environment.NewLine);
                 sh.Cad.EventManager.Start();
-                CadCommands.Query();
+                ToolBoxCommand.Query();
             } 
             catch (System.Exception ex)
             {
-                Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage("【山河异常】" + ex.Message + Environment.NewLine);
+               Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage("【山河异常】" + ex.Message + Environment.NewLine);
             }
         }
 

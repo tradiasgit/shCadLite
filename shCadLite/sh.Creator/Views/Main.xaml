@@ -11,9 +11,17 @@
     <UserControl.Resources>
         <sh:BoolVisibilityConvertor  x:Key="BoolVisibilityConvertor"/>
     </UserControl.Resources>
-    <Grid>
-        <local:UC_MultiSelectBox   Visibility="{Binding IsVisible,Converter={StaticResource BoolVisibilityConvertor}}"/>
-        <local:UC_ResourceBox  Visibility="{Binding IsVisible,Converter={StaticResource BoolVisibilityConvertor}}"/>
-        <local:UC_SingleSelectBox  Visibility="{Binding IsVisible,Converter={StaticResource BoolVisibilityConvertor}}"/>
-    </Grid>
+    <TabControl>
+        <TabItem Header="仓库">
+            <!--<local:UC_ResourceBox/>-->
+        </TabItem>
+        <TabItem Header="单选">
+            <!--<local:UC_MultiSelectBox/>-->
+        </TabItem>
+        <TabItem Header="多选">
+            <!--<local:UC_SingleSelectBox/>-->
+        </TabItem>
+        
+       
+    </TabControl>
 </UserControl>

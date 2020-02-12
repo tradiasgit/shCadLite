@@ -20,39 +20,23 @@ namespace sh.Creator.ViewModels
 {
     public class VM_ResourceRepository : CadViewModelBase, IProcessHandler
     {
-        public RepositoryConfig Model { get { return GetValue<RepositoryConfig>(); } set { SetValue(value); } }
-        public VM_ResourceRepository(RepositoryConfig model)
+        public string Name { get; set; }
+
+        DirectoryInfo Local;
+        public VM_ResourceRepository(string name,DirectoryInfo dir)
         {
-            Model = model;
-            model.ProcessHandler = this;
+            Local = dir;
+            Name = name;
             LoadStatus();
         }
 
         private void LoadStatus()
         {
-            if (!string.IsNullOrWhiteSpace(Model.url) && Directory.Exists(Model.Local) && Directory.Exists($@"{Model.Local}\.git")) Status = "Sync";
-            else if (!string.IsNullOrWhiteSpace(Model.url)) Status = "Clone";
-            else Status = "Create";
+            
         }
 
         public string Status { get { return GetValue<string>(); } set { SetValue(value); } }//Create,Clone,Sync
 
-        public ICommand Cmd_Clone
-        {
-            get
-            {
-                return RegisterCommandAsync(async p =>
-                {
-                    SetBusy("正在克隆仓库...");
-                    await Model.CloneAsync();
-                    SetBusy("正在加载...");
-                    await Task.Delay(1000);
-                    Load();
-                    LoadStatus();
-                    ClearBusy();
-                });
-            }
-        }
 
         public ObservableCollection<VM_TreeItem> ResourceTree { get { return GetValue<ObservableCollection<VM_TreeItem>>(); } set { SetValue(value); } }
 
@@ -76,10 +60,9 @@ namespace sh.Creator.ViewModels
 
         private void Load()
         {
-            var dir = new DirectoryInfo(Model.Local);
-            if (dir.Exists)
+            if (Local.Exists)
             {
-                ResourceTree = new ObservableCollection<VM_TreeItem>(LoadFromDir(dir));
+                ResourceTree = new ObservableCollection<VM_TreeItem>(LoadFromDir(Local));
             }
         }
 

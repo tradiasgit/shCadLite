@@ -1,10 +1,6 @@
 {
   "EntityFunctions": [
     {
-      "Title": "导出",
-      "Command": "Cmd_SaveAsEnf"
-    },
-    {
       "Title": "套用",
       "EntityTypes": [ "Polyline" ],
       "Command": "Cmd_BrushWithEnf"
@@ -15,31 +11,15 @@
       "ProperyName": "LayerName",
       "Title": "图层",
       "Category": "基本",
-      "IsEditable": true
+      "IsEditable": true,
+      "EntityTypes": [ "Entity" ]
     },
     {
       "ProperyName": "ColorIndex",
       "Title": "颜色",
       "Category": "基本",
-      "IsEditable": true
-    },
-    {
-      "ProperyName": "Length",
-      "Title": "长度",
-      "Category": "基本",
-      "IsEditable": false,
-      "ValueFormat": "{0:f2}米",
-      "ValueRatio": 0.001,
-      "EntityTypes": [ "Line", "Polyline", "Arc", "Circle", "Mline" ]
-    },
-    {
-      "ProperyName": "Area",
-      "Title": "面积",
-      "Category": "基本",
-      "IsEditable": false,
-      "ValueFormat": "{0:f2}平米",
-      "ValueRatio": 0.000001,
-      "EntityTypes": [ "Polyline", "Region", "Circle", "Hatch" ]
+      "IsEditable": true,
+      "EntityTypes": [ "Entity" ]
     },
     {
       "ProperyName": "PatternName",
@@ -95,6 +75,20 @@
       "Category": "总面积",
       "IsEditable": false,
       "EntityTypes": [ "Polyline", "Region", "Circle", "Hatch" ]
+    },
+    {
+      "ProperyName": "LayoutName",
+      "Title": "布局名称",
+      "Category": "布局",
+      "IsEditable": false,
+      "EntityTypes": [ "Layout" ]
+    },
+    {
+      "ProperyName": "DwgFileName",
+      "Title": "图纸",
+      "Category": "布局",
+      "IsEditable": false,
+      "EntityTypes": [ "Layout" ]
     }
   ]
 }

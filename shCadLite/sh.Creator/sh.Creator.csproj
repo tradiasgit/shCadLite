@@ -75,8 +75,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CadApplication.cs" />
-    <Compile Include="CadCommands.cs" />
+    <Compile Include="CadCommands\Cmd_BrushWithEnf.cs" />
+    <Compile Include="ToolBoxCommand.cs" />
+    <Compile Include="CadCommands\Cmd_SaveAsEnf.cs" />
     <Compile Include="Models\EntityConfig.cs" />
+    <Compile Include="Models\Property\EnfFileProperty.cs" />
+    <Compile Include="Models\Property\ProperyModel.cs" />
+    <Compile Include="ViewModels\Property\VM_Function.cs" />
+    <Compile Include="ViewModels\Property\VM_PropertyItem.cs" />
     <Compile Include="Models\ResouceBoxInfo.cs" />
     <Compile Include="Models\shQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -106,6 +112,12 @@
     <Compile Include="ViewModels\BudgetSheet\VM_EditConfigurationProduct.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_EditExpression.cs" />
     <Compile Include="ViewModels\BudgetSheet\VM_EditGroup.cs" />
+    <Compile Include="ViewModels\Property\VM_PropertyPalette.cs" />
+    <Compile Include="ViewModels\Repository\VM_RepositoryDirectory.cs" />
+    <Compile Include="ViewModels\Repository\VM_RepositoryPalette.cs" />
+    <Compile Include="ViewModels\Repository\VM_TreeDirectory.cs" />
+    <Compile Include="ViewModels\Repository\VM_TreeFile.cs" />
+    <Compile Include="ViewModels\Repository\VM_TreeItem.cs" />
     <Compile Include="ViewModels\ResourceBox\VM_ResourceRepository.cs" />
     <Compile Include="ViewModels\ResourceBox\VM_TreeBlockInfo.cs" />
     <Compile Include="ViewModels\ResourceBox\VM_TreeCadPart.cs" />
@@ -148,6 +160,12 @@
     </Compile>
     <Compile Include="Views\BudgetSheet\Win_EditBudgetVar.xaml.cs">
       <DependentUpon>Win_EditBudgetVar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Property\PS_Property.xaml.cs">
+      <DependentUpon>PS_Property.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Repository\PS_Repository.xaml.cs">
+      <DependentUpon>PS_Repository.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ResourceBox\UC_BlockInfo.xaml.cs">
       <DependentUpon>UC_BlockInfo.xaml</DependentUpon>
@@ -207,19 +225,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="configs\BlockReference.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="configs\Polyline.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="configs\Line.json">
+    <None Include="configs\enf.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="configs\Entity.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="configs\Hatch.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="assets\entityconfigs\Hatch\地砖300x300.enf">
@@ -237,11 +246,37 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Themes\Resources\iconfont.ttf" />
+    <Resource Include="Themes\Resources\Font Awesome 5 Free-Solid-900.otf" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Themes\Cad2012.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Cad2012\Colors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Cad2012\Index.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Cad2012\ScrollBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Cad2012\Expander.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Cad2012\TreeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\FontIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\BudgetSheet\UC_BudgetVarTable.xaml">
       <SubType>Designer</SubType>
@@ -260,6 +295,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Main.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Property\PS_Property.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Repository\PS_Repository.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

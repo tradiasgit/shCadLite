@@ -20,6 +20,7 @@ namespace sh.Cad
 
         public static EntityInfo Get(ObjectId oid, Transaction tr,Func<ObjectId,Transaction,EntityInfo> loader)
         {
+            _cache.Clear();
             if (oid == ObjectId.Null) return null;
             if (!_cache.ContainsKey(oid))
             {

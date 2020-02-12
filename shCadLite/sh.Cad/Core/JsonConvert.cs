@@ -8,10 +8,7 @@ using System.Threading.Tasks;
 
 namespace sh.Cad.Json
 {
-    public interface IEntityInfo
-    {
-        string EntityTypeName { get; set; }
-    }
+    
     internal abstract class JsonCreationConverter<T> : JsonConverter
     {
         protected abstract T Create(Type objectType, JObject jsonObject);

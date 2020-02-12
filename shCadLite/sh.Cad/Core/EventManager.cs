@@ -11,6 +11,7 @@ namespace sh.Cad
     {
 
         private static List<IEntitySelectionListener> _listeners = new List<IEntitySelectionListener>();
+        private static List<IDocumentCollectionListener> _docListeners = new List<IDocumentCollectionListener>();
         private static List<IntPtr> _docs = new List<IntPtr>();
         private static bool _Started;
         //private static object locker;
@@ -20,12 +21,12 @@ namespace sh.Cad
             if (_Started) return;
             try
             {
-                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentCreated -= DocumentCreated;
-                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentCreated += DocumentCreated;
-                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentBecameCurrent -= DocumentBecameCurrent;
-                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentBecameCurrent += DocumentBecameCurrent;
-                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentActivated -= DocumentActivated;
-                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentActivated += DocumentActivated;
+                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentCreated -= DocumentChanged;
+                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentCreated += DocumentChanged;
+                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentBecameCurrent -= DocumentChanged;
+                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentBecameCurrent += DocumentChanged;
+                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentActivated -= DocumentChanged;
+                Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentActivated += DocumentChanged;
                 Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentToBeDestroyed -= DocumentToBeDestroyed;
                 Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.DocumentToBeDestroyed += DocumentToBeDestroyed;
                 _Started = true;
@@ -42,26 +43,58 @@ namespace sh.Cad
         {
             message = Environment.NewLine + message + Environment.NewLine;
             var ed = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument?.Editor;
-            if(ed!=null)ed.WriteMessage(message);
+            if (ed != null) ed.WriteMessage(message);
             else System.Windows.MessageBox.Show(message);
         }
 
 
-        private static void DocumentCreated(object sender, DocumentCollectionEventArgs e)
+        private static IntPtr _lastDocumentHandle;
+
+        public static void DocumentChanged(object sender, DocumentCollectionEventArgs e)
         {
-            //Show("DocumentCreated");
-            //ListenDocumentSelectionChanged(e.Document);
+            if (e.Document == null)
+            {
+                _lastDocumentHandle = default(IntPtr);
+                var de = new DocumentEventArgs()
+                {
+                    DocumentFile = null
+                };
+                foreach (var l in _docListeners)
+                {
+                    try
+                    {
+                        l.OnDocumentChanged(de);
+                    }
+                    catch (Exception ex)
+                    {
+                        Show("【事件异常】" + ex.Message);
+                    }
+                }
+            }
+            else if (_lastDocumentHandle != e.Document.Window.Handle)
+            {
+                _lastDocumentHandle = e.Document.Window.Handle;
+                var de = new DocumentEventArgs()
+                {
+                    DocumentFile = new System.IO.FileInfo(e.Document.Database.OriginalFileName)
+                };
+                foreach (var l in _docListeners)
+                {
+                    try
+                    {
+                        l.OnDocumentChanged(de);
+                    }
+                    catch (Exception ex)
+                    {
+                        Show("【事件异常】" + ex.Message);
+                    }
+                }
+                ListenDocumentSelectionChanged(e.Document);
+            }
         }
-        private static void DocumentActivated(object sender, DocumentCollectionEventArgs e)
-        {
-            //Show("DocumentActivated");
-            ListenDocumentSelectionChanged(e.Document);
-        }
-        private static void DocumentBecameCurrent(object sender, DocumentCollectionEventArgs e)
-        {
-            //Show("DocumentBecameCurrent");
-            //ListenDocumentSelectionChanged(e.Document);
-        }
+
+
+
         private static void DocumentToBeDestroyed(object sender, DocumentCollectionEventArgs e)
         {
             if (e.Document != null)
@@ -144,6 +177,26 @@ namespace sh.Cad
             if (_listeners.Contains(listener)) _listeners.Remove(listener);
         }
 
+
+
+        /// <summary>
+        /// 此方法可能有内存泄漏，所以每个类型只保留最后一次注册的对象的通知
+        /// </summary>
+        /// <param name="listener"></param>
+        public static void RegisterDocumentCollectionListener(IDocumentCollectionListener listener)
+        {
+
+            var old = _docListeners.FirstOrDefault(p => p.GetType().FullName == listener.GetType().FullName);
+            if (old != null)
+            {
+                _docListeners.Remove(old);
+            }
+            _docListeners.Add(listener);
+        }
+        public static void UnRegisterDocumentCollectionListener(IDocumentCollectionListener listener)
+        {
+            if (_docListeners.Contains(listener)) _docListeners.Remove(listener);
+        }
 
     }
 

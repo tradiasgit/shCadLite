@@ -32,11 +32,11 @@
             <MenuItem Header="刷新" Command="{Binding SelectedRepo.Cmd_Refresh}"/>
         </Menu>
         <Border Grid.Row="1">
-            <ComboBox Grid.Column="0" ItemsSource="{Binding Repositories}" DisplayMemberPath="Model.Name" x:Name="cbRepos"  SelectedItem="{Binding SelectedRepo}"/>
+            <ComboBox Grid.Column="0" ItemsSource="{Binding Repositories}" DisplayMemberPath="Name" x:Name="cbRepos"  SelectedItem="{Binding SelectedRepo}"/>
         </Border>
         <Grid  Grid.Row="2" DataContext="{Binding SelectedRepo}" >
             <Grid Height="100"></Grid>
-            <TreeView ItemsSource="{Binding ResourceTree}" SelectedItemChanged="TreeView_SelectedItemChanged" BorderThickness="0"  Visibility="{Binding Status,Converter={StaticResource StatusVisiblityConverter},ConverterParameter=Sync}">
+            <TreeView ItemsSource="{Binding ResourceTree}" SelectedItemChanged="TreeView_SelectedItemChanged" BorderThickness="0"  >
                 <TreeView.Resources>
                     <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type vm:VM_TreeFolder}">
                         <StackPanel Orientation="Horizontal">

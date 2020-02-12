@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace sh.Cad
 {
-    public class EntityInfo : Json.IEntityInfo
+    public class EntityInfo : IEntityInfo
     {
         public EntityInfo() { }
         public EntityInfo(Entity ent, Transaction tr)
@@ -80,11 +80,11 @@ namespace sh.Cad
 
 
 
-        public static Json.IEntityInfo Get(FileInfo file)
+        public static IEntityInfo Get(FileInfo file)
         {
             if (file == null || !file.Exists || file.Extension.ToLower() != ".enf") return null;
             var text = File.ReadAllText(file.FullName);
-            var info = JsonConvert.DeserializeObject<Json.IEntityInfo>(text, new Json.EntityInfoJsonConverter());
+            var info = JsonConvert.DeserializeObject<IEntityInfo>(text, new Json.EntityInfoJsonConverter());
             return info;
         }
 

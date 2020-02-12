@@ -16,10 +16,11 @@ using System.Xml;
 using Newtonsoft.Json;
 using System.Reflection;
 using System.Diagnostics;
+using Newtonsoft.Json.Linq;
 
 namespace sh.Creator.ViewModels
 {
-    public class VM_ResourceBox : ViewModelBase, IEntitySelectionListener
+    public class VM_ResourceBox : CadViewModelBase, IEntitySelectionListener
     {
 
         public VM_ResourceBox()
@@ -40,12 +41,12 @@ namespace sh.Creator.ViewModels
 
         private void Load()
         {
-            var repos = sh.ResourceRepository.RepositoryConfig.GetRepositories();
-            if (repos != null && repos.Count > 0)
-            {
-                Repositories = new ObservableCollection<VM_ResourceRepository>(repos.Select(r => new VM_ResourceRepository(r)));
-                SelectedRepo = Repositories[0];
-            }
+
+            Repositories = new ObservableCollection<VM_ResourceRepository>();
+
+            Repositories.Add(new VM_ResourceRepository("图纸目录", DatabaseDirectory));
+
+            SelectedRepo = Repositories[0];
         }
 
         public void OnSelectionChanged(EntitySelection selection)
@@ -65,7 +66,7 @@ namespace sh.Creator.ViewModels
         {
             get
             {
-                return CommandFactory.RegisterCommand(p =>
+                return RegisterCommand(p =>
                 {
                     Load();
                 });
@@ -75,7 +76,7 @@ namespace sh.Creator.ViewModels
         {
             get
             {
-                return CommandFactory.RegisterCommand(p =>
+                return RegisterCommand(p =>
                 {
                     Process.Start(sh.ResourceRepository.RepositoryConfig.RepoConfigFile.FullName);
                 });

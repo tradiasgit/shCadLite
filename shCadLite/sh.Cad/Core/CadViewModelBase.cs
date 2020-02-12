@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,6 +79,24 @@ namespace sh.Cad
         protected Database db { get { return HostApplicationServices.WorkingDatabase; } }
 
         protected Editor ed { get { return Application.DocumentManager.MdiActiveDocument?.Editor; } }
+
+
+        private static DirectoryInfo GetFileDirectory(string file)
+        {
+            if (string.IsNullOrWhiteSpace(file)) return null;
+            else return new FileInfo(file).Directory;
+        }
+
+
+        protected DirectoryInfo DatabaseDirectory => GetFileDirectory(HostApplicationServices.WorkingDatabase?.OriginalFileName);
+
+        protected DirectoryInfo AssemblyDirectory => GetFileDirectory(Assembly.GetExecutingAssembly().Location);
+
+
+        public FileInfo GetFileInfo(DirectoryInfo dir, string name)
+        {
+            return new FileInfo($@"{dir.FullName}\{name}");
+        }
 
         #endregion
 

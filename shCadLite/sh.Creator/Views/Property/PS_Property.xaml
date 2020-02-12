@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="sh.Creator.Views.Property.PS_Property"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:sh.Creator.Views.Property"
+             mc:Ignorable="d" 
+             Background="#fff0f0f0" 
+             d:DesignHeight="240" d:DesignWidth="320">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/sh.Creator;component/Themes/Cad2012/Index.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <CollectionViewSource x:Key="listData" Source="{Binding PropertyItems}">
+                <CollectionViewSource.GroupDescriptions>
+                    <PropertyGroupDescription PropertyName="Category"></PropertyGroupDescription>
+                </CollectionViewSource.GroupDescriptions>
+            </CollectionViewSource>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <DockPanel>
+        <Border DockPanel.Dock="Top">
+            <Label Content="{Binding Title}"/>
+        </Border>
+        <Border DockPanel.Dock="Top" Height="25">
+            <StackPanel Orientation="Horizontal">
+                <ItemsControl ItemsSource="{Binding Functions}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Width="60" Content="{Binding Title}" Command="{Binding Command}" CommandParameter="{Binding CommandParameter}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+        <Border DockPanel.Dock="Top"></Border>
+        <StatusBar DockPanel.Dock="Bottom" Height="25"></StatusBar>
+
+        <Border>
+            <ScrollViewer>
+                <ItemsControl ItemsSource="{Binding Source={StaticResource listData}}">
+                    <ItemsControl.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.ContainerStyle>
+                                <Style TargetType="{x:Type GroupItem}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                <Expander Header="{Binding Name}" IsExpanded="True">                                                    
+                                                    <ItemsPresenter />
+                                                </Expander>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GroupStyle.ContainerStyle>
+                        </GroupStyle>
+
+                    </ItemsControl.GroupStyle>
+
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Height="25" >
+                                <DockPanel>
+                                    <Label Content="{Binding Label}" DockPanel.Dock="Left" Width="100"/>
+                                    <TextBlock Text="o" DockPanel.Dock="Right" Width="16"/>
+                                    <TextBox Text="{Binding Value}" IsEnabled="{Binding IsEditable}"></TextBox>
+                                </DockPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+    </DockPanel>
+</UserControl>

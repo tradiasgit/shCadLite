@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace sh.Cad
 {
-    public class EntityGroupInfo : Json.IEntityInfo
+    public class EntityGroupInfo : IEntityInfo
     {
         public string EntityTypeName { get; set; }
         public string DwgFileName { get; set; }
