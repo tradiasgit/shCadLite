@@ -1,4 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
+using Microsoft.Extensions.Configuration;
+using sh.BudgetTableEditor.Tools;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,8 +15,8 @@ namespace sh.BudgetTableEditor.ViewModels
         public ViewModelLocator()
         {
             // 默认在这里注册就可以了;
+            SimpleIoc.Default.Register<BudgetTableFileHelper>();
             SimpleIoc.Default.Register<MainWindowViewModel>();
-
         }
 
         /// <summary>
