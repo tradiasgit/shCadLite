@@ -127,7 +127,50 @@ namespace sh.BudgetTableEditor.Tools
         }
         #endregion
 
+        #region 分组
+        /// <summary>
+        /// 是否存在
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool BudgetGroupExists(string name)
+        {
+            return BudgetGroups.Exists(v => v.Name.ToLower() == name.ToLower());
+        }
 
+        /// <summary>
+        /// 添加
+        /// </summary>
+        /// <param name="budgetGroup"></param>
+        /// <returns></returns>
+        public void BudgetGroupAdd(BudgetGroup budgetGroup)
+        {
+            if (BudgetGroups == null)
+                BudgetGroups = new List<BudgetGroup>();
+            BudgetGroups.Add(budgetGroup);
+        }
+
+        /// <summary>
+        /// 修改
+        /// </summary>
+        /// <param name="oldName"></param>
+        /// <param name="budgetGroup"></param>
+        public void BudgetGroupEdit(string oldName, BudgetGroup budgetGroup)
+        {
+            var upGroup = BudgetGroups.FirstOrDefault(v => v.Name == oldName);
+            upGroup.Name = budgetGroup.Name;
+        }
+
+        /// <summary>
+        /// 移除
+        /// </summary>
+        /// <param name="name"></param>
+        public void BudgetGroupRemove(string name)
+        {
+            var removeGroup = BudgetGroups.FirstOrDefault(v => v.Name == name);
+            BudgetGroups.Remove(removeGroup);
+        }
+        #endregion
 
     }
 }

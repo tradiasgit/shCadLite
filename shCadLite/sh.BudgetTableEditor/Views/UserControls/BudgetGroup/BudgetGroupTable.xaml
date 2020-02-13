@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="sh.BudgetTableEditor.Views.UserControls.BudgetGroupTable"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d" 
+             Height="450" Width="500"
+             DataContext="{Binding Source={StaticResource Locator}, Path=BudgetVarTable}">
+    <Grid>
+        <DataGrid HeadersVisibility="Column" 
+                  RowHeaderWidth="60" 
+                  AutoGenerateColumns="False" 
+                  IsReadOnly="True" 
+                  ItemsSource="{Binding BudgetVars}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="1*" Header="名称"  Binding="{Binding Name}" />
+                <DataGridTemplateColumn Width="110">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <hc:SplitButton Style="{StaticResource SplitButtonSuccess}" Margin="10,0,0,0" Content="选项" 
+                                            HorizontalAlignment="Stretch">
+                                <hc:SplitButton.DropDownContent>
+                                    <StackPanel>
+                                        <MenuItem Header="编辑" Command="{Binding EditBudgetVar}" />
+                                        <MenuItem Header="删除" Command="{Binding RemoveBudgetVar}" />
+                                    </StackPanel>
+                                </hc:SplitButton.DropDownContent>
+                            </hc:SplitButton>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
