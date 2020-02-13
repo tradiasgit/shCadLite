@@ -26,7 +26,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
 
             
 
-            var win = new Window { Content = tab };
+            var win = new Window {Width=800,Height=550, Content = tab };
 
             win.Show();
         }

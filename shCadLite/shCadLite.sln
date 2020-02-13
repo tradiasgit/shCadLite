@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cadreg", "cadreg\cadreg.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{E40502FD-00D5-4B49-B2FD-19C0E9EAA57F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{7E351886-6E7E-4FDF-8472-B74234A4E12C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sh.BudgetTableEditor", "sh.BudgetTableEditor\sh.BudgetTableEditor.csproj", "{F32DCE69-C06A-4CD7-B28A-2C6D98CBA80A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,11 +60,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{573C82A9-2AD6-46F1-AC89-6E7E99F3E76F} = {E40502FD-00D5-4B49-B2FD-19C0E9EAA57F}
-		{6237761D-BD2A-4991-9A3D-57D279D70929} = {E40502FD-00D5-4B49-B2FD-19C0E9EAA57F}
-		{F5203243-A6A7-4A11-9D07-3DC42CBA9336} = {E40502FD-00D5-4B49-B2FD-19C0E9EAA57F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {798F9AE9-627F-4BBB-90FD-7B3BF998C714}

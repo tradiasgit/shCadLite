@@ -67,7 +67,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
         }
 
         /// <summary>
-        /// 表达式
+        /// 比例
         /// </summary>
         public double Ration
         {
@@ -76,7 +76,7 @@ namespace sh.Creator.ViewModels.BudgetSheet
         }
 
         /// <summary>
-        /// 表达式
+        /// 格式化
         /// </summary>
         public string Format
         {

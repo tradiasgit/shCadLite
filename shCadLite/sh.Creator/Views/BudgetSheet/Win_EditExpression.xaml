@@ -5,11 +5,55 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:sh.Creator.Views"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
-        Title="表达式编辑" Height="400" Width="500">
+        Title="表达式编辑" Height="400" Width="440">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Style/ButtonStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
-        <StackPanel Margin="10">
-            <TextBox x:Name="txtExpression"  FontSize="14" Height="30" Width="300" Margin="10"
-                      VerticalContentAlignment="Center" Text="{Binding ExpressionString,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="270"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <TextBox  x:Name="txtExpression"  Height="30" Width="250" Margin="10,0,0,0"
+                      VerticalContentAlignment="Center"
+                  Text="{Binding ExpressionString,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Button Width="30" Height="30" Margin="10,0,0,0" Content="+" Tag="+" Click="Button_Click"></Button>
+            <Button Width="30" Height="30" Margin="10,0,0,0" Content="-" Tag="-" Click="Button_Click"></Button>
+            <Button Width="30" Height="30" Margin="10,0,0,0" Content="×" Tag="*" Click="Button_Click"></Button>
+            <Button Width="30" Height="30" Margin="10,0,0,0" Content="÷" Tag="/" Click="Button_Click"></Button>
+        </StackPanel>
+
+        <GroupBox Grid.Row="1" Header="变量列表" >
+            <ListBox BorderThickness="0" Margin="2"  ItemsSource="{Binding BudgetVars}" 
+                     MouseDoubleClick="ListBox_MouseDoubleClick">
+                <ListBox.Template>
+                    <ControlTemplate TargetType="{x:Type ListBox}">
+                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                            <WrapPanel Orientation="Horizontal" IsItemsHost="True" ScrollViewer.CanContentScroll="True"></WrapPanel>
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </ListBox.Template>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"></TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </GroupBox>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button Content="试算" Margin="152,0,0,0" Command="{Binding Cmd_Trial}"></Button>
+            <Button Content="确定" Margin="10,0,0,0" Command="{Binding Cmd_Ok}"></Button>
+            <TextBlock VerticalAlignment="Center" FontSize="14" Foreground="Red" Margin="10,0,0,0" Text="{Binding Message}"></TextBlock>
+        </StackPanel>
+        <!--<StackPanel Margin="10">
+           
             <GroupBox Header="变量列表" Width="400" Height="250" Margin="0">
                 <ListBox BorderThickness="0" Margin="5" ItemsSource="{Binding BudgetVars}" MouseDoubleClick="ListBox_MouseDoubleClick">
                     <ListBox.Template>
@@ -26,14 +70,8 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </GroupBox>
-            <StackPanel Orientation="Horizontal" Margin="10" >
-                <Button Content="试算" Width="70" Height="30" FontSize="14" Margin="152,0,0,0"
-                    Command="{Binding Cmd_Trial}"></Button>
-                <Button Content="确定" Width="70" Height="30" FontSize="14" Margin="10,0,0,0"
-                    Command="{Binding Cmd_Ok}"></Button>
-                <TextBlock VerticalAlignment="Center" FontSize="14" Foreground="Red" Margin="10,0,0,0" Text="{Binding Message}"></TextBlock>
-            </StackPanel>
+           
             
-        </StackPanel>
+        </StackPanel>-->
     </Grid>
 </Window>
