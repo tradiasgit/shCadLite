@@ -67,6 +67,7 @@ namespace sh.BudgetTableEditor.ViewModels
             LeftMenuItems = new ObservableCollection<LeftMenuItem>();
             LeftMenuItems.Add(new LeftMenuItem { Name = "预算",ImagePath= "\xf1ec" });
             LeftMenuItems.Add(new LeftMenuItem { Name = "变量", ImagePath = "\xf0ce" });
+            LeftMenuItems.Add(new LeftMenuItem { Name = "分组", ImagePath = "\xf0ce" });
 
             _budgetTableFileHelper = budgetTableFileHelper;
         }
@@ -91,6 +92,10 @@ namespace sh.BudgetTableEditor.ViewModels
                             case "变量":
                                 ContentTitle = "变量表";
                                 SubContent = new BudgetVarTable();
+                                break;
+                            case "分组":
+                                ContentTitle = "分组表";
+                                SubContent = new BudgetGroupTable();
                                 break;
                         }
 
@@ -127,6 +132,21 @@ namespace sh.BudgetTableEditor.ViewModels
                 return new RelayCommand( () =>
                 {
                     var win = new BudgetVarAdd();
+                    win.ShowDialog();
+                });
+            }
+        }
+
+        /// <summary>
+        /// 添加分组
+        /// </summary>
+        public RelayCommand AddBudgetGroup
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    var win = new BudgetGroupAdd();
                     win.ShowDialog();
                 });
             }

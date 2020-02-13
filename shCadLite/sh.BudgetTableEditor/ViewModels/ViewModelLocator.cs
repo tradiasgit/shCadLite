@@ -21,6 +21,7 @@ namespace sh.BudgetTableEditor.ViewModels
             SimpleIoc.Default.Register<BudgetTableFileHelper>();
             SimpleIoc.Default.Register<MainWindowViewModel>();
             SimpleIoc.Default.Register<BudgetVarTableViewModel>();
+            SimpleIoc.Default.Register<BudgetGroupTableViewModel>();
         }
 
         /// <summary>
@@ -32,7 +33,9 @@ namespace sh.BudgetTableEditor.ViewModels
 
         public BudgetVarTableViewModel BudgetVarTable => SimpleIoc.Default.GetInstance<BudgetVarTableViewModel>();
 
-        
+        public BudgetGroupTableViewModel BudgetGroupTable => SimpleIoc.Default.GetInstance<BudgetGroupTableViewModel>();
+
+
 
 
         public static void Cleanup()

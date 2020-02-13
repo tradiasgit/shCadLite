@@ -6,13 +6,13 @@
              xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" 
              Height="450" Width="500"
-             DataContext="{Binding Source={StaticResource Locator}, Path=BudgetVarTable}">
+             DataContext="{Binding Source={StaticResource Locator}, Path=BudgetGroupTable}">
     <Grid>
         <DataGrid HeadersVisibility="Column" 
                   RowHeaderWidth="60" 
                   AutoGenerateColumns="False" 
                   IsReadOnly="True" 
-                  ItemsSource="{Binding BudgetVars}">
+                  ItemsSource="{Binding BudgetGroups}">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="1*" Header="名称"  Binding="{Binding Name}" />
                 <DataGridTemplateColumn Width="110">
@@ -22,8 +22,8 @@
                                             HorizontalAlignment="Stretch">
                                 <hc:SplitButton.DropDownContent>
                                     <StackPanel>
-                                        <MenuItem Header="编辑" Command="{Binding EditBudgetVar}" />
-                                        <MenuItem Header="删除" Command="{Binding RemoveBudgetVar}" />
+                                        <MenuItem Header="编辑" Command="{Binding EditBudgetGroup}" />
+                                        <MenuItem Header="删除" Command="{Binding RemoveBudgetGroup}" />
                                     </StackPanel>
                                 </hc:SplitButton.DropDownContent>
                             </hc:SplitButton>
