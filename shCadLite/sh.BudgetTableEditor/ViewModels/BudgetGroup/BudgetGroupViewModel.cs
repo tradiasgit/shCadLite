@@ -55,7 +55,7 @@ namespace sh.BudgetTableEditor.ViewModels
 			return await btfh.SaveBudgetTableAsync();
 		}
 
-		public async Task<bool> RemoveEdit()
+		public async Task<bool> SaveRemove()
 		{
 			var btfh = SimpleIoc.Default.GetInstance<BudgetTableFileHelper>();
 			btfh.BudgetGroupRemove(Name);
@@ -82,7 +82,7 @@ namespace sh.BudgetTableEditor.ViewModels
 			{
 				return new RelayCommand(async () =>
 				{
-					var result = await RemoveEdit();
+					var result = await SaveRemove();
 					MessageBox.Show(result ? "删除成功" : "删除失败", "提示", MessageBoxButton.OK);
 					if (result)
 					{

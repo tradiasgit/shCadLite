@@ -172,5 +172,48 @@ namespace sh.BudgetTableEditor.Tools
         }
         #endregion
 
+        #region 预算
+        /// <summary>
+        /// 添加
+        /// </summary>
+        /// <param name="groupName"></param>
+        /// <param name="budgetItem"></param>
+        public void BudgetItemAdd(string groupName, BudgetItem budgetItem)
+        {
+            var budgetGroup = BudgetGroups.FirstOrDefault(g => g.Name == groupName);
+            if (budgetGroup.BudgetItems == null)
+                budgetGroup.BudgetItems = new List<BudgetItem>();
+            budgetGroup.BudgetItems.Add(budgetItem);
+        }
+
+        /// <summary>
+        /// 修改
+        /// </summary>
+        /// <param name="groupName"></param>
+        /// <param name="budgetItem"></param>
+        public void BudgetItemEdit(string groupName, BudgetItem budgetItem)
+        {
+            var budgetGroup = BudgetGroups.FirstOrDefault(g => g.Name == groupName);
+            var upItem = budgetGroup.BudgetItems.FirstOrDefault(i => i.ID == budgetItem.ID);
+            upItem.Name = budgetItem.Name;
+            upItem.Expression = budgetItem.Expression;
+            upItem.Configuration = budgetItem.Configuration;
+            upItem.Ratio = budgetItem.Ratio;
+            upItem.Format = budgetItem.Format;
+        }
+
+        /// <summary>
+        /// 移除
+        /// </summary>
+        /// <param name="groupName"></param>
+        /// <param name="budgetItem"></param>
+        public void BudgetItemRemove(string groupName, BudgetItem budgetItem)
+        {
+            var budgetGroup = BudgetGroups.FirstOrDefault(g => g.Name == groupName);
+            var removeItem = budgetGroup.BudgetItems.FirstOrDefault(i => i.ID == budgetItem.ID);
+            budgetGroup.BudgetItems.Remove(removeItem);
+        }
+        #endregion
+
     }
 }

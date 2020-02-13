@@ -33,7 +33,6 @@ namespace sh.BudgetTableEditor.ViewModels
             set { Set(ref _subContent, value); }
         }
 
-
         private string _contentTitle;
 
         public string ContentTitle
@@ -43,37 +42,20 @@ namespace sh.BudgetTableEditor.ViewModels
         }
 
 
-
-
-        private string _text;
-        public string Text
-        {
-            get { return _text; }
-            set { Set(ref _text, value); }
-        }
-
-        private RelayCommand _clickCommnd;
-        public RelayCommand ClickCommnd =>
-            _clickCommnd ?? (_clickCommnd = new RelayCommand(ExecuteClickCommnd));
-
         void ExecuteClickCommnd()
         {
-            this.Text = "Click Me！";
+           
         }
 
         public MainWindowViewModel(Tools.BudgetTableFileHelper budgetTableFileHelper)
         {
-            this.Text = "Hello Prism!";
             LeftMenuItems = new ObservableCollection<LeftMenuItem>();
             LeftMenuItems.Add(new LeftMenuItem { Name = "预算",ImagePath= "\xf1ec" });
-            LeftMenuItems.Add(new LeftMenuItem { Name = "变量", ImagePath = "\xf0ce" });
-            LeftMenuItems.Add(new LeftMenuItem { Name = "分组", ImagePath = "\xf0ce" });
+            LeftMenuItems.Add(new LeftMenuItem { Name = "变量", ImagePath = "\xf27d" });
+            LeftMenuItems.Add(new LeftMenuItem { Name = "分组", ImagePath = "\xf1a0" });
 
             _budgetTableFileHelper = budgetTableFileHelper;
         }
-
-
-
 
         public RelayCommand<object> SwitchContent
         {
@@ -98,29 +80,10 @@ namespace sh.BudgetTableEditor.ViewModels
                                 SubContent = new BudgetGroupTable();
                                 break;
                         }
-
-                        //MessageBox.Show(lmi.Name, "标题", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     }
                 });
             }
         }
-
-        public RelayCommand<object> LoadFileBudget
-        {
-            get
-            {
-                return new RelayCommand<object>(async p => 
-                {
-                    await Task.Run(() =>
-                    {
-                        Thread.Sleep(10000);
-                        MessageBox.Show("degndai", "标题", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                        
-                    });
-                });
-            }
-        }
-
 
         /// <summary>
         /// 添加变量
@@ -147,6 +110,21 @@ namespace sh.BudgetTableEditor.ViewModels
                 return new RelayCommand(() =>
                 {
                     var win = new BudgetGroupAdd();
+                    win.ShowDialog();
+                });
+            }
+        }
+
+        /// <summary>
+        /// 添加预算
+        /// </summary>
+        public RelayCommand AddBudgetItem
+        {
+            get
+            {
+                return new RelayCommand(() =>
+                {
+                    var win = new BudgetItemAdd();
                     win.ShowDialog();
                 });
             }

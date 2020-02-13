@@ -78,7 +78,7 @@ namespace sh.BudgetTableEditor
 
         private void App_Exit(object sender, ExitEventArgs e)
         {
-            throw new NotImplementedException();
+           //
         }
 
        

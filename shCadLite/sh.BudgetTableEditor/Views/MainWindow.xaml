@@ -30,21 +30,9 @@
                     Command="{Binding AddBudgetVar}"/>
                 <Button Margin="10,0,0,0" Content="添加分组" Style="{StaticResource ButtonPrimary}"
                     Command="{Binding AddBudgetGroup}"/>
-                <!--<Button Margin="3" Content="BaseLight" Style="{StaticResource ButtonPrimary}" hc:BorderElement.CornerRadius="0"
-                    />
-            <Button Margin="3" Content="Color" Style="{StaticResource ButtonPrimary}" hc:BorderElement.CornerRadius="0" 
-                    />
-            <Button Margin="3" Content="En" Style="{StaticResource ButtonPrimary}" hc:BorderElement.CornerRadius="0"
-                    />
-            <Button Margin="3" Content="Cn" Style="{StaticResource ButtonPrimary}" hc:BorderElement.CornerRadius="0" 
-                   />
-            <Button Margin="3" Style="{StaticResource ButtonPrimary}" hc:IconElement.Geometry="{StaticResource WindowMinGeometry}" hc:BorderElement.CornerRadius="16" 
-                    />
-            <Button Margin="3" Style="{StaticResource ButtonPrimary}" hc:IconElement.Geometry="{StaticResource CloseGeometry}" hc:BorderElement.CornerRadius="16" 
-                    />
-            <StackPanel Name="panle" VerticalAlignment="Center">
-                <Button Content="NotifyIconTest" Style="{StaticResource ButtonPrimary}"/>
-            </StackPanel>-->
+                <Button Margin="10,0,0,0" Content="添加预算" Style="{StaticResource ButtonPrimary}"
+                    Command="{Binding AddBudgetItem}"/>
+                
             </StackPanel>
 
             <Grid Grid.Row="1">
