@@ -6,6 +6,8 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Linq;
 using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Command;
+using sh.BudgetTableEditor.Views.UserControls;
 
 namespace sh.BudgetTableEditor.ViewModels
 {
@@ -33,6 +35,7 @@ namespace sh.BudgetTableEditor.ViewModels
             _budgetTableFileHelper = budgetTableFileHelper;
             Refresh();
             Messenger.Default.Register<BudgetVarViewModel>(this, "BudgetVarAddItem", BudgetVarAddItem);
+            Messenger.Default.Register<string>(this, "Refresh", Refresh);
         }
 
 
@@ -45,5 +48,6 @@ namespace sh.BudgetTableEditor.ViewModels
         {
             BudgetVars.Add(model);
         }
+        
     }
 }

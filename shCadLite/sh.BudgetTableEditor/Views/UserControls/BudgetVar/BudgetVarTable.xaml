@@ -31,8 +31,8 @@
                                             HorizontalAlignment="Stretch">
                                 <hc:SplitButton.DropDownContent>
                                     <StackPanel>
-                                        <MenuItem Header="编辑" Command="{Binding SelectCmd}" CommandParameter="Command1"/>
-                                        <MenuItem Header="删除" Command="{Binding SelectCmd}" CommandParameter="Command2"/>
+                                        <MenuItem Header="编辑" Command="{Binding EditBudgetVar}" />
+                                        <MenuItem Header="删除" Command="{Binding RemoveBudgetVar}" />
                                     </StackPanel>
                                 </hc:SplitButton.DropDownContent>
                             </hc:SplitButton>

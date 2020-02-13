@@ -7,7 +7,8 @@
              xmlns:hc="https://handyorg.github.io/handycontrol"
              WindowStartupLocation="CenterScreen"
              mc:Ignorable="d" Title="添加变量"
-             Height="650" Width="400">
+             Height="650" Width="400"
+        >
     <StackPanel x:Name="spMain" Margin="32">
         <hc:TextBox x:Name="txtName" 
                     hc:InfoElement.Title="名称" hc:InfoElement.Necessary="True" 

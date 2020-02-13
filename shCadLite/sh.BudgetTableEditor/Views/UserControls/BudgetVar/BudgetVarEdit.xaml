@@ -1,0 +1,35 @@
+﻿<Window x:Class="sh.BudgetTableEditor.Views.UserControls.BudgetVarEdit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:sh.BudgetTableEditor.Views.UserControls"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d" Title="编辑变量"
+        Height="650" Width="400">
+    <StackPanel x:Name="spMain" Margin="32">
+        <hc:TextBox x:Name="txtName" 
+                    hc:InfoElement.Title="名称" hc:InfoElement.Necessary="True" 
+                    Text="{Binding Model.Name}">
+        </hc:TextBox>
+
+        <hc:ComboBox x:Name="cboxMethod" Margin="0,32,0,0"
+                     hc:InfoElement.Title="方法" hc:InfoElement.Necessary="True"
+                     SelectionChanged="cboxMethod_SelectionChanged"
+                     SelectedValue="{Binding Model.Method}"/>
+
+        <hc:TextBox x:Name="txtValue"  Height="300" TextWrapping="Wrap" AcceptsReturn="True"
+                         VerticalContentAlignment="Top" 
+                         hc:InfoElement.Title="值" hc:InfoElement.Necessary="True" Margin="0,32,0,0"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    Text="{Binding Model.Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+
+        <StackPanel Orientation="Horizontal" Margin="0,32,0,0" HorizontalAlignment="Center">
+            <Button x:Name="btnSelectFile" Style="{StaticResource ButtonPrimary}" Content="选择文件" IsEnabled="False"
+                    Click="btnSelectFile_Click"/>
+            <Button x:Name="btnSave" Style="{StaticResource ButtonPrimary}" Margin="10,0,0,0" Content="保存变量"
+                    Click="btnSave_Click" />
+        </StackPanel>
+    </StackPanel>
+</Window>

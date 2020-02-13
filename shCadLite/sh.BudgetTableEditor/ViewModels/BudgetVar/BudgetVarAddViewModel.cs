@@ -34,7 +34,7 @@ namespace sh.BudgetTableEditor.ViewModels
             {
                 return new RelayCommand(async () =>
                 {
-                    var result = await Model.Save();
+                    var result = await Model.SaveAdd();
                     MessageBox.Show(result ? "保存成功" : "保存失败", "提示", MessageBoxButton.OK);
                     if (result)
                     {

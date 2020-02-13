@@ -1,12 +1,17 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Messaging;
+using MessageBox= HandyControl.Controls.MessageBox;
 using HandyControl.Data;
 using sh.BudgetTableEditor.Models;
 using sh.BudgetTableEditor.Tools;
+using sh.BudgetTableEditor.Views.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace sh.BudgetTableEditor.ViewModels
 {
@@ -61,12 +66,55 @@ namespace sh.BudgetTableEditor.ViewModels
 		}
 
 
-		public async Task<bool> Save()
+		public async Task<bool> SaveAdd()
 		{
 			var btfh= SimpleIoc.Default.GetInstance<BudgetTableFileHelper>();
 			btfh.BudgetVarAdd(new BudgetVar { Name = Name, Method = Method, Value = Value });
 			return await btfh.SaveBudgetTableAsync();
 		}
 
+		public async Task<bool> SaveEdit(string oldName)
+		{
+			var btfh = SimpleIoc.Default.GetInstance<BudgetTableFileHelper>();
+			btfh.BudgetVarEdit(oldName,new BudgetVar { Name = Name, Method = Method, Value = Value });
+			return await btfh.SaveBudgetTableAsync();
+		}
+
+		public async Task<bool> RemoveEdit()
+		{
+			var btfh = SimpleIoc.Default.GetInstance<BudgetTableFileHelper>();
+			btfh.BudgetVarRemove(Name);
+			return await btfh.SaveBudgetTableAsync();
+		}
+
+
+		public RelayCommand EditBudgetVar
+		{
+			get
+			{
+				return new RelayCommand( () =>
+				{
+					var win = new BudgetVarEdit();
+					Messenger.Default.Send<BudgetVarViewModel>(new BudgetVarViewModel(Name,Method,Value), "SetModel");
+					win.ShowDialog();
+				});
+			}
+		}
+
+		public RelayCommand RemoveBudgetVar
+		{
+			get
+			{
+				return new RelayCommand(async() =>
+				{
+					var result = await RemoveEdit();
+					MessageBox.Show(result ? "删除成功" : "删除失败", "提示", MessageBoxButton.OK);
+					if (result)
+					{
+						Messenger.Default.Send<string>(Guid.NewGuid().ToString(), "Refresh");
+					}
+				});
+			}
+		}
 	}
 }

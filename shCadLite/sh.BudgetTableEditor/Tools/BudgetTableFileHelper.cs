@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace sh.BudgetTableEditor.Tools
 {
@@ -100,6 +101,29 @@ namespace sh.BudgetTableEditor.Tools
             if (BudgetVars == null)
                 BudgetVars = new List<BudgetVar>();
             BudgetVars.Add(budgetVar);
+        }
+
+        /// <summary>
+        /// 修改
+        /// </summary>
+        /// <param name="oldName"></param>
+        /// <param name="budgetVar"></param>
+        public void BudgetVarEdit(string oldName,BudgetVar budgetVar)
+        {
+            var upVar= BudgetVars.FirstOrDefault(v => v.Name == oldName);
+            upVar.Name = budgetVar.Name;
+            upVar.Method = budgetVar.Method;
+            upVar.Value = budgetVar.Value;
+        }
+
+        /// <summary>
+        /// 移除
+        /// </summary>
+        /// <param name="name"></param>
+        public void BudgetVarRemove(string name)
+        {
+            var removeVar = BudgetVars.FirstOrDefault(v => v.Name == name);
+            BudgetVars.Remove(removeVar);
         }
         #endregion
 
