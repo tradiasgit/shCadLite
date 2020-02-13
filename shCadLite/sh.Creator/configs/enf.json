@@ -3,7 +3,7 @@
     {
       "Title": "套用",
       "EntityTypes": [ "Polyline" ],
-      "Command": "Cmd_BrushWithEnf"
+      "Command": "Brush"
     }
   ],
   "PropertyConfigs": [
@@ -11,15 +11,13 @@
       "ProperyName": "LayerName",
       "Title": "图层",
       "Category": "基本",
-      "IsEditable": true,
-      "EntityTypes": [ "Entity" ]
+      "IsEditable": true
     },
     {
       "ProperyName": "ColorIndex",
       "Title": "颜色",
       "Category": "基本",
-      "IsEditable": true,
-      "EntityTypes": [ "Entity" ]
+      "IsEditable": true
     },
     {
       "ProperyName": "PatternName",

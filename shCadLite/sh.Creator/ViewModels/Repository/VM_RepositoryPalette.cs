@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using sh.Cad;
+using sh.Creator.Cad;
 using System.Collections.ObjectModel;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.EditorInput;
@@ -20,21 +20,11 @@ using Newtonsoft.Json.Linq;
 
 namespace sh.Creator.ViewModels.Repository
 {
-    class VM_RepositoryPalette : CadViewModelBase, IDocumentCollectionListener
+    class VM_RepositoryPalette : CadViewModelBase
     {
         public VM_RepositoryPalette()
         {
-            EventManager.RegisterDocumentCollectionListener(this);
-        }
-
-        private DocumentEventArgs CurrentDocumentInfo { get { return GetValue<DocumentEventArgs>(); } set { SetValue(value); } }
-        public void OnDocumentChanged(DocumentEventArgs e)
-        {
-            CurrentDocumentInfo = e;
-            if (e.DocumentFile != null)
-            { Load(); }
-            else
-            { }
+            EventManager.CadDocumentChanged += (sender, e) => Load();
         }
 
         private void Load()
@@ -71,7 +61,7 @@ namespace sh.Creator.ViewModels.Repository
             {
                 return RegisterCommand(p =>
                 {
-                    OnDocumentChanged(CurrentDocumentInfo);
+                    Load();
                 });
             }
         }
@@ -79,19 +69,12 @@ namespace sh.Creator.ViewModels.Repository
 
         public ObservableCollection<VM_RepositoryDirectory> Repositories { get { return GetValue<ObservableCollection<VM_RepositoryDirectory>>(); } set { SetValue(value); } }
 
-        public VM_RepositoryDirectory SelectedRepository { get { return GetValue<VM_RepositoryDirectory>(); } set { value.LoadTree(); SetValue(value); } }
-
-
-
-        public void OnSelectedItemChanged(VM_TreeItem item)
-        {
-            item?.OnSelect();
-        }
+        public VM_RepositoryDirectory SelectedRepository { get { return GetValue<VM_RepositoryDirectory>(); } set { value?.LoadTree(); SetValue(value); } }
 
 
 
 
-
+       
     }
 
 

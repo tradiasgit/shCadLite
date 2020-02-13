@@ -1,4 +1,4 @@
-﻿using sh.Cad;
+﻿using sh.Creator.Cad;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +12,5 @@ namespace sh.Creator.ViewModels.Repository
         public string Text { get { return GetValue<string>(); } set { SetValue(value); } }
 
 
-        public virtual void OnSelect()
-        {
-            
-        }
     }
 }

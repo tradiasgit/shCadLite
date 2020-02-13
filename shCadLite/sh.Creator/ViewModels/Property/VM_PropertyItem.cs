@@ -1,4 +1,4 @@
-﻿using sh.Cad;
+﻿using sh.Creator.Cad;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace sh.Creator.ViewModels.Property
 {
-    class VM_PropertyItem:CadViewModelBase
+    class VM_PropertyItem:CadViewModelBase, IVM_ProperyItem
     {
         public string Label { get; set; }
 

@@ -45,7 +45,7 @@ namespace sh.Creator.Views.Repository
 
         private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            VM.OnSelectedItemChanged(e.NewValue as ViewModels.Repository.VM_TreeItem);
+            EventManager.RaiseRepositorySelectedItemChanged(sender,new TreeItemEventArgs(e.NewValue as ViewModels.Repository.VM_TreeItem));
         }
     }
 }

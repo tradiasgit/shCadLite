@@ -1,4 +1,5 @@
-﻿using System;
+﻿using sh.Creator.Cad;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace sh.Creator.ViewModels.Repository
 {
-    class VM_RepositoryDirectory:sh.Cad.CadViewModelBase
+    class VM_RepositoryDirectory:CadViewModelBase
     {
         public VM_RepositoryDirectory(string name, string dir)
         {
