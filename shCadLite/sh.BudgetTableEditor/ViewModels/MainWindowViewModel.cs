@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using HandyControl.Controls;
 using sh.BudgetTableEditor.Views.UserControls;
 using System;
 using System.Collections.Generic;
@@ -111,6 +112,22 @@ namespace sh.BudgetTableEditor.ViewModels
                         MessageBox.Show("degndai", "标题", MessageBoxButton.YesNo, MessageBoxImage.Question);
                         
                     });
+                });
+            }
+        }
+
+
+        /// <summary>
+        /// 添加变量
+        /// </summary>
+        public RelayCommand AddBudgetVar
+        {
+            get
+            {
+                return new RelayCommand( () =>
+                {
+                    var win = new BudgetVarAdd();
+                    win.ShowDialog();
                 });
             }
         }

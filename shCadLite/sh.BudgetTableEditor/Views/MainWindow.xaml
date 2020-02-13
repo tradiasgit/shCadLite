@@ -15,16 +15,20 @@
            d:DesignWidth="1200" 
            Icon="/sh.BudgetTableEditor;component/Resources/Img/money.ico"
            DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
+    <hc:BusyIndicator DisplayAfter="0" >
 
-        <StackPanel Orientation="Horizontal">
-            <Button Margin="3" Content="打开文件" Style="{StaticResource ButtonPrimary}" 
-                    hc:BorderElement.CornerRadius="0" Command="{Binding LoadFileBudget}"/>
-            <!--<Button Margin="3" Content="BaseLight" Style="{StaticResource ButtonPrimary}" hc:BorderElement.CornerRadius="0"
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="3" Content="打开文件" Style="{StaticResource ButtonPrimary}"
+                    Command="{Binding LoadFileBudget}"/>
+                <Button Margin="10,0,0,0" Content="添加变量" Style="{StaticResource ButtonPrimary}"
+                    Command="{Binding AddBudgetVar}"/>
+                <!--<Button Margin="3" Content="BaseLight" Style="{StaticResource ButtonPrimary}" hc:BorderElement.CornerRadius="0"
                     />
             <Button Margin="3" Content="Color" Style="{StaticResource ButtonPrimary}" hc:BorderElement.CornerRadius="0" 
                     />
@@ -39,52 +43,54 @@
             <StackPanel Name="panle" VerticalAlignment="Center">
                 <Button Content="NotifyIconTest" Style="{StaticResource ButtonPrimary}"/>
             </StackPanel>-->
-        </StackPanel>
+            </StackPanel>
 
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="225"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="225"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
-            <ListBox x:Name="ListBoxDemo" Grid.Row="1"  Margin="5" BorderThickness="0" SelectionMode="Single" 
+                <ListBox x:Name="ListBoxDemo" Grid.Row="1"  Margin="5" BorderThickness="0" SelectionMode="Single" 
                      Style="{StaticResource ListBoxTransparent}"
                      ItemsSource="{Binding LeftMenuItems}"  >
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal" >
-                            <TextBlock Text="{Binding ImagePath}" FontSize="18" FontFamily="{StaticResource IconFont}" VerticalAlignment="Center"/>
-                            <TextBlock Margin="6,0,0,0" Text="{Binding Name}" VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                <Behaviors:Interaction.Triggers>
-                    <Behaviors:EventTrigger EventName="SelectionChanged" >
-                        <Behaviors:InvokeCommandAction Command="{Binding SwitchContent}"  CommandParameter="{Binding SelectedItem,ElementName=ListBoxDemo}"></Behaviors:InvokeCommandAction>
-                    </Behaviors:EventTrigger>
-                </Behaviors:Interaction.Triggers>
-            </ListBox>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" >
+                                <TextBlock Text="{Binding ImagePath}" FontSize="18" FontFamily="{StaticResource IconFont}" VerticalAlignment="Center"/>
+                                <TextBlock Margin="6,0,0,0" Text="{Binding Name}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <Behaviors:Interaction.Triggers>
+                        <Behaviors:EventTrigger EventName="SelectionChanged" >
+                            <Behaviors:InvokeCommandAction Command="{Binding SwitchContent}"  CommandParameter="{Binding SelectedItem,ElementName=ListBoxDemo}"
+                                                           ></Behaviors:InvokeCommandAction>
+                        </Behaviors:EventTrigger>
+                    </Behaviors:Interaction.Triggers>
+                </ListBox>
 
-            <Border Grid.Column="1" Background="{DynamicResource MainContentForegroundDrawingBrush}">
-                <Grid Name="GridMain" MinHeight="300" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="16">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Border Name="BorderEffect" Grid.RowSpan="2" Background="{DynamicResource RegionBrush}" CornerRadius="10" Effect="{StaticResource EffectShadow4}"/>
-                    <Border Height="32" Name="BorderTitle" Grid.Row="0" CornerRadius="10,10,0,0" Background="{DynamicResource TitleBrush}">
-                        <TextBlock Style="{StaticResource TextBlockDefault}" Foreground="White" Text="{Binding ContentTitle}"/>
-                    </Border>
-                    <Border Grid.Row="1" ClipToBounds="True">
-                        <ContentPresenter  Margin="0,0,0,10" Content="{Binding SubContent}"/>
-                    </Border>
-                </Grid>
-            </Border>
+                <Border Grid.Column="1" Background="{DynamicResource MainContentForegroundDrawingBrush}">
+                    <Grid Name="GridMain" MinHeight="300" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="16">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Border Name="BorderEffect" Grid.RowSpan="2" Background="{DynamicResource RegionBrush}" CornerRadius="10" Effect="{StaticResource EffectShadow4}"/>
+                        <Border Height="32" Name="BorderTitle" Grid.Row="0" CornerRadius="10,10,0,0" Background="{DynamicResource TitleBrush}">
+                            <TextBlock Style="{StaticResource TextBlockDefault}" Foreground="White" Text="{Binding ContentTitle}"/>
+                        </Border>
+                        <Border Grid.Row="1" ClipToBounds="True">
+                            <ContentPresenter  Margin="0,0,0,10" Content="{Binding SubContent}"/>
+                        </Border>
+                    </Grid>
+                </Border>
 
-            <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="4" Background="Transparent" 
+                <GridSplitter Grid.Column="1" HorizontalAlignment="Left" Width="4" Background="Transparent" 
                           BorderThickness="1,0,0,0" BorderBrush="{DynamicResource BorderBrush}"/>
+            </Grid>
         </Grid>
-    </Grid>
-
+        
+    </hc:BusyIndicator>
     
 </hc:Window>

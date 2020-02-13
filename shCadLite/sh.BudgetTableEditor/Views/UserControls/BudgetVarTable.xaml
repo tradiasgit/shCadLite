@@ -3,9 +3,44 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             Height="450" Width="800"
+             DataContext="{Binding Source={StaticResource Locator}, Path=BudgetVarTable}">
     <Grid>
-        <TextBlock Text="变量" FontSize="50" HorizontalAlignment="Center"></TextBlock>
+        <DataGrid HeadersVisibility="Column" 
+                  RowHeaderWidth="60" 
+                  AutoGenerateColumns="False" 
+                  IsReadOnly="True" 
+                  ItemsSource="{Binding BudgetVars}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="180" Header="名称"  Binding="{Binding Name}" />
+                <DataGridTextColumn Width="150" Header="方法"  Binding="{Binding Method}" />
+                <DataGridTemplateColumn Width="1*" Header="值">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Value}" ToolTip="{Binding Value}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="110">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <hc:SplitButton Style="{StaticResource SplitButtonSuccess}" Margin="10,0,0,0" Content="选项" 
+                                            HorizontalAlignment="Stretch">
+                                <hc:SplitButton.DropDownContent>
+                                    <StackPanel>
+                                        <MenuItem Header="编辑" Command="{Binding SelectCmd}" CommandParameter="Command1"/>
+                                        <MenuItem Header="删除" Command="{Binding SelectCmd}" CommandParameter="Command2"/>
+                                    </StackPanel>
+                                </hc:SplitButton.DropDownContent>
+                            </hc:SplitButton>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>
