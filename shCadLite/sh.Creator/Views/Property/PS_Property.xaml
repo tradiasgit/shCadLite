@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:sh.Creator.Views.Property"
              mc:Ignorable="d" 
+             xmlns:vm="clr-namespace:sh.Creator.ViewModels.Property"
              Background="#fff0f0f0" 
              d:DesignHeight="240" d:DesignWidth="320">
     <UserControl.Resources>
@@ -61,25 +62,32 @@
                                 </Style>
                             </GroupStyle.ContainerStyle>
                         </GroupStyle>
-
                     </ItemsControl.GroupStyle>
-
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
+                    <ItemsControl.Resources>
+                        <DataTemplate DataType="{x:Type vm:VM_PropertyItem}">
                             <Border Height="25" >
                                 <DockPanel>
                                     <Label Content="{Binding Label}" DockPanel.Dock="Left" Width="100"/>
                                     <TextBlock Text="o" DockPanel.Dock="Right" Width="16"/>
+                                    <TextBox Text="{Binding Value}" IsEnabled="{Binding IsEditable}" ></TextBox>
+                                </DockPanel>
+                            </Border>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type vm:VM_DataItem}">
+                            <Border Height="25" >
+                                <DockPanel>
+                                    <Label Content="{Binding Label}" DockPanel.Dock="Left" Width="100"/>
+                                    <TextBlock Text="i" DockPanel.Dock="Right" Width="16"/>
                                     <TextBox Text="{Binding Value}" IsEnabled="{Binding IsEditable}"></TextBox>
                                 </DockPanel>
                             </Border>
                         </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+                    </ItemsControl.Resources>
                 </ItemsControl>
             </ScrollViewer>
         </Border>

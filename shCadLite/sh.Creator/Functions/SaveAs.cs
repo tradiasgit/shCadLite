@@ -2,7 +2,7 @@
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Newtonsoft.Json;
-using sh.Cad;
+using sh.Creator.Cad;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,9 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace sh.Creator.CadCommands
+namespace sh.Creator.Functions
 {
-    class Cmd_BrushWithEnf : CadViewModelBase, ICommand
+    class SaveAs:CadViewModelBase,ICommand
     {
         public event EventHandler CanExecuteChanged;
 
@@ -31,27 +31,26 @@ namespace sh.Creator.CadCommands
 
         public void Execute(object parameter)
         {
-            var enf = parameter as EntityInfo;
-            if (enf == null)
+            if (parameter is EntityInfo)
             {
+                var dwgtitled = Application.GetSystemVariable("DWGTITLED");
+                if (Convert.ToInt16(dwgtitled) == 0)
+                {
+                    throw new Exception("图纸为临时图纸，不能保存");
+                }
                 var ed = Application.DocumentManager.MdiActiveDocument.Editor;
                 var db_source = HostApplicationServices.WorkingDatabase;
                 var dir = new FileInfo(db_source.OriginalFileName).Directory;
 
-                var op_file = new PromptOpenFileOptions("选择目标文件" + Environment.NewLine);
+                var op_file = new PromptSaveFileOptions("选择目标文件" + Environment.NewLine);
                 op_file.InitialDirectory = $@"{dir.FullName}";
                 op_file.Filter = "图形配置文件-json格式 (*.enf)|*.enf";
-                var result_file = ed.GetFileNameForOpen(op_file);
+                var result_file = ed.GetFileNameForSave(op_file);
                 if (result_file.Status == PromptStatus.OK)
                 {
-                    enf = EntityInfo.Get(new FileInfo(result_file.StringResult)) as EntityInfo;
+                    File.WriteAllText(result_file.StringResult, JsonConvert.SerializeObject(parameter));
                 }
-                else return;
             }
-            
-            enf.BrushImplied();
-            var sel = new EntitySelection(doc.Editor.SelectImplied());
-            ViewModels.Property.VM_PropertyPalette.Inctance.OnSelectionChanged(sel);
         }
     }
 }

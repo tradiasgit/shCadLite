@@ -48,6 +48,9 @@ namespace sh.Cad
         }
 
 
+       
+
+
         private static IntPtr _lastDocumentHandle;
 
         public static void DocumentChanged(object sender, DocumentCollectionEventArgs e)

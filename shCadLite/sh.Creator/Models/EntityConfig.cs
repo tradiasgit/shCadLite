@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
-using sh.Cad;
-using sh.Cad.Json;
+using sh.Creator.Cad;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,11 +24,12 @@ namespace sh.Creator.Models
             catch { }
             return null;
         }
-        public string EntityType { get; set; }
 
         public List<EntityPropertyConfig> PropertyConfigs { get; set; }
 
         public List<EntityFunctionConfig> EntityFunctions { get; set; }
+
+        public List<EntityDataConfig> EntityData { get; set; }
     }
 
     public class EntityFunctionConfig
@@ -39,16 +39,28 @@ namespace sh.Creator.Models
         public string Command { get; set; }
         public List<string> EntityTypes { get; set; }
 
-        public bool Visible(IEntityInfo info)
+        public bool Visible(EntityInfo info)
         {
 
-            if (string.IsNullOrWhiteSpace(Command)) return false;            
+            if (string.IsNullOrWhiteSpace(Command)) return false;
             if (EntityTypes == null || EntityTypes.Count == 0) return true;
             else return EntityTypes.Contains(info.EntityTypeName);
         }
 
     }
+    public class EntityDataConfig
+    {
+        public string Title { get; set; }
+        public string Key { get; set; }
 
+        public string Value { get; set; }
+
+        public bool Visible(EntityInfo info)
+        {
+            return true;
+        }
+
+        }
     public class EntityPropertyConfig
     {
         public string Title { get; set; }
@@ -65,7 +77,7 @@ namespace sh.Creator.Models
         public bool IsEditable { get; set; }
 
         public List<string> EntityTypes { get; set; }
-        public string GetValue(IEntityInfo info)
+        public string GetValue(EntityInfo info)
         {
             if (info == null) return null;
             var value = info.GetType()?.GetProperty(ProperyName)?.GetValue(info);
@@ -76,7 +88,7 @@ namespace sh.Creator.Models
             }
             else return value?.ToString();
         }
-        public bool Visible(IEntityInfo info)
+        public bool Visible(EntityInfo info)
         {
             if (EntityTypes == null || EntityTypes.Count == 0) return true;
             else return EntityTypes.Contains(info.EntityTypeName);

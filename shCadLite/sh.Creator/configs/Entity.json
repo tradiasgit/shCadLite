@@ -2,12 +2,12 @@
   "EntityFunctions": [
     {
       "Title": "导出",
-      "Command": "Cmd_SaveAsEnf"
+      "Command": "SaveAs"
     },
     {
       "Title": "套用",
       "EntityTypes": [ "Polyline" ],
-      "Command": "Cmd_BrushWithEnf"
+      "Command": "Brush"
     }
   ],
   "PropertyConfigs": [
@@ -91,10 +91,17 @@
     },
     {
       "ProperyName": "TotalArea",
-      "Title": "数量",
-      "Category": "总面积",
+      "Title": "总面积",
+      "Category": "统计",
       "IsEditable": false,
       "EntityTypes": [ "Polyline", "Region", "Circle", "Hatch" ]
     }
+  ],
+  "EntityData": [
+    {
+      "Key": "标识",
+      "Title": "标识"
+    }
+
   ]
 }
