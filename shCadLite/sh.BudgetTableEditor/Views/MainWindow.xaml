@@ -28,6 +28,8 @@
                     Command="{Binding LoadFileBudget}"/>
                 <Button Margin="10,0,0,0" Content="添加变量" Style="{StaticResource ButtonPrimary}"
                     Command="{Binding AddBudgetVar}"/>
+                <Button Margin="10,0,0,0" Content="添加分组" Style="{StaticResource ButtonPrimary}"
+                    Command="{Binding AddBudgetGroup}"/>
                 <!--<Button Margin="3" Content="BaseLight" Style="{StaticResource ButtonPrimary}" hc:BorderElement.CornerRadius="0"
                     />
             <Button Margin="3" Content="Color" Style="{StaticResource ButtonPrimary}" hc:BorderElement.CornerRadius="0" 
