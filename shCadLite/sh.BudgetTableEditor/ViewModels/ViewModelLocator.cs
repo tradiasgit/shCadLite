@@ -1,9 +1,12 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
+using MessageBox= HandyControl.Controls.MessageBox;
 using Microsoft.Extensions.Configuration;
 using sh.BudgetTableEditor.Tools;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
+
 
 namespace sh.BudgetTableEditor.ViewModels
 {
@@ -17,6 +20,7 @@ namespace sh.BudgetTableEditor.ViewModels
             // 默认在这里注册就可以了;
             SimpleIoc.Default.Register<BudgetTableFileHelper>();
             SimpleIoc.Default.Register<MainWindowViewModel>();
+            SimpleIoc.Default.Register<BudgetVarTableViewModel>();
         }
 
         /// <summary>
@@ -25,6 +29,10 @@ namespace sh.BudgetTableEditor.ViewModels
         /// DataContext="{Binding Source={StaticResource Locator}, Path=Main}
         /// </summary>
         public MainWindowViewModel Main => SimpleIoc.Default.GetInstance<MainWindowViewModel>();
+
+        public BudgetVarTableViewModel BudgetVarTable => SimpleIoc.Default.GetInstance<BudgetVarTableViewModel>();
+
+        
 
 
         public static void Cleanup()
