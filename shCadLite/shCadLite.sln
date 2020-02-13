@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sh.WindowsClient", "sh.Wind
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cadreg", "cadreg\cadreg.csproj", "{F5203243-A6A7-4A11-9D07-3DC42CBA9336}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{E40502FD-00D5-4B49-B2FD-19C0E9EAA57F}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{7E351886-6E7E-4FDF-8472-B74234A4E12C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sh.BudgetTableEditor", "sh.BudgetTableEditor\sh.BudgetTableEditor.csproj", "{F32DCE69-C06A-4CD7-B28A-2C6D98CBA80A}"
