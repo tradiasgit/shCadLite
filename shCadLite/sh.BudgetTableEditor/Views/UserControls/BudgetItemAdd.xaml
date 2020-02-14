@@ -10,9 +10,10 @@
              Height="650" Width="400">
     <ScrollViewer x:Name="scrolls" VerticalScrollBarVisibility="Auto" >
         <StackPanel x:Name="spMain" Margin="32">
+
             <hc:ComboBox x:Name="cboxMethod" 
                      hc:InfoElement.Title="分组" hc:InfoElement.Necessary="True"
-                     SelectedValue="{Binding Model.Method}"/>
+                     SelectedValue="{Binding Model.GroupName}"/>
 
             <hc:TextBox x:Name="txtName" Margin="0,32,0,0"
                     hc:InfoElement.Title="名称" hc:InfoElement.Necessary="True" 
@@ -29,18 +30,32 @@
                     Text="{Binding Model.Name}">
             </hc:TextBox>
 
-            <hc:TextBox x:Name="txtValue"  Height="300" TextWrapping="Wrap" AcceptsReturn="True"
-                         VerticalContentAlignment="Top" 
-                         hc:InfoElement.Title="值" hc:InfoElement.Necessary="True" Margin="0,32,0,0"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-                    Text="{Binding Model.Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <hc:TextBox x:Name="txtExpression" Margin="0,32,0,0"
+                    hc:InfoElement.Title="表达式" hc:InfoElement.Necessary="True" 
+                    Text="{Binding Model.Name}" IsReadOnly="True">
+            </hc:TextBox>
 
+            <hc:TextBox x:Name="txtcn" Margin="0,32,0,0"
+                    hc:InfoElement.Title="配置-名称" 
+                    Text="{Binding Model.Name}" IsReadOnly="True">
+            </hc:TextBox>
+
+            <hc:TextBox x:Name="txtcu" Margin="0,32,0,0"
+                    hc:InfoElement.Title="配置-URL"
+                    Text="{Binding Model.Name}" IsReadOnly="True">
+            </hc:TextBox>
+
+            <hc:TextBox x:Name="txtcp" Margin="0,32,0,0" TextType="Double"
+                    hc:InfoElement.Title="配置-价格"
+                    Text="{Binding Model.Name}" IsReadOnly="True">
+            </hc:TextBox>
 
 
             <StackPanel Orientation="Horizontal" Margin="0,32,0,0" HorizontalAlignment="Center">
-
-                <Button x:Name="btnSave" Style="{StaticResource ButtonPrimary}" Margin="10,0,0,0" Content="保存变量"
-                     />
+                <Button x:Name="btnExpression" Style="{StaticResource ButtonPrimary}"
+                        Content="表达式" />
+                <Button x:Name="btnSave" Style="{StaticResource ButtonPrimary}" Margin="10,0,0,0" 
+                        Content="保存变量" />
             </StackPanel>
         </StackPanel>
     </ScrollViewer>
